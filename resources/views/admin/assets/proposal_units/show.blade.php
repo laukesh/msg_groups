@@ -1,44 +1,262 @@
 @extends('layouts.app')
 
+@section('title', 'Proposal Unit Details')
+
 @section('content')
-<x-form-card title="Proposal Unit" subtitle="View proposal unit">
-  <div class="row">
-    <div class="col-md-6">
-      <dl class="row">
-        <dt class="col-sm-4">Proposal</dt>
-        <dd class="col-sm-8">{{ optional($item->proposal)->title ?? $item->proposal_id }}</dd>
 
-        <dt class="col-sm-4">Unit</dt>
-        <dd class="col-sm-8">{{ optional($item->unit)->unit_no ?? $item->unit_id }}</dd>
+<div class="container-fluid">
 
-        <dt class="col-sm-4">Proposed Rent</dt>
-        <dd class="col-sm-8">{{ $item->proposed_rent }}</dd>
+    {{-- Page Header --}}
+    <div class="d-flex justify-content-between align-items-center mb-4">
 
-        <dt class="col-sm-4">CAM Rate</dt>
-        <dd class="col-sm-8">{{ $item->proposed_cam_rate }}</dd>
+        <div>
+            <h1 class="h3 mb-1">
+                Proposal Unit Details
+            </h1>
 
-        <dt class="col-sm-4">Security Deposit</dt>
-        <dd class="col-sm-8">{{ $item->proposed_security_deposit }}</dd>
-      </dl>
+            <p class="text-muted mb-0">
+                View proposal unit information.
+            </p>
+        </div>
+
+        <div class="d-flex gap-2">
+
+            <a
+                href="{{ route('admin.assets.proposal_units.edit', $item->id) }}"
+                class="btn btn-primary"
+            >
+                Edit
+            </a>
+
+            <a
+                href="{{ route('admin.assets.proposal_units.index') }}"
+                class="btn btn-secondary"
+            >
+                ← Back
+            </a>
+
+        </div>
+
     </div>
 
-    <div class="col-md-6">
-      <dl class="row">
-        <dt class="col-sm-4">Rent Free Days</dt>
-        <dd class="col-sm-8">{{ $item->rent_free_days }}</dd>
 
-        <dt class="col-sm-4">Fitout Period (days)</dt>
-        <dd class="col-sm-8">{{ $item->fitout_period_days }}</dd>
+    {{-- Proposal Unit Information --}}
+    <div class="card mb-4">
 
-        <dt class="col-sm-4">Remarks</dt>
-        <dd class="col-sm-8">{{ $item->remarks }}</dd>
-      </dl>
+        <div class="card-header">
+            <h5 class="mb-0">
+                Proposal Unit Information
+            </h5>
+        </div>
+
+        <div class="card-body">
+
+            <div class="row">
+
+                {{-- Proposal --}}
+                <div class="col-md-6 mb-3">
+
+                    <strong>Proposal</strong>
+
+                    <div class="mt-1">
+
+                        @if($item->proposal)
+
+                            {{ $item->proposal->title }}
+
+                        @else
+
+                            {{ $item->proposal_id }}
+
+                        @endif
+
+                    </div>
+
+                </div>
+
+
+                {{-- Unit --}}
+                <div class="col-md-6 mb-3">
+
+                    <strong>Unit</strong>
+
+                    <div class="mt-1">
+
+                        @if($item->unit)
+
+                            {{ $item->unit->unit_no }}
+
+                            @if($item->unit->shop_name)
+
+                                <small class="text-muted d-block">
+                                    {{ $item->unit->shop_name }}
+                                </small>
+
+                            @endif
+
+                        @else
+
+                            {{ $item->unit_id }}
+
+                        @endif
+
+                    </div>
+
+                </div>
+
+
+                {{-- Proposed Rent --}}
+                <div class="col-md-4 mb-3">
+
+                    <strong>Proposed Rent</strong>
+
+                    <div class="mt-1">
+                        {{ number_format((float) $item->proposed_rent, 2) }}
+                    </div>
+
+                </div>
+
+
+                {{-- CAM Rate --}}
+                <div class="col-md-4 mb-3">
+
+                    <strong>Proposed CAM Rate</strong>
+
+                    <div class="mt-1">
+                        {{ number_format((float) $item->proposed_cam_rate, 2) }}
+                    </div>
+
+                </div>
+
+
+                {{-- Security Deposit --}}
+                <div class="col-md-4 mb-3">
+
+                    <strong>Proposed Security Deposit</strong>
+
+                    <div class="mt-1">
+                        {{ number_format((float) $item->proposed_security_deposit, 2) }}
+                    </div>
+
+                </div>
+
+
+                {{-- Rent Free Days --}}
+                <div class="col-md-4 mb-3">
+
+                    <strong>Rent Free Days</strong>
+
+                    <div class="mt-1">
+                        {{ $item->rent_free_days ?? 0 }} days
+                    </div>
+
+                </div>
+
+
+                {{-- Fitout Period --}}
+                <div class="col-md-4 mb-3">
+
+                    <strong>Fitout Period</strong>
+
+                    <div class="mt-1">
+                        {{ $item->fitout_period_days ?? 0 }} days
+                    </div>
+
+                </div>
+
+
+                {{-- Remarks --}}
+                <div class="col-md-12 mb-3">
+
+                    <strong>Remarks</strong>
+
+                    <div class="mt-1">
+
+                        @if($item->remarks)
+
+                            {{ $item->remarks }}
+
+                        @else
+
+                            <span class="text-muted">
+                                No remarks provided.
+                            </span>
+
+                        @endif
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
     </div>
-  </div>
 
-  <div class="mt-3">
-    <a href="{{ route('admin.proposal_units.index') }}" class="btn btn-secondary">Back</a>
-    <a href="{{ route('admin.proposal_units.edit', $item->id) }}" class="btn btn-primary">Edit</a>
-  </div>
-</x-form-card>
+
+    {{-- Audit Information --}}
+    <div class="card">
+
+        <div class="card-header">
+            <h5 class="mb-0">
+                Audit Information
+            </h5>
+        </div>
+
+        <div class="card-body">
+
+            <div class="row">
+
+                <div class="col-md-3 mb-3">
+
+                    <strong>Created By</strong>
+
+                    <div class="mt-1">
+                        {{ $item->creator->name ?? $item->created_by ?? '-' }}
+                    </div>
+
+                </div>
+
+
+                <div class="col-md-3 mb-3">
+
+                    <strong>Updated By</strong>
+
+                    <div class="mt-1">
+                        {{ $item->updater->name ?? $item->updated_by ?? '-' }}
+                    </div>
+
+                </div>
+
+
+                <div class="col-md-3 mb-3">
+
+                    <strong>Created At</strong>
+
+                    <div class="mt-1">
+                        {{ $item->created_at?->format('d M Y H:i') ?? '-' }}
+                    </div>
+
+                </div>
+
+
+                <div class="col-md-3 mb-3">
+
+                    <strong>Updated At</strong>
+
+                    <div class="mt-1">
+                        {{ $item->updated_at?->format('d M Y H:i') ?? '-' }}
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
 @endsection

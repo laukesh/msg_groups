@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Http\Controllers\Admin\Assets;
-
+use Illuminate\Validation\Rule;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Repositories\UnitStatusRepository;
@@ -34,14 +34,35 @@ class UnitStatusController extends Controller
 
     public function store(Request $request)
     {
-        $data = $request->validate([
-            'status_name' => 'required|string|max:255',
-            'description' => 'nullable|string',
-            'color_code' => 'nullable|string|max:20',
-            'sort_order' => 'nullable|integer',
-            'is_active' => 'required|boolean',
-        ]);
+      $data = $request->validate([
+            'status_name' => [
+                'required',
+                'string',
+                'max:255',
+                Rule::unique('unit_statuses', 'status_name'),
+            ],
 
+            'description' => [
+                'nullable',
+                'string',
+            ],
+
+            'color_code' => [
+                'nullable',
+                'string',
+                'max:20',
+            ],
+
+            'sort_order' => [
+                'nullable',
+                'integer',
+            ],
+
+            'is_active' => [
+                'required',
+                'boolean',
+            ],
+        ]);
         $this->repo->create($data);
 
         return redirect()->route('admin.assets.unit_statuses.index')->with('success', 'Unit status created.');

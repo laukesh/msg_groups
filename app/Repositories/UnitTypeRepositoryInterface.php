@@ -2,20 +2,30 @@
 
 namespace App\Repositories;
 
-use App\Models\UnitType;
-
 interface UnitTypeRepositoryInterface
 {
+    /**
+     * Get all unit types with optional filters.
+     */
     public function all(array $filters = []);
 
-    public function find($id);
+    /**
+     * Find a unit type by ID.
+     */
+    public function find(int $id);
 
+    /**
+     * Create a new unit type.
+     */
     public function create(array $data);
 
-    public function update(
-        UnitType $unitType,
-        array $data
-    );
+    /**
+     * Update an existing unit type.
+     */
+    public function update(int $id, array $data);
 
-    public function delete(UnitType $unitType);
+    /**
+     * Delete a unit type.
+     */
+    public function delete(int $id);
 }

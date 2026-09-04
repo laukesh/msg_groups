@@ -4,482 +4,68 @@
 
 @section('content')
 
-<style>
+<div class="container-fluid">
 
-    .fitout-dashboard {
-        padding-bottom: 40px;
-    }
+```
+{{-- =========================================================
+    HEADER
+    ========================================================= --}}
 
-    .dashboard-section {
-        margin-bottom: 32px;
-    }
+<div class="d-flex justify-content-between align-items-center mb-4">
 
-    .section-heading {
-        display: flex;
-        align-items: center;
-        gap: 10px;
-        margin-bottom: 14px;
-    }
+    <div>
+        <h4 class="mb-1">
+            Fit-Out Management
+        </h4>
 
-    .section-heading span {
-        font-size: 12px;
-        font-weight: 700;
-        letter-spacing: 1.2px;
-        text-transform: uppercase;
-        color: #d94a0b;
-        white-space: nowrap;
-    }
-
-    .section-heading::after {
-        content: "";
-        height: 1px;
-        background: #e7ddd6;
-        flex: 1;
-    }
-
-
-    /* =========================================================
-       KPI CARDS
-       ========================================================= */
-
-    .glance-card {
-        position: relative;
-        background: #fbf9f7;
-        border: 1px solid #e7ddd6;
-        border-radius: 14px;
-        padding: 18px 18px 16px 20px;
-        height: 100%;
-        overflow: hidden;
-        transition: all .15s ease;
-    }
-    .glance-card:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 5px 16px rgba(45, 30, 20, .08);
-    }
-
-    .glance-card::before {
-        content: "";
-        position: absolute;
-        left: 0;
-        top: 0;
-        bottom: 0;
-        width: 3px;
-        background: #d94a0b;
-
-    }
-
-    .glance-card.green::before {
-        background: #087f68;
-    }
-
-    .glance-card.orange::before {
-        background: #f59e0b;
-    }
-
-    .glance-card.dark::before {
-        background: #3d2b25;
-    }
-
-    .glance-label {
-        font-size: 12px;
-        color: #786d67;
-        margin-bottom: 8px;
-    }
-
-    .glance-value {
-        font-size: 29px;
-        font-weight: 700;
-        line-height: 1;
-        color: #17120f;
-    }
-
-    .glance-subtitle {
-        margin-top: 8px;
-        font-size: 11px;
-        color: #8b817b;
-    }
-
-
-    /* =========================================================
-       PIPELINE
-       ========================================================= */
-
-    .pipeline-wrapper {
-        background: #fbf9f7;
-        border: 1px solid #e7ddd6;
-        border-radius: 15px;
-        padding: 6px;
-    }
-
-    .pipeline-card {
-        background: #fff;
-        border: 1px solid #e5ddd7;
-        border-radius: 12px;
-        padding: 14px 14px 12px;
-        height: 100%;
-        cursor: pointer;
-        transition: all .15s ease;
-    }
-
-    .pipeline-card:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 5px 16px rgba(45, 30, 20, .08);
-    }
-
-    .pipeline-number {
-        display: flex;
-        align-items: center;
-        gap: 9px;
-        margin-bottom: 12px;
-    }
-
-    .pipeline-index {
-        width: 23px;
-        height: 23px;
-        border-radius: 7px;
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-        color: #fff;
-        font-size: 11px;
-        font-weight: 700;
-        background: #9c918b;
-    }
-
-    .pipeline-index.orange {
-        background: #d94a0b;
-    }
-
-    .pipeline-index.amber {
-        background: #e77715;
-    }
-
-    .pipeline-index.yellow {
-        background: #f2a900;
-    }
-
-    .pipeline-index.green {
-        background: #07876f;
-    }
-
-    .pipeline-label {
-        font-size: 11px;
-        font-weight: 700;
-        color: #8c817a;
-        text-transform: uppercase;
-    }
-
-    .pipeline-count {
-        font-size: 27px;
-        font-weight: 700;
-        line-height: 1;
-        color: #191411;
-    }
-
-    .pipeline-title {
-        font-size: 12px;
-        margin-top: 7px;
-        color: #544a45;
-    }
-
-    .pipeline-meta {
-        font-size: 10px;
-        margin-top: 3px;
-        color: #9a908a;
-    }
-
-    .pipeline-arrow {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        color: #b6aaa2;
-        font-size: 17px;
-    }
-
-
-    /* =========================================================
-       WHITE DATA CARDS
-       ========================================================= */
-
-    .data-card {
-        background: #fbf9f7;
-        border: 1px solid #e7ddd6;
-        border-radius: 15px;
-        padding: 18px;
-        height: 100%;
-    }
-
-    .data-card-title {
-        font-size: 14px;
-        font-weight: 700;
-        color: #241b17;
-        margin-bottom: 5px;
-    }
-
-    .data-card-subtitle {
-        font-size: 11px;
-        color: #8c817a;
-        margin-bottom: 18px;
-    }
-
-
-    /* =========================================================
-       PROGRESS
-       ========================================================= */
-
-    .progress-row {
-        margin-bottom: 15px;
-    }
-
-    .progress-row:last-child {
-        margin-bottom: 0;
-    }
-
-    .progress-label {
-        display: flex;
-        justify-content: space-between;
-        font-size: 11px;
-        margin-bottom: 6px;
-        color: #675d57;
-    }
-
-    .fitout-progress {
-        height: 8px;
-        background: #eee8e3;
-        border-radius: 20px;
-        overflow: hidden;
-    }
-
-    .fitout-progress-bar {
-        height: 100%;
-        background: #07876f;
-        border-radius: 20px;
-    }
-
-
-    /* =========================================================
-       FLOOR
-       ========================================================= */
-
-    .floor-row {
-        padding: 12px 0;
-        border-bottom: 1px solid #e5ddd7;
-    }
-
-    .floor-row:last-child {
-        border-bottom: none;
-    }
-
-    .floor-name {
-        font-size: 12px;
-        font-weight: 700;
-        color: #302621;
-    }
-
-    .floor-code {
-        font-size: 10px;
-        color: #9a908a;
-        margin-top: 2px;
-    }
-
-    .floor-count {
-        font-size: 11px;
-        font-weight: 600;
-        white-space: nowrap;
-        color: #564c46;
-    }
-
-    .floor-bar {
-        height: 8px;
-        background: #eee8e3;
-        border-radius: 20px;
-        overflow: hidden;
-        flex: 1;
-    }
-
-    .floor-bar-fill {
-        height: 100%;
-        background: #ed8700;
-    }
-
-
-    /* =========================================================
-       ATTENTION
-       ========================================================= */
-
-    .attention-item {
-        padding: 13px 0;
-        border-bottom: 1px solid #e5ddd7;
-    }
-
-    .attention-item:last-child {
-        border-bottom: none;
-    }
-
-    .attention-dot {
-        width: 8px;
-        height: 8px;
-        border-radius: 50%;
-        margin-top: 5px;
-        flex-shrink: 0;
-    }
-
-    .attention-critical {
-        background: #c73b2e;
-    }
-
-    .attention-high {
-        background: #e77715;
-    }
-
-    .attention-title {
-        font-size: 12px;
-        font-weight: 700;
-        color: #302621;
-    }
-
-    .attention-meta {
-        font-size: 10px;
-        color: #8c817a;
-        margin-top: 2px;
-    }
-
-
-    /* =========================================================
-       TABLE
-       ========================================================= */
-
-    .dashboard-table {
-        background: #fbf9f7;
-        border: 1px solid #e7ddd6;
-        border-radius: 15px;
-        overflow: hidden;
-    }
-
-    .dashboard-table .table {
-        margin-bottom: 0;
-    }
-
-    .dashboard-table th {
-        background: #f5f0ec;
-        border-bottom: 1px solid #e2d8d1;
-        font-size: 10px;
-        letter-spacing: .4px;
-        text-transform: uppercase;
-        color: #756a63;
-        white-space: nowrap;
-    }
-
-    .dashboard-table td {
-        font-size: 12px;
-        vertical-align: middle;
-        color: #3f3732;
-        border-color: #eee7e2;
-    }
-
-    .status-pill {
-        display: inline-block;
-        padding: 4px 9px;
-        border-radius: 20px;
-        font-size: 10px;
-        font-weight: 700;
-    }
-
-    .status-success {
-        background: #dff4ed;
-        color: #08755f;
-    }
-
-    .status-warning {
-        background: #fff0cc;
-        color: #9a6100;
-    }
-
-    .status-danger {
-        background: #fde2de;
-        color: #a93227;
-    }
-
-    .status-info {
-        background: #e0f0f5;
-        color: #12637a;
-    }
-
-    .status-muted {
-        background: #eeeae7;
-        color: #716760;
-    }
-
-</style>
-
-
-<div class="container-fluid fitout-dashboard">
-
-
-    {{-- ========================================================= --}}
-    {{-- HEADER --}}
-    {{-- ========================================================= --}}
-
-    <div class="d-flex justify-content-between align-items-center mb-4">
-
-        <div>
-
-            <h4 class="mb-1">
-                Fit-Out Management
-            </h4>
-
-            <div class="text-muted small">
-                Live overview of fit-out progress, inspections,
-                snags and handovers.
-            </div>
-
+        <div class="text-muted small">
+            Live overview of fit-out progress, inspections, snags and handovers.
         </div>
+    </div>
 
+    <div class="d-flex gap-2">
 
-        <div class="d-flex gap-2">
+        <a href="{{ route('admin.fitout.requests.create') }}"
+           class="btn btn-primary btn-sm">
 
-            <a
-                href="{{ route('admin.fitout.requests.create') }}"
-                class="btn btn-primary btn-sm"
-            >
-                <i class="bi bi-plus-lg me-1"></i>
-                New Fit-Out
-            </a>
+            <i class="bi bi-plus-lg me-1"></i>
+            New Fit-Out
 
-            <a
-                href="{{ route('admin.fitout.requests.index') }}"
-                class="btn btn-outline-secondary btn-sm"
-            >
-                All Requests
-            </a>
+        </a>
 
-        </div>
+        <a href="{{ route('admin.fitout.requests.index') }}"
+           class="btn btn-outline-secondary btn-sm">
+
+            All Requests
+
+        </a>
 
     </div>
 
-    {{-- ========================================================= --}}
-    {{-- FILTERS --}}
-    {{-- ========================================================= --}}
-
-    <div class="dashboard-section">
-
-        <div class="section-heading">
-
-            <span>
-                Filters
-            </span>
-
-        </div>
+</div>
 
 
-        <form
-            method="GET"
-            action="{{ route('admin.fitout.dashboard') }}"
-            class="data-card"
-        >
+{{-- =========================================================
+    FILTERS
+    ========================================================= --}}
+
+<div class="card mb-4">
+
+    <div class="card-header bg-white">
+
+        <strong>
+            <i class="bi bi-funnel me-1"></i>
+            Filters
+        </strong>
+
+    </div>
+
+    <div class="card-body">
+
+        <form method="GET"
+              action="{{ route('admin.fitout.dashboard') }}">
 
             <div class="row g-3">
-
 
                 {{-- Floor --}}
                 <div class="col-xl-2 col-md-4">
@@ -488,10 +74,8 @@
                         Floor
                     </label>
 
-                    <select
-                        name="floor_id"
-                        class="form-select form-select-sm"
-                    >
+                    <select name="floor_id"
+                            class="form-select form-select-sm">
 
                         <option value="">
                             All Floors
@@ -499,13 +83,8 @@
 
                         @foreach($floors as $floor)
 
-                            <option
-                                value="{{ $floor->id }}"
-                                @selected(
-                                    $filters['floor_id']
-                                    == $floor->id
-                                )
-                            >
+                            <option value="{{ $floor->id }}"
+                                @selected($filters['floor_id'] == $floor->id)>
 
                                 {{ $floor->floor_name }}
 
@@ -529,10 +108,8 @@
                         Unit
                     </label>
 
-                    <select
-                        name="unit_id"
-                        class="form-select form-select-sm"
-                    >
+                    <select name="unit_id"
+                            class="form-select form-select-sm">
 
                         <option value="">
                             All Units
@@ -540,13 +117,8 @@
 
                         @foreach($units as $unit)
 
-                            <option
-                                value="{{ $unit->id }}"
-                                @selected(
-                                    $filters['unit_id']
-                                    == $unit->id
-                                )
-                            >
+                            <option value="{{ $unit->id }}"
+                                @selected($filters['unit_id'] == $unit->id)>
 
                                 {{ $unit->unit_no }}
 
@@ -566,10 +138,8 @@
                         Contractor
                     </label>
 
-                    <select
-                        name="contractor_id"
-                        class="form-select form-select-sm"
-                    >
+                    <select name="contractor_id"
+                            class="form-select form-select-sm">
 
                         <option value="">
                             All Contractors
@@ -577,13 +147,8 @@
 
                         @foreach($contractors as $contractor)
 
-                            <option
-                                value="{{ $contractor->id }}"
-                                @selected(
-                                    $filters['contractor_id']
-                                    == $contractor->id
-                                )
-                            >
+                            <option value="{{ $contractor->id }}"
+                                @selected($filters['contractor_id'] == $contractor->id)>
 
                                 {{ $contractor->contractor_name }}
 
@@ -603,10 +168,8 @@
                         Status
                     </label>
 
-                    <select
-                        name="status"
-                        class="form-select form-select-sm"
-                    >
+                    <select name="status"
+                            class="form-select form-select-sm">
 
                         <option value="">
                             All Statuses
@@ -623,12 +186,8 @@
                             'Closed',
                         ] as $status)
 
-                            <option
-                                value="{{ $status }}"
-                                @selected(
-                                    $filters['status'] === $status
-                                )
-                            >
+                            <option value="{{ $status }}"
+                                @selected($filters['status'] === $status)>
 
                                 {{ $status }}
 
@@ -648,12 +207,10 @@
                         From
                     </label>
 
-                    <input
-                        type="date"
-                        name="date_from"
-                        value="{{ $filters['date_from'] }}"
-                        class="form-control form-control-sm"
-                    >
+                    <input type="date"
+                           name="date_from"
+                           value="{{ $filters['date_from'] }}"
+                           class="form-control form-control-sm">
 
                 </div>
 
@@ -665,12 +222,10 @@
                         To
                     </label>
 
-                    <input
-                        type="date"
-                        name="date_to"
-                        value="{{ $filters['date_to'] }}"
-                        class="form-control form-control-sm"
-                    >
+                    <input type="date"
+                           name="date_to"
+                           value="{{ $filters['date_to'] }}"
+                           class="form-control form-control-sm">
 
                 </div>
 
@@ -679,25 +234,27 @@
 
             <div class="d-flex justify-content-end gap-2 mt-3">
 
-                <a
-                    href="{{ route('admin.fitout.dashboard') }}"
-                    class="btn btn-sm btn-outline-secondary"
-                >
+                <a href="{{ route('admin.fitout.dashboard') }}"
+                   class="btn btn-sm btn-outline-secondary">
+
                     Reset
+
                 </a>
 
-                <button
-                    type="submit"
-                    class="btn btn-sm btn-primary"
-                >
+                <button type="submit"
+                        class="btn btn-sm btn-primary">
+
                     <i class="bi bi-funnel me-1"></i>
                     Apply Filters
+
                 </button>
 
             </div>
 
         </form>
 
+
+        {{-- Active Filters --}}
         @if(
             request()->filled('pipeline')
             || request()->filled('status')
@@ -714,50 +271,59 @@
 
                     <div>
 
-                        <i class="bi bi-funnel me-1"></i>
-
                         <strong>
-                            Active filters
+                            <i class="bi bi-funnel me-1"></i>
+                            Active Filters
                         </strong>
 
                         @if(request('pipeline'))
+
                             <span class="badge bg-primary ms-2">
                                 {{ ucfirst(request('pipeline')) }}
                             </span>
+
                         @endif
 
                         @if(request('status'))
+
                             <span class="badge bg-secondary ms-1">
                                 {{ request('status') }}
                             </span>
+
                         @endif
 
                         @if(request('floor_id'))
+
                             <span class="badge bg-secondary ms-1">
                                 Floor selected
                             </span>
+
                         @endif
 
                         @if(request('unit_id'))
+
                             <span class="badge bg-secondary ms-1">
                                 Unit selected
                             </span>
+
                         @endif
 
                         @if(request('contractor_id'))
+
                             <span class="badge bg-secondary ms-1">
                                 Contractor selected
                             </span>
+
                         @endif
 
                     </div>
 
 
-                    <a
-                        href="{{ route('admin.fitout.dashboard') }}"
-                        class="btn btn-sm btn-link text-danger"
-                    >
+                    <a href="{{ route('admin.fitout.dashboard') }}"
+                       class="btn btn-sm btn-link text-danger">
+
                         Clear all
+
                     </a>
 
                 </div>
@@ -768,815 +334,649 @@
 
     </div>
 
+</div>
 
-    {{-- ========================================================= --}}
-    {{-- FIT-OUT AT A GLANCE --}}
-    {{-- ========================================================= --}}
 
-    <div class="dashboard-section">
+{{-- =========================================================
+    FIT-OUT AT A GLANCE
+    ========================================================= --}}
 
-        <div class="section-heading">
+<div class="mb-4">
 
-            <span>
-                Fit-Out at a Glance
-            </span>
+    <div class="d-flex align-items-center mb-3">
+
+        <h5 class="mb-0">
+            Fit-Out at a Glance
+        </h5>
+
+    </div>
+
+
+    <div class="row g-3">
+
+
+        {{-- Total --}}
+        <div class="col-xl-2 col-md-4 col-6">
+
+            <a href="{{ route(
+                'admin.fitout.dashboard',
+                array_merge(
+                    request()->query(),
+                    [
+                        'pipeline' => null,
+                        'status' => null,
+                    ]
+                )
+            ) }}"
+               class="text-decoration-none">
+
+                <div class="card h-100">
+
+                    <div class="card-body">
+
+                        <div class="text-muted small mb-2">
+                            Total Fit-Outs
+                        </div>
+
+                        <h3 class="mb-1 text-dark">
+                            {{ $totalFitouts }}
+                        </h3>
+
+                        <div class="text-muted small">
+                            Registered requests
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </a>
 
         </div>
 
+
+        {{-- Approved --}}
+        <div class="col-xl-2 col-md-4 col-6">
+
+            <a href="{{ route(
+                'admin.fitout.dashboard',
+                array_merge(
+                    request()->query(),
+                    [
+                        'pipeline' => null,
+                        'status' => 'Approved',
+                    ]
+                )
+            ) }}"
+               class="text-decoration-none">
+
+                <div class="card h-100">
+
+                    <div class="card-body">
+
+                        <div class="text-muted small mb-2">
+                            Approved
+                        </div>
+
+                        <h3 class="mb-1 text-success">
+                            {{ $approvedFitouts }}
+                        </h3>
+
+                        <div class="text-muted small">
+                            Ready for fit-out
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </a>
+
+        </div>
+
+
+        {{-- In Fit-Out --}}
+        <div class="col-xl-2 col-md-4 col-6">
+
+            <a href="{{ route(
+                'admin.fitout.dashboard',
+                array_merge(
+                    request()->query(),
+                    [
+                        'pipeline' => null,
+                        'status' => 'In Progress',
+                    ]
+                )
+            ) }}"
+               class="text-decoration-none">
+
+                <div class="card h-100">
+
+                    <div class="card-body">
+
+                        <div class="text-muted small mb-2">
+                            In Fit-Out
+                        </div>
+
+                        <h3 class="mb-1 text-primary">
+                            {{ $inFitout }}
+                        </h3>
+
+                        <div class="text-muted small">
+                            Works underway
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </a>
+
+        </div>
+
+
+        {{-- Inspections --}}
+        <div class="col-xl-2 col-md-4 col-6">
+
+            <a href="{{ route('admin.fitout.inspections.index') }}"
+               class="text-decoration-none">
+
+                <div class="card h-100">
+
+                    <div class="card-body">
+
+                        <div class="text-muted small mb-2">
+                            Inspections Due
+                        </div>
+
+                        <h3 class="mb-1 text-info">
+                            {{ $inspectionsDue }}
+                        </h3>
+
+                        <div class="text-muted small">
+                            Scheduled / in progress
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </a>
+
+        </div>
+
+
+        {{-- Snags --}}
+        <div class="col-xl-2 col-md-4 col-6">
+
+            <a href="{{ route('admin.fitout.snags.index') }}"
+               class="text-decoration-none">
+
+                <div class="card h-100">
+
+                    <div class="card-body">
+
+                        <div class="text-muted small mb-2">
+                            Open Snags
+                        </div>
+
+                        <h3 class="mb-1 text-danger">
+                            {{ $openSnags }}
+                        </h3>
+
+                        <div class="text-muted small">
+                            {{ $criticalSnags }} critical
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </a>
+
+        </div>
+
+
+        {{-- Handovers --}}
+        <div class="col-xl-2 col-md-4 col-6">
+
+            <a href="{{ route('admin.fitout.handovers.index') }}"
+               class="text-decoration-none">
+
+                <div class="card h-100">
+
+                    <div class="card-body">
+
+                        <div class="text-muted small mb-2">
+                            Handover Complete
+                        </div>
+
+                        <h3 class="mb-1 text-dark">
+                            {{ $completedHandovers }}
+                        </h3>
+
+                        <div class="text-muted small">
+                            Units handed over
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </a>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+{{-- =========================================================
+    FIT-OUT PIPELINE
+    ========================================================= --}}
+
+<div class="card mb-4">
+
+    <div class="card-header bg-white">
+
+        <strong>
+            Fit-Out Pipeline
+        </strong>
+
+    </div>
+
+    <div class="card-body">
 
         <div class="row g-3">
 
 
-            {{-- ===================================================== --}}
-            {{-- TOTAL FIT-OUTS --}}
-            {{-- ===================================================== --}}
-
-            <div class="col-xl-2 col-md-4 col-6">
-
-                <a
-                    href="{{ route(
-                        'admin.fitout.dashboard',
-                        array_merge(
-                            request()->query(),
-                            [
-                                'pipeline' => null,
-                                'status' => null,
-                            ]
-                        )
-                    ) }}"
-                    class="glance-card text-decoration-none d-block"
-                >
-
-                    <div class="glance-label">
-                        Total fit-outs
-                    </div>
-
-                    <div class="glance-value">
-                        {{ $totalFitouts }}
-                    </div>
-
-                    <div class="glance-subtitle">
-                        registered requests
-                    </div>
-
-                </a>
-
-            </div>
-
-
-            {{-- ===================================================== --}}
-            {{-- APPROVED --}}
-            {{-- ===================================================== --}}
-
-            <div class="col-xl-2 col-md-4 col-6">
-
-                <a
-                    href="{{ route(
-                        'admin.fitout.dashboard',
-                        array_merge(
-                            request()->query(),
-                            [
-                                'pipeline' => null,
-                                'status' => 'Approved',
-                            ]
-                        )
-                    ) }}"
-                    class="glance-card green text-decoration-none d-block"
-                >
-
-                    <div class="glance-label">
-                        Approved
-                    </div>
-
-                    <div class="glance-value">
-                        {{ $approvedFitouts }}
-                    </div>
-
-                    <div class="glance-subtitle">
-                        ready for fit-out
-                    </div>
-
-                </a>
-
-            </div>
-
-
-            {{-- ===================================================== --}}
-            {{-- IN FIT-OUT --}}
-            {{-- ===================================================== --}}
-
-            <div class="col-xl-2 col-md-4 col-6">
-
-                <a
-                    href="{{ route(
-                        'admin.fitout.dashboard',
-                        array_merge(
-                            request()->query(),
-                            [
-                                'pipeline' => null,
-                                'status' => 'In Progress',
-                            ]
-                        )
-                    ) }}"
-                    class="glance-card orange text-decoration-none d-block"
-                >
-
-                    <div class="glance-label">
-                        In fit-out now
-                    </div>
-
-                    <div class="glance-value">
-                        {{ $inFitout }}
-                    </div>
-
-                    <div class="glance-subtitle">
-                        works underway
-                    </div>
-
-                </a>
-
-            </div>
-
-
-            {{-- ===================================================== --}}
-            {{-- INSPECTIONS DUE --}}
-            {{-- ===================================================== --}}
-
-            <div class="col-xl-2 col-md-4 col-6">
-
-                <a
-                    href="{{ route(
-                        'admin.fitout.inspections.index'
-                    ) }}"
-                    class="glance-card green text-decoration-none d-block"
-                >
-
-                    <div class="glance-label">
-                        Inspections due
-                    </div>
-
-                    <div class="glance-value">
-                        {{ $inspectionsDue }}
-                    </div>
-
-                    <div class="glance-subtitle">
-                        scheduled / in progress
-                    </div>
-
-                </a>
-
-            </div>
-
-
-            {{-- ===================================================== --}}
-            {{-- OPEN SNAGS --}}
-            {{-- ===================================================== --}}
-
-            <div class="col-xl-2 col-md-4 col-6">
-
-                <a
-                    href="{{ route(
-                        'admin.fitout.snags.index'
-                    ) }}"
-                    class="glance-card orange text-decoration-none d-block"
-                >
-
-                    <div class="glance-label">
-                        Open snags
-                    </div>
-
-                    <div class="glance-value">
-                        {{ $openSnags }}
-                    </div>
-
-                    <div class="glance-subtitle">
-                        {{ $criticalSnags }} critical
-                    </div>
-
-                </a>
-
-            </div>
-
-
-            {{-- ===================================================== --}}
-            {{-- HANDOVER COMPLETE --}}
-            {{-- ===================================================== --}}
-
-            <div class="col-xl-2 col-md-4 col-6">
-
-                <a
-                    href="{{ route(
-                        'admin.fitout.handovers.index'
-                    ) }}"
-                    class="glance-card dark text-decoration-none d-block"
-                >
-
-                    <div class="glance-label">
-                        Handover complete
-                    </div>
-
-                    <div class="glance-value">
-                        {{ $completedHandovers }}
-                    </div>
-
-                    <div class="glance-subtitle">
-                        units handed over
-                    </div>
-
-                </a>
-
-            </div>
-
-
-        </div>
-
-    </div>
-
-
-    {{-- ========================================================= --}}
-    {{-- FIT-OUT PIPELINE --}}
-    {{-- ========================================================= --}}
-
-    <div class="dashboard-section">
-
-        <div class="section-heading">
-
-            <span>
-                Fit-Out Pipeline
-            </span>
-
-        </div>
-
-
-        <div class="pipeline-wrapper">
-
-            <div class="row g-1 align-items-stretch">
-
-
-                {{-- ===================================================== --}}
-                {{-- START --}}
-                {{-- ===================================================== --}}
-
-                <div class="col">
-
-                    <a
-                        href="{{ route(
-                            'admin.fitout.dashboard',
-                            array_merge(
-                                request()->query(),
-                                ['pipeline' => 'start']
-                            )
-                        ) }}"
-                        class="pipeline-card text-decoration-none d-block"
-                    >
-
-                        <div class="pipeline-number">
-
-                            <span class="pipeline-index">
-                                —
-                            </span>
-
-                            <span class="pipeline-label">
-                                Start
-                            </span>
-
+            {{-- Start --}}
+            <div class="col">
+
+                <a href="{{ route(
+                    'admin.fitout.dashboard',
+                    array_merge(
+                        request()->query(),
+                        ['pipeline' => 'start']
+                    )
+                ) }}"
+                   class="text-decoration-none">
+
+                    <div class="border rounded p-3 h-100">
+
+                        <div class="small text-muted mb-2">
+                            Start
                         </div>
 
-                        <div class="pipeline-count">
+                        <h4 class="text-dark mb-1">
                             {{ $pipelineStart }}
-                        </div>
+                        </h4>
 
-                        <div class="pipeline-title">
-                            Awaiting action
-                        </div>
-
-                        <div class="pipeline-meta">
+                        <div class="small text-muted">
                             Draft / Submitted
                         </div>
 
-                    </a>
+                    </div>
 
-                </div>
+                </a>
 
-
-                <div class="col-auto pipeline-arrow">
-                    →
-                </div>
+            </div>
 
 
-                {{-- ===================================================== --}}
-                {{-- APPROVAL --}}
-                {{-- ===================================================== --}}
+            {{-- Arrow --}}
+            <div class="col-auto d-flex align-items-center text-muted">
+                →
+            </div>
 
-                <div class="col">
 
-                    <a
-                        href="{{ route(
-                            'admin.fitout.dashboard',
-                            array_merge(
-                                request()->query(),
-                                ['pipeline' => 'approval']
-                            )
-                        ) }}"
-                        class="pipeline-card text-decoration-none d-block"
-                    >
+            {{-- Approval --}}
+            <div class="col">
 
-                        <div class="pipeline-number">
+                <a href="{{ route(
+                    'admin.fitout.dashboard',
+                    array_merge(
+                        request()->query(),
+                        ['pipeline' => 'approval']
+                    )
+                ) }}"
+                   class="text-decoration-none">
 
-                            <span class="pipeline-index orange">
-                                1
-                            </span>
+                    <div class="border rounded p-3 h-100">
 
-                            <span class="pipeline-label">
-                                Approval
-                            </span>
-
+                        <div class="small text-muted mb-2">
+                            1. Approval
                         </div>
 
-                        <div class="pipeline-count">
+                        <h4 class="text-primary mb-1">
                             {{ $pipelineApproval }}
-                        </div>
+                        </h4>
 
-                        <div class="pipeline-title">
-                            Under review
-                        </div>
-
-                        <div class="pipeline-meta">
+                        <div class="small text-muted">
                             Approval pending
                         </div>
 
-                    </a>
+                    </div>
 
-                </div>
+                </a>
 
-
-                <div class="col-auto pipeline-arrow">
-                    →
-                </div>
+            </div>
 
 
-                {{-- ===================================================== --}}
-                {{-- FIT-OUT --}}
-                {{-- ===================================================== --}}
+            <div class="col-auto d-flex align-items-center text-muted">
+                →
+            </div>
 
-                <div class="col">
 
-                    <a
-                        href="{{ route(
-                            'admin.fitout.dashboard',
-                            array_merge(
-                                request()->query(),
-                                ['pipeline' => 'fitout']
-                            )
-                        ) }}"
-                        class="pipeline-card text-decoration-none d-block"
-                    >
+            {{-- Fit-Out --}}
+            <div class="col">
 
-                        <div class="pipeline-number">
+                <a href="{{ route(
+                    'admin.fitout.dashboard',
+                    array_merge(
+                        request()->query(),
+                        ['pipeline' => 'fitout']
+                    )
+                ) }}"
+                   class="text-decoration-none">
 
-                            <span class="pipeline-index amber">
-                                2
-                            </span>
+                    <div class="border rounded p-3 h-100">
 
-                            <span class="pipeline-label">
-                                Fit-Out
-                            </span>
-
+                        <div class="small text-muted mb-2">
+                            2. Fit-Out
                         </div>
 
-                        <div class="pipeline-count">
+                        <h4 class="text-primary mb-1">
                             {{ $pipelineFitout }}
-                        </div>
+                        </h4>
 
-                        <div class="pipeline-title">
-                            Works underway
-                        </div>
-
-                        <div class="pipeline-meta">
+                        <div class="small text-muted">
                             Active stages
                         </div>
 
-                    </a>
+                    </div>
 
-                </div>
+                </a>
 
-
-                <div class="col-auto pipeline-arrow">
-                    →
-                </div>
+            </div>
 
 
-                {{-- ===================================================== --}}
-                {{-- INSPECTION --}}
-                {{-- ===================================================== --}}
+            <div class="col-auto d-flex align-items-center text-muted">
+                →
+            </div>
 
-                <div class="col">
 
-                    <a
-                        href="{{ route(
-                            'admin.fitout.dashboard',
-                            array_merge(
-                                request()->query(),
-                                ['pipeline' => 'inspection']
-                            )
-                        ) }}"
-                        class="pipeline-card text-decoration-none d-block"
-                    >
+            {{-- Inspection --}}
+            <div class="col">
 
-                        <div class="pipeline-number">
+                <a href="{{ route(
+                    'admin.fitout.dashboard',
+                    array_merge(
+                        request()->query(),
+                        ['pipeline' => 'inspection']
+                    )
+                ) }}"
+                   class="text-decoration-none">
 
-                            <span class="pipeline-index yellow">
-                                3
-                            </span>
+                    <div class="border rounded p-3 h-100">
 
-                            <span class="pipeline-label">
-                                Inspection
-                            </span>
-
+                        <div class="small text-muted mb-2">
+                            3. Inspection
                         </div>
 
-                        <div class="pipeline-count">
+                        <h4 class="text-warning mb-1">
                             {{ $pipelineInspection }}
-                        </div>
+                        </h4>
 
-                        <div class="pipeline-title">
-                            Inspection stage
-                        </div>
-
-                        <div class="pipeline-meta">
+                        <div class="small text-muted">
                             Scheduled / completed
                         </div>
 
-                    </a>
+                    </div>
 
-                </div>
+                </a>
 
-
-                <div class="col-auto pipeline-arrow">
-                    →
-                </div>
+            </div>
 
 
-                {{-- ===================================================== --}}
-                {{-- SNAGS --}}
-                {{-- ===================================================== --}}
+            <div class="col-auto d-flex align-items-center text-muted">
+                →
+            </div>
 
-                <div class="col">
 
-                    <a
-                        href="{{ route(
-                            'admin.fitout.dashboard',
-                            array_merge(
-                                request()->query(),
-                                ['pipeline' => 'snag']
-                            )
-                        ) }}"
-                        class="pipeline-card text-decoration-none d-block"
-                    >
+            {{-- Snags --}}
+            <div class="col">
 
-                        <div class="pipeline-number">
+                <a href="{{ route(
+                    'admin.fitout.dashboard',
+                    array_merge(
+                        request()->query(),
+                        ['pipeline' => 'snag']
+                    )
+                ) }}"
+                   class="text-decoration-none">
 
-                            <span class="pipeline-index orange">
-                                4
-                            </span>
+                    <div class="border rounded p-3 h-100">
 
-                            <span class="pipeline-label">
-                                Snags
-                            </span>
-
+                        <div class="small text-muted mb-2">
+                            4. Snags
                         </div>
 
-                        <div class="pipeline-count">
+                        <h4 class="text-danger mb-1">
                             {{ $pipelineSnag }}
-                        </div>
+                        </h4>
 
-                        <div class="pipeline-title">
-                            Snag clearance
-                        </div>
-
-                        <div class="pipeline-meta">
+                        <div class="small text-muted">
                             Open issues
                         </div>
 
-                    </a>
+                    </div>
 
-                </div>
+                </a>
 
-
-                <div class="col-auto pipeline-arrow">
-                    →
-                </div>
+            </div>
 
 
-                {{-- ===================================================== --}}
-                {{-- HANDOVER --}}
-                {{-- ===================================================== --}}
+            <div class="col-auto d-flex align-items-center text-muted">
+                →
+            </div>
 
-                <div class="col">
 
-                    <a
-                        href="{{ route(
-                            'admin.fitout.dashboard',
-                            array_merge(
-                                request()->query(),
-                                ['pipeline' => 'handover']
-                            )
-                        ) }}"
-                        class="pipeline-card text-decoration-none d-block"
-                    >
+            {{-- Handover --}}
+            <div class="col">
 
-                        <div class="pipeline-number">
+                <a href="{{ route(
+                    'admin.fitout.dashboard',
+                    array_merge(
+                        request()->query(),
+                        ['pipeline' => 'handover']
+                    )
+                ) }}"
+                   class="text-decoration-none">
 
-                            <span class="pipeline-index green">
-                                5
-                            </span>
+                    <div class="border rounded p-3 h-100">
 
-                            <span class="pipeline-label">
-                                Handover
-                            </span>
-
+                        <div class="small text-muted mb-2">
+                            5. Handover
                         </div>
 
-                        <div class="pipeline-count">
+                        <h4 class="text-success mb-1">
                             {{ $pipelineHandover }}
-                        </div>
+                        </h4>
 
-                        <div class="pipeline-title">
-                            Handover
-                        </div>
-
-                        <div class="pipeline-meta">
+                        <div class="small text-muted">
                             Pending / completed
                         </div>
 
-                    </a>
+                    </div>
 
-                </div>
-
+                </a>
 
             </div>
 
         </div>
 
 
-        <div class="small text-muted mt-2 px-1">
-
+        <div class="small text-muted mt-3">
             Each fit-out moves from request through approval,
             construction, inspection, snag clearance and handover.
-
         </div>
 
     </div>
 
-
-    {{-- ========================================================= --}}
-    {{-- PROGRESS & FLOOR --}}
-    {{-- ========================================================= --}}
-
-    <div class="dashboard-section">
-
-        <div class="section-heading">
-
-            <span>
-                Progress & Floors
-            </span>
-
-        </div>
+</div>
 
 
-        <div class="row g-4">
+{{-- =========================================================
+    PROGRESS & FLOORS
+    ========================================================= --}}
+
+<div class="row g-4 mb-4">
 
 
-            {{-- ================================================= --}}
-            {{-- PROGRESS --}}
-            {{-- ================================================= --}}
+    {{-- Progress --}}
+    <div class="col-xl-7">
 
-            <div class="col-xl-7">
+        <div class="card h-100">
 
-                <div class="data-card">
+            <div class="card-header bg-white">
 
-                    <div class="data-card-title">
-                        Fit-Out progress
+                <strong>
+                    Fit-Out Progress
+                </strong>
+
+            </div>
+
+            <div class="card-body">
+
+                <div class="text-muted small mb-4">
+                    Average completion across active fit-out stages.
+                </div>
+
+
+                {{-- Overall --}}
+                <div class="mb-4">
+
+                    <div class="d-flex justify-content-between mb-1">
+
+                        <span class="small">
+                            Overall Completion
+                        </span>
+
+                        <strong class="small">
+                            {{ $overallProgress }}%
+                        </strong>
+
                     </div>
 
-                    <div class="data-card-subtitle">
-                        Average completion across active fit-out stages.
+                    <div class="progress"
+                         style="height: 8px;">
+
+                        <div class="progress-bar bg-success"
+                             role="progressbar"
+                             style="width: {{ $overallProgress }}%">
+
+                        </div>
+
                     </div>
 
+                </div>
 
-                    {{-- Overall --}}
-                    <div class="progress-row">
 
-                        <div class="progress-label">
+                {{-- Stages --}}
+                @forelse($stageProgress as $stage)
 
-                            <span>
-                                Overall completion
+                    <div class="mb-3">
+
+                        <div class="d-flex justify-content-between mb-1">
+
+                            <span class="small">
+                                {{ $stage->stage_name }}
                             </span>
 
-                            <strong>
-                                {{ $overallProgress }}%
+                            <strong class="small">
+                                {{ $stage->progress }}%
                             </strong>
 
                         </div>
 
-                        <div class="fitout-progress">
+                        <div class="progress"
+                             style="height: 7px;">
 
-                            <div
-                                class="fitout-progress-bar"
-                                style="width: {{ $overallProgress }}%"
-                            ></div>
+                            <div class="progress-bar"
+                                 role="progressbar"
+                                 style="width: {{ min(100, max(0, $stage->progress)) }}%">
+
+                            </div>
 
                         </div>
 
                     </div>
 
+                @empty
 
-                    {{-- Individual stages --}}
-                    @forelse($stageProgress as $stage)
+                    <div class="text-muted small">
+                        No stage progress available.
+                    </div>
 
-                        <div class="progress-row">
+                @endforelse
 
-                            <div class="progress-label">
 
-                                <span>
-                                    {{ $stage->stage_name }}
-                                </span>
+                <hr>
 
-                                <strong>
-                                    {{ $stage->progress }}%
-                                </strong>
 
-                            </div>
+                <div class="row text-center">
 
-                            <div class="fitout-progress">
+                    <div class="col">
 
-                                <div
-                                    class="fitout-progress-bar"
-                                    style="width: {{ min(100, max(0, $stage->progress)) }}%"
-                                ></div>
-
-                            </div>
-
+                        <div class="small text-muted">
+                            Pending
                         </div>
 
-                    @empty
-
-                        <div class="text-muted small">
-                            No stage progress available.
-                        </div>
-
-                    @endforelse
-
-
-                    <hr class="my-3">
-
-
-                    <div class="row text-center">
-
-                        <div class="col">
-
-                            <div class="small text-muted">
-                                Pending
-                            </div>
-
-                            <strong>
-                                {{ $stageStatus['Pending'] ?? 0 }}
-                            </strong>
-
-                        </div>
-
-
-                        <div class="col">
-
-                            <div class="small text-muted">
-                                In Progress
-                            </div>
-
-                            <strong>
-                                {{ $stageStatus['In Progress'] ?? 0 }}
-                            </strong>
-
-                        </div>
-
-
-                        <div class="col">
-
-                            <div class="small text-muted">
-                                Completed
-                            </div>
-
-                            <strong class="text-success">
-                                {{ $stageStatus['Completed'] ?? 0 }}
-                            </strong>
-
-                        </div>
-
-
-                        <div class="col">
-
-                            <div class="small text-muted">
-                                On Hold
-                            </div>
-
-                            <strong class="text-warning">
-                                {{ $stageStatus['On Hold'] ?? 0 }}
-                            </strong>
-
-                        </div>
+                        <strong>
+                            {{ $stageStatus['Pending'] ?? 0 }}
+                        </strong>
 
                     </div>
 
-                </div>
 
-            </div>
+                    <div class="col">
 
+                        <div class="small text-muted">
+                            In Progress
+                        </div>
 
-            {{-- ================================================= --}}
-            {{-- FLOOR --}}
-            {{-- ================================================= --}}
+                        <strong>
+                            {{ $stageStatus['In Progress'] ?? 0 }}
+                        </strong>
 
-            <div class="col-xl-5">
-
-                <div class="data-card">
-
-                    <div class="data-card-title">
-                        Units by floor
-                    </div>
-
-                    <div class="data-card-subtitle">
-                        Active fit-outs versus total units on each level.
                     </div>
 
 
-                    @forelse($unitsByFloor as $floor)
+                    <div class="col">
 
-                        @php
-
-                            $totalUnits =
-                                (int) $floor->total_units;
-
-                            $activeUnits =
-                                (int) (
-                                    $activeUnitsByFloor[
-                                        $floor->id
-                                    ] ?? 0
-                                );
-
-                            $percentage =
-                                $totalUnits > 0
-                                    ? round(
-                                        (
-                                            $activeUnits /
-                                            $totalUnits
-                                        ) * 100
-                                    )
-                                    : 0;
-
-                        @endphp
-
-
-                        <div class="floor-row">
-
-                            <div class="d-flex align-items-center gap-3">
-
-                                <div style="width: 90px">
-
-                                    <div class="floor-name">
-                                        {{ $floor->floor_name }}
-                                    </div>
-
-                                </div>
-
-
-                                <div class="floor-bar">
-
-                                    <div
-                                        class="floor-bar-fill"
-                                        style="width: {{ $percentage }}%"
-                                    ></div>
-
-                                </div>
-
-
-                                <div class="floor-count">
-
-                                    {{ $activeUnits }}
-                                    /
-                                    {{ $totalUnits }}
-
-                                </div>
-
-                            </div>
-
+                        <div class="small text-muted">
+                            Completed
                         </div>
 
-                    @empty
+                        <strong class="text-success">
+                            {{ $stageStatus['Completed'] ?? 0 }}
+                        </strong>
 
-                        <div class="text-muted small">
-                            No floor data available.
+                    </div>
+
+
+                    <div class="col">
+
+                        <div class="small text-muted">
+                            On Hold
                         </div>
 
-                    @endforelse
+                        <strong class="text-warning">
+                            {{ $stageStatus['On Hold'] ?? 0 }}
+                        </strong>
+
+                    </div>
 
                 </div>
 
@@ -1587,79 +987,145 @@
     </div>
 
 
-    {{-- ========================================================= --}}
-    {{-- ATTENTION REQUIRED --}}
-    {{-- ========================================================= --}}
+    {{-- Units by Floor --}}
+    <div class="col-xl-5">
 
-    <div class="dashboard-section">
+        <div class="card h-100">
 
-        <div class="section-heading">
+            <div class="card-header bg-white">
 
-            <span>
-                Attention Required
-            </span>
+                <strong>
+                    Units by Floor
+                </strong>
+
+            </div>
+
+            <div class="card-body">
+
+                <div class="text-muted small mb-3">
+                    Active fit-outs versus total units on each level.
+                </div>
+
+
+                @forelse($unitsByFloor as $floor)
+
+                    @php
+
+                        $totalUnits = (int) $floor->total_units;
+
+                        $activeUnits = (int) (
+                            $activeUnitsByFloor[$floor->id] ?? 0
+                        );
+
+                        $percentage = $totalUnits > 0
+                            ? round(($activeUnits / $totalUnits) * 100)
+                            : 0;
+
+                    @endphp
+
+
+                    <div class="mb-3">
+
+                        <div class="d-flex justify-content-between mb-1">
+
+                            <span class="small fw-semibold">
+                                {{ $floor->floor_name }}
+                            </span>
+
+                            <span class="small text-muted">
+                                {{ $activeUnits }} / {{ $totalUnits }}
+                            </span>
+
+                        </div>
+
+                        <div class="progress"
+                             style="height: 7px;">
+
+                            <div class="progress-bar bg-warning"
+                                 role="progressbar"
+                                 style="width: {{ $percentage }}%">
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                @empty
+
+                    <div class="text-muted small">
+                        No floor data available.
+                    </div>
+
+                @endforelse
+
+            </div>
 
         </div>
 
+    </div>
 
-        <div class="row g-4">
+</div>
 
 
-            {{-- Critical / High Snags --}}
-            <div class="col-xl-4">
+{{-- =========================================================
+    ATTENTION REQUIRED
+    ========================================================= --}}
 
-                <div class="data-card">
+<div class="mb-4">
 
-                    <div class="data-card-title">
+    <h5 class="mb-3">
+        Attention Required
+    </h5>
+
+
+    <div class="row g-4">
+
+
+        {{-- Critical / High Snags --}}
+        <div class="col-xl-4">
+
+            <div class="card h-100">
+
+                <div class="card-header bg-white">
+
+                    <strong>
                         Critical & High Snags
-                    </div>
+                    </strong>
 
-                    <div class="data-card-subtitle">
+                </div>
+
+                <div class="card-body">
+
+                    <div class="text-muted small mb-3">
                         Issues requiring immediate attention.
                     </div>
 
 
                     @forelse($attentionSnags as $snag)
 
-                        <div class="attention-item">
+                        <div class="border-bottom pb-3 mb-3">
 
-                            <div class="d-flex gap-2">
+                            <div class="fw-semibold small">
 
-                                <span
-                                    class="attention-dot {{
-                                        $snag->priority === 'Critical'
-                                            ? 'attention-critical'
-                                            : 'attention-high'
-                                    }}"
-                                ></span>
+                                {{ $snag->snag_number }}
+                                -
+                                {{ $snag->title }}
 
-                                <div>
+                            </div>
 
-                                    <div class="attention-title">
+                            <div class="text-muted small mt-1">
 
-                                        {{ $snag->snag_number }}
+                                Request:
+                                {{ $snag->request_no }}
 
-                                        -
-                                        {{ $snag->title }}
+                                <span class="mx-1">|</span>
 
-                                    </div>
+                                {{ $snag->priority }}
 
-                                    <div class="attention-meta">
+                                <span class="mx-1">|</span>
 
-                                        Request:
-                                        {{ $snag->request_no }}
-
-                                        &nbsp;|&nbsp;
-
-                                        {{ $snag->priority }}
-
-                                        &nbsp;|&nbsp;
-
-                                        {{ $snag->status }}
-
-                                    </div>
-
-                                </div>
+                                {{ $snag->status }}
 
                             </div>
 
@@ -1677,36 +1143,42 @@
 
             </div>
 
+        </div>
 
-            {{-- Delayed --}}
-            <div class="col-xl-4">
 
-                <div class="data-card">
+        {{-- Delayed --}}
+        <div class="col-xl-4">
 
-                    <div class="data-card-title">
+            <div class="card h-100">
+
+                <div class="card-header bg-white">
+
+                    <strong>
                         Delayed Fit-Outs
-                    </div>
+                    </strong>
 
-                    <div class="data-card-subtitle">
+                </div>
+
+                <div class="card-body">
+
+                    <div class="text-muted small mb-3">
                         Proposed completion date has passed.
                     </div>
 
 
                     @forelse($delayedFitouts as $fitout)
 
-                        <div class="attention-item">
+                        <div class="border-bottom pb-3 mb-3">
 
                             <div class="d-flex justify-content-between">
 
                                 <div>
 
-                                    <div class="attention-title">
-
+                                    <div class="fw-semibold small">
                                         {{ $fitout->request_no }}
-
                                     </div>
 
-                                    <div class="attention-meta">
+                                    <div class="text-muted small mt-1">
 
                                         Planned end:
                                         {{
@@ -1719,11 +1191,8 @@
 
                                 </div>
 
-
-                                <span class="status-pill status-danger">
-
+                                <span class="badge bg-danger">
                                     Delayed
-
                                 </span>
 
                             </div>
@@ -1742,36 +1211,44 @@
 
             </div>
 
+        </div>
 
-            {{-- Inspections --}}
-            <div class="col-xl-4">
 
-                <div class="data-card">
+        {{-- Upcoming Inspections --}}
+        <div class="col-xl-4">
 
-                    <div class="data-card-title">
+            <div class="card h-100">
+
+                <div class="card-header bg-white">
+
+                    <strong>
                         Upcoming Inspections
-                    </div>
+                    </strong>
 
-                    <div class="data-card-subtitle">
+                </div>
+
+                <div class="card-body">
+
+                    <div class="text-muted small mb-3">
                         Next inspections requiring attention.
                     </div>
 
 
                     @forelse($upcomingInspections as $inspection)
 
-                        <div class="attention-item">
+                        <div class="border-bottom pb-3 mb-3">
 
-                            <div class="attention-title">
+                            <div class="fw-semibold small">
 
                                 {{ $inspection->inspection_number }}
 
                             </div>
 
-                            <div class="attention-meta">
+                            <div class="text-muted small mt-1">
 
                                 {{ $inspection->request_no }}
 
-                                &nbsp;|&nbsp;
+                                <span class="mx-1">|</span>
 
                                 {{ $inspection->inspection_type }}
 
@@ -1803,220 +1280,232 @@
 
     </div>
 
-    <div class="dashboard-section">
+</div>
 
-        <div class="section-heading">
 
-            <span>
+{{-- =========================================================
+    FIT-OUT TRACKING
+    ========================================================= --}}
+
+<div class="card">
+
+    <div class="card-header bg-white">
+
+        <div class="d-flex justify-content-between align-items-center">
+
+            <strong>
                 Fit-Out Tracking
-            </span>
+            </strong>
 
-        </div>
+            <a href="{{ route('admin.fitout.requests.index') }}"
+               class="btn btn-sm btn-outline-primary">
 
+                View All
 
-        <div class="dashboard-table">
-
-            <div class="table-responsive">
-
-                <table class="table align-middle">
-
-                    <thead>
-
-                        <tr>
-
-                            <th>
-                                Request
-                            </th>
-
-                            <th>
-                                Unit
-                            </th>
-
-                            <th>
-                                Tenant
-                            </th>
-
-                            <th>
-                                Type
-                            </th>
-
-                            <th>
-                                Status
-                            </th>
-
-                            <th>
-                                Start
-                            </th>
-
-                            <th>
-                                End
-                            </th>
-
-                            <th>
-                                Action
-                            </th>
-
-                        </tr>
-
-                    </thead>
-
-
-                    <tbody>
-
-                        @forelse($fitouts as $fitout)
-
-                            <tr>
-
-                                <td>
-
-                                    <strong>
-                                        {{ $fitout->request_no }}
-                                    </strong>
-
-                                </td>
-
-
-                                <td>
-                                    {{ $fitout->unit_id ?? '-' }}
-                                </td>
-
-
-                                <td>
-                                    {{ $fitout->tenant_id ?? '-' }}
-                                </td>
-
-
-                                <td>
-                                    {{ $fitout->fitout_type ?? '-' }}
-                                </td>
-
-
-                                <td>
-
-                                    @php
-
-                                        $statusClass = match(
-                                            $fitout->fitout_status
-                                        ) {
-
-                                            'Completed' =>
-                                                'status-success',
-
-                                            'Approved',
-                                            'In Progress' =>
-                                                'status-info',
-
-                                            'Under Review',
-                                            'Submitted' =>
-                                                'status-warning',
-
-                                            'Rejected' =>
-                                                'status-danger',
-
-                                            default =>
-                                                'status-muted',
-
-                                        };
-
-                                    @endphp
-
-
-                                    <span
-                                        class="status-pill {{ $statusClass }}"
-                                    >
-                                        {{ $fitout->fitout_status }}
-                                    </span>
-
-                                </td>
-
-
-                                <td>
-
-                                    {{
-                                        $fitout->proposed_start_date
-                                        ? \Carbon\Carbon::parse(
-                                            $fitout->proposed_start_date
-                                        )->format('d M Y')
-                                        : '-'
-                                    }}
-
-                                </td>
-
-
-                                <td>
-
-                                    {{
-                                        $fitout->proposed_end_date
-                                        ? \Carbon\Carbon::parse(
-                                            $fitout->proposed_end_date
-                                        )->format('d M Y')
-                                        : '-'
-                                    }}
-
-                                </td>
-
-
-                                <td>
-
-                                    <a
-                                        href="{{
-                                            route(
-                                                'admin.fitout.requests.show',
-                                                $fitout->id
-                                            )
-                                        }}"
-                                        class="btn btn-sm btn-outline-primary"
-                                    >
-
-                                        <i class="fas fa-arrow-right"></i>
-
-                                    </a>
-
-                                </td>
-
-                            </tr>
-
-                        @empty
-
-                            <tr>
-
-                                <td
-                                    colspan="8"
-                                    class="text-center py-5 text-muted"
-                                >
-
-                                    <i class="bi bi-search fs-3 d-block mb-2"></i>
-
-                                    No fit-out requests match the
-                                    selected filters.
-
-                                </td>
-
-                            </tr>
-
-                        @endforelse
-
-                    </tbody>
-
-                </table>
-
-            </div>
-
-
-            @if($fitouts->hasPages())
-
-                <div class="p-3 border-top">
-
-                    {{ $fitouts->links() }}
-
-                </div>
-
-            @endif
+            </a>
 
         </div>
 
     </div>
 
+
+    <div class="card-body p-0">
+
+        <div class="table-responsive">
+
+            <table class="table table-hover table-sm align-middle mb-0">
+
+                <thead class="table-light">
+
+                    <tr>
+
+                        <th>
+                            Request
+                        </th>
+
+                        <th>
+                            Unit
+                        </th>
+
+                        <th>
+                            Tenant
+                        </th>
+
+                        <th>
+                            Type
+                        </th>
+
+                        <th>
+                            Status
+                        </th>
+
+                        <th>
+                            Start
+                        </th>
+
+                        <th>
+                            End
+                        </th>
+
+                        <th class="text-end">
+                            Action
+                        </th>
+
+                    </tr>
+
+                </thead>
+
+
+                <tbody>
+
+                    @forelse($fitouts as $fitout)
+
+                        <tr>
+
+                            <td>
+
+                                <strong>
+                                    {{ $fitout->request_no }}
+                                </strong>
+
+                            </td>
+
+
+                            <td>
+                                {{ $fitout->unit_id ?? '-' }}
+                            </td>
+
+
+                            <td>
+                                {{ $fitout->tenant_id ?? '-' }}
+                            </td>
+
+
+                            <td>
+                                {{ $fitout->fitout_type ?? '-' }}
+                            </td>
+
+
+                            <td>
+
+                                @php
+
+                                    $statusClass = match(
+                                        $fitout->fitout_status
+                                    ) {
+
+                                        'Completed' =>
+                                            'bg-success',
+
+                                        'Approved',
+                                        'In Progress' =>
+                                            'bg-info text-dark',
+
+                                        'Under Review',
+                                        'Submitted' =>
+                                            'bg-warning text-dark',
+
+                                        'Rejected' =>
+                                            'bg-danger',
+
+                                        default =>
+                                            'bg-secondary',
+
+                                    };
+
+                                @endphp
+
+
+                                <span class="badge {{ $statusClass }}">
+
+                                    {{ $fitout->fitout_status }}
+
+                                </span>
+
+                            </td>
+
+
+                            <td>
+
+                                {{
+                                    $fitout->proposed_start_date
+                                        ? \Carbon\Carbon::parse(
+                                            $fitout->proposed_start_date
+                                        )->format('d M Y')
+                                        : '-'
+                                }}
+
+                            </td>
+
+
+                            <td>
+
+                                {{
+                                    $fitout->proposed_end_date
+                                        ? \Carbon\Carbon::parse(
+                                            $fitout->proposed_end_date
+                                        )->format('d M Y')
+                                        : '-'
+                                }}
+
+                            </td>
+
+
+                            <td class="text-end">
+
+                                <a href="{{
+                                    route(
+                                        'admin.fitout.requests.show',
+                                        $fitout->id
+                                    )
+                                }}"
+                                   class="btn btn-sm btn-outline-primary">
+
+                                    <i class="fas fa-arrow-right"></i>
+
+                                </a>
+
+                            </td>
+
+                        </tr>
+
+                    @empty
+
+                        <tr>
+
+                            <td colspan="8"
+                                class="text-center py-5 text-muted">
+
+                                <i class="bi bi-search fs-3 d-block mb-2"></i>
+
+                                No fit-out requests match the selected filters.
+
+                            </td>
+
+                        </tr>
+
+                    @endforelse
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+
+        @if($fitouts->hasPages())
+
+            <div class="p-3 border-top">
+
+                {{ $fitouts->links() }}
+
+            </div>
+
+        @endif
+
+    </div>
+
+</div>
 
 </div>
 

@@ -1417,7 +1417,7 @@
 }
 .bg-white {
   background-color: #fff !important;
-  color: #fff;
+  color: #000 !important;
 }
 .bg-white .content .text,
 .bg-white .content .number {

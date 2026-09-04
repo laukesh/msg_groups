@@ -3,32 +3,28 @@
 namespace App\Http\Controllers\Admin\Assets;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\UnitTypeRequest;
 use App\Repositories\UnitTypeRepositoryInterface;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 
 class UnitTypeController extends Controller
 {
-    protected UnitTypeRepositoryInterface $unitTypes;
+    protected UnitTypeRepositoryInterface $repository;
 
     public function __construct(
-        UnitTypeRepositoryInterface $unitTypes
+        UnitTypeRepositoryInterface $repository
     ) {
-        $this->unitTypes = $unitTypes;
-
-        $this->middleware('auth');
+        $this->repository = $repository;
     }
 
-    /*
-    |--------------------------------------------------------------------------
-    | Index
-    |--------------------------------------------------------------------------
-    */
+    /**
+     * Display a listing of unit types.
+     */
     public function index(Request $request)
     {
-        $unitTypes = $this->unitTypes->all([
-            'search' => $request->get('search'),
-            'status' => $request->get('status'),
+        $unitTypes = $this->repository->all([
+            'search' => $request->input('search'),
+            'status' => $request->input('status'),
         ]);
 
         return view(
@@ -37,55 +33,64 @@ class UnitTypeController extends Controller
         );
     }
 
-    /*
-    |--------------------------------------------------------------------------
-    | Create
-    |--------------------------------------------------------------------------
-    */
+    /**
+     * Show create form.
+     */
     public function create()
     {
         return view(
-            'admin.unit_types.create'
+            'admin.assets.unit_types.create'
         );
     }
 
-    /*
-    |--------------------------------------------------------------------------
-    | Store
-    |--------------------------------------------------------------------------
-    */
-    public function store(UnitTypeRequest $request)
+    /**
+     * Store unit type.
+     */
+    public function store(Request $request)
     {
-        $data = $request->validated();
+        $validated = $request->validate([
 
-        $data['created_by'] = auth()->id();
-        $data['updated_by'] = auth()->id();
+            'type_name' => [
+                'required',
+                'string',
+                'max:150',
+                'unique:unit_types,type_name',
+            ],
 
-        $unitType = $this->unitTypes->create($data);
+            'description' => [
+                'nullable',
+                'string',
+                'max:1000',
+            ],
+
+            'status' => [
+                'required',
+                'in:0,1',
+            ],
+
+        ], [
+            'type_name.unique' =>
+                'This unit type already exists.',
+        ]);
+
+        $validated['created_by'] = auth()->id();
+
+        $this->repository->create($validated);
 
         return redirect()
-            ->route(
-                'admin.assets.unit_types.show',
-                $unitType->id
-            )
+            ->route('admin.assets.unit-types.index')
             ->with(
                 'success',
                 'Unit type created successfully.'
             );
     }
 
-    /*
-    |--------------------------------------------------------------------------
-    | Show
-    |--------------------------------------------------------------------------
-    */
-    public function show($id)
+    /**
+     * Display unit type.
+     */
+    public function show(int $id)
     {
-        $unitType = $this->unitTypes->find($id);
-
-        if (!$unitType) {
-            abort(404, 'Unit type not found.');
-        }
+        $unitType = $this->repository->find($id);
 
         return view(
             'admin.assets.unit_types.show',
@@ -93,18 +98,12 @@ class UnitTypeController extends Controller
         );
     }
 
-    /*
-    |--------------------------------------------------------------------------
-    | Edit
-    |--------------------------------------------------------------------------
-    */
-    public function edit($id)
+    /**
+     * Show edit form.
+     */
+    public function edit(int $id)
     {
-        $unitType = $this->unitTypes->find($id);
-
-        if (!$unitType) {
-            abort(404, 'Unit type not found.');
-        }
+        $unitType = $this->repository->find($id);
 
         return view(
             'admin.assets.unit_types.edit',
@@ -112,58 +111,66 @@ class UnitTypeController extends Controller
         );
     }
 
-    /*
-    |--------------------------------------------------------------------------
-    | Update
-    |--------------------------------------------------------------------------
-    */
+    /**
+     * Update unit type.
+     */
     public function update(
-        UnitTypeRequest $request,
-        $id
+        Request $request,
+        int $id
     ) {
-        $unitType = $this->unitTypes->find($id);
+        $validated = $request->validate([
 
-        if (!$unitType) {
-            abort(404, 'Unit type not found.');
-        }
+            'type_name' => [
+                'required',
+                'string',
+                'max:150',
 
-        $data = $request->validated();
+                Rule::unique(
+                    'unit_types',
+                    'type_name'
+                )->ignore($id),
+            ],
 
-        $data['updated_by'] = auth()->id();
+            'description' => [
+                'nullable',
+                'string',
+                'max:1000',
+            ],
 
-        $this->unitTypes->update(
-            $unitType,
-            $data
+            'status' => [
+                'required',
+                'in:0,1',
+            ],
+
+        ], [
+            'type_name.unique' =>
+                'This unit type already exists.',
+        ]);
+
+        $validated['updated_by'] = auth()->id();
+
+        $this->repository->update(
+            $id,
+            $validated
         );
 
         return redirect()
-            ->route(
-                'admin.assets.unit_types.show',
-                $unitType->id
-            )
+            ->route('admin.assets.unit-types.index')
             ->with(
                 'success',
                 'Unit type updated successfully.'
             );
     }
 
-    /*
-    |--------------------------------------------------------------------------
-    | Destroy
-    |--------------------------------------------------------------------------
-    */
-    public function destroy($id)
+    /**
+     * Delete unit type.
+     */
+    public function destroy(int $id)
     {
-        $unitType = $this->unitTypes->find($id);
-
-        if (!$unitType) {
-            abort(404, 'Unit type not found.');
-        }
-
-        $this->unitTypes->delete($unitType);
+        $this->repository->delete($id);
 
         return redirect()
-            ->route('admin.assets.unit_types.index')
+            ->route('admin.assets.unit-types.index')
             ->with(
                 'success',
                 'Unit type deleted successfully.'

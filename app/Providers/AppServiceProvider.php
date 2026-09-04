@@ -12,7 +12,8 @@ use App\Repositories\FloorRepositoryInterface;
 use App\Repositories\EloquentFloorRepository;
 use App\Repositories\ZoneRepositoryInterface;
 use App\Repositories\EloquentZoneRepository;
-
+use App\Repositories\AssetRepositoryInterface;
+use App\Repositories\EloquentAssetRepository;
 use Illuminate\Support\Facades\URL;
 use Illuminate\Support\ServiceProvider;
 
@@ -68,6 +69,40 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(
             \App\Repositories\UnitTypeRepositoryInterface::class,
             \App\Repositories\EloquentUnitTypeRepository::class
+        );
+              /*
+        |--------------------------------------------------------------------------
+        | Building department type Repository
+        |--------------------------------------------------------------------------
+        */
+        $this->app->bind(
+            \App\Repositories\DepartmentRepositoryInterface::class,
+            \App\Repositories\EloquentDepartmentRepository::class
+        );
+        $this->app->bind(
+            AssetRepositoryInterface::class,
+            EloquentAssetRepository::class
+        );
+        $this->app->bind(
+             \App\Repositories\AssetCategoryRepositoryInterface::class,
+            \App\Repositories\EloquentAssetCategoryRepository::class
+        );
+           $this->app->bind(
+             \App\Repositories\AssetIncomeRepositoryInterface::class,
+            \App\Repositories\EloquentAssetIncomeRepository::class
+        );
+
+        $this->app->bind(
+            \App\Repositories\AssetExpenseRepositoryInterface::class,
+            \App\Repositories\EloquentAssetExpenseRepository::class
+        );
+        $this->app->bind(
+            \App\Repositories\UnitStatusRepositoryInterface::class,
+            \App\Repositories\EloquentUnitStatusRepository::class
+        );
+         $this->app->bind(
+            \App\Repositories\UnitDocumentRepositoryInterface::class,
+            \App\Repositories\EloquentUnitDocumentRepository::class
         );
     }
 

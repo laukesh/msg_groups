@@ -6,31 +6,51 @@
 
 <div class="container-fluid">
 
+    {{-- =========================================================
+        PAGE HEADER
+    ========================================================== --}}
     <div class="d-flex justify-content-between align-items-center mb-4">
 
         <div>
-            <h1 class="h3 mb-1">Create Zone</h1>
+            <h4 class="mb-1">
+                <i class="fas fa-layer-group me-2"></i>
+                Create Zone
+            </h4>
 
-            <p class="text-muted">
+            <div class="text-muted">
                 Add a new zone to a floor.
-            </p>
+            </div>
         </div>
 
-        <a
-            href="{{ route('admin.zones.index') }}"
-            class="btn btn-secondary"
-        >
-            ← Back
-        </a>
+        <div>
+            <a href="{{ route('admin.assets.zones.index') }}"
+               class="btn btn-outline-secondary">
+
+                <i class="fas fa-arrow-left me-1"></i>
+                Back to Zones
+
+            </a>
+        </div>
 
     </div>
 
 
+    {{-- =========================================================
+        VALIDATION ERRORS
+    ========================================================== --}}
     @if($errors->any())
 
-        <div class="alert alert-danger">
+        <div class="alert alert-danger alert-dismissible fade show"
+             role="alert">
 
-            <ul class="mb-0">
+            <div class="fw-semibold mb-2">
+
+                <i class="fas fa-exclamation-triangle me-2"></i>
+                Please correct the following errors:
+
+            </div>
+
+            <ul class="mb-0 ps-4">
 
                 @foreach($errors->all() as $error)
 
@@ -40,47 +60,58 @@
 
             </ul>
 
+            <button type="button"
+                    class="btn-close"
+                    data-bs-dismiss="alert">
+            </button>
+
         </div>
 
     @endif
 
 
-    <div class="card">
+    {{-- =========================================================
+        ZONE FORM
+    ========================================================== --}}
+    <form method="POST"
+          action="{{ route('admin.assets.zones.store') }}">
 
-        <div class="card-header">
-            <h5 class="mb-0">
-                Zone Information
-            </h5>
-        </div>
+        @csrf
 
-        <div class="card-body">
+        <div class="card border-0 shadow-sm">
 
-            <form
-                method="POST"
-                action="{{ route('admin.zones.store') }}"
-            >
+            <div class="card-header bg-white">
 
-                @csrf
+                <h6 class="mb-0">
+                    <i class="fas fa-layer-group me-2"></i>
+                    Zone Information
+                </h6>
 
-                <div class="row">
+            </div>
 
-                    {{-- Floor --}}
-                    <div class="col-md-6 mb-3">
 
-                        <label
-                            for="floor_id"
-                            class="form-label"
-                        >
+            <div class="card-body">
+
+                <div class="row g-3">
+
+
+                    {{-- =================================================
+                        FLOOR
+                    ================================================== --}}
+                    <div class="col-md-6">
+
+                        <label for="floor_id"
+                               class="form-label fw-semibold">
+
                             Floor
                             <span class="text-danger">*</span>
+
                         </label>
 
-                        <select
-                            name="floor_id"
-                            id="floor_id"
-                            class="form-select @error('floor_id') is-invalid @enderror"
-                            required
-                        >
+                        <select name="floor_id"
+                                id="floor_id"
+                                class="form-select @error('floor_id') is-invalid @enderror"
+                                required>
 
                             <option value="">
                                 Select Floor
@@ -88,14 +119,14 @@
 
                             @foreach($floors as $floor)
 
-                                <option
-                                    value="{{ $floor->id }}"
-                                    {{ old('floor_id') == $floor->id ? 'selected' : '' }}
-                                >
+                                <option value="{{ $floor->id }}"
+                                    {{ old('floor_id') == $floor->id ? 'selected' : '' }}>
+
                                     {{ $floor->building->building_name ?? 'Building' }}
                                     -
                                     {{ $floor->floor_name }}
                                     ({{ $floor->floor_code }})
+
                                 </option>
 
                             @endforeach
@@ -113,137 +144,178 @@
                     </div>
 
 
-                    {{-- Zone Code --}}
-                    <div class="col-md-6 mb-3">
+                    {{-- =================================================
+                        ZONE CODE
+                    ================================================== --}}
+                    <div class="col-md-6">
 
-                        <label
-                            for="zone_code"
-                            class="form-label"
-                        >
+                        <label for="zone_code"
+                               class="form-label fw-semibold">
+
                             Zone Code
                             <span class="text-danger">*</span>
+
                         </label>
 
-                        <input
-                            type="text"
-                            name="zone_code"
-                            id="zone_code"
-                            class="form-control"
-                            value="{{ old('zone_code') }}"
-                            placeholder="e.g. ZN-01"
-                            required
-                        >
+                        <input type="text"
+                               name="zone_code"
+                               id="zone_code"
+                               value="{{ old('zone_code') }}"
+                               class="form-control @error('zone_code') is-invalid @enderror"
+                               placeholder="e.g. ZN-01"
+                               required>
+
+                        @error('zone_code')
+
+                            <div class="invalid-feedback">
+                                {{ $message }}
+                            </div>
+
+                        @enderror
 
                     </div>
 
 
-                    {{-- Zone Name --}}
-                    <div class="col-md-6 mb-3">
+                    {{-- =================================================
+                        ZONE NAME
+                    ================================================== --}}
+                    <div class="col-md-6">
 
-                        <label
-                            for="zone_name"
-                            class="form-label"
-                        >
+                        <label for="zone_name"
+                               class="form-label fw-semibold">
+
                             Zone Name
                             <span class="text-danger">*</span>
+
                         </label>
 
-                        <input
-                            type="text"
-                            name="zone_name"
-                            id="zone_name"
-                            class="form-control"
-                            value="{{ old('zone_name') }}"
-                            placeholder="e.g. Retail Zone A"
-                            required
-                        >
+                        <input type="text"
+                               name="zone_name"
+                               id="zone_name"
+                               value="{{ old('zone_name') }}"
+                               class="form-control @error('zone_name') is-invalid @enderror"
+                               placeholder="e.g. Retail Zone A"
+                               required>
+
+                        @error('zone_name')
+
+                            <div class="invalid-feedback">
+                                {{ $message }}
+                            </div>
+
+                        @enderror
 
                     </div>
 
 
-                    {{-- Status --}}
-                    <div class="col-md-6 mb-3">
+                    {{-- =================================================
+                        STATUS
+                    ================================================== --}}
+                    <div class="col-md-6">
 
-                        <label
-                            for="status"
-                            class="form-label"
-                        >
+                        <label for="status"
+                               class="form-label fw-semibold">
+
                             Status
                             <span class="text-danger">*</span>
+
                         </label>
 
-                        <select
-                            name="status"
-                            id="status"
-                            class="form-select"
-                            required
-                        >
+                        <select name="status"
+                                id="status"
+                                class="form-select @error('status') is-invalid @enderror"
+                                required>
 
-                            <option
-                                value="1"
-                                {{ old('status', '1') === '1' ? 'selected' : '' }}
-                            >
+                            <option value="1"
+                                {{ old('status', '1') === '1' ? 'selected' : '' }}>
+
                                 Active
+
                             </option>
 
-                            <option
-                                value="0"
-                                {{ old('status', '0') === '0' ? 'selected' : '' }}
-                            >
+                            <option value="0"
+                                {{ old('status') === '0' ? 'selected' : '' }}>
+
                                 Inactive
+
                             </option>
 
                         </select>
 
+                        @error('status')
+
+                            <div class="invalid-feedback">
+                                {{ $message }}
+                            </div>
+
+                        @enderror
+
                     </div>
 
 
-                    {{-- Description --}}
-                    <div class="col-md-12 mb-3">
+                    {{-- =================================================
+                        DESCRIPTION
+                    ================================================== --}}
+                    <div class="col-12">
 
-                        <label
-                            for="description"
-                            class="form-label"
-                        >
+                        <label for="description"
+                               class="form-label fw-semibold">
+
                             Description
+
                         </label>
 
-                        <textarea
-                            name="description"
-                            id="description"
-                            rows="4"
-                            class="form-control"
-                            placeholder="Enter zone description..."
-                        >{{ old('description') }}</textarea>
+                        <textarea name="description"
+                                  id="description"
+                                  rows="4"
+                                  class="form-control @error('description') is-invalid @enderror"
+                                  placeholder="Enter zone description...">{{ old('description') }}</textarea>
+
+                        @error('description')
+
+                            <div class="invalid-feedback">
+                                {{ $message }}
+                            </div>
+
+                        @enderror
 
                     </div>
 
                 </div>
 
+            </div>
+
+
+            {{-- =================================================
+                FORM FOOTER
+            ================================================== --}}
+            <div class="card-footer bg-white">
 
                 <div class="d-flex justify-content-end gap-2">
 
-                    <a
-                        href="{{ route('admin.zones.index') }}"
-                        class="btn btn-secondary"
-                    >
+                    <a href="{{ route('admin.assets.zones.index') }}"
+                       class="btn btn-light">
+
+                        <i class="fas fa-times me-1"></i>
                         Cancel
+
                     </a>
 
-                    <button
-                        type="submit"
-                        class="btn btn-primary"
-                    >
+                    <button type="submit"
+                            class="btn btn-primary">
+
+                        <i class="fas fa-save me-1"></i>
                         Create Zone
+
                     </button>
 
                 </div>
 
-            </form>
+            </div>
 
         </div>
 
-    </div>
+    </form>
 
 </div>
 

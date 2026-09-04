@@ -62,7 +62,7 @@ class MallController extends Controller
         $mall = $this->malls->create($data);
 
         return redirect()
-            ->route('admin.malls.show', $mall->id)
+            ->route('admin.assets.malls.show', $mall->id)
             ->with('success', 'Mall created successfully.');
     }
 

@@ -110,7 +110,7 @@ class UnitController extends Controller
             'monthly_rent' => 'nullable|numeric',
             'security_deposit' => 'nullable|numeric',
             'remarks' => 'nullable|string',
-            'status' => 'nullable|in:active,inactive'
+            'status' => 'nullable|in:1,0'
         ]);
 
         $data['updated_by'] = auth()->id();

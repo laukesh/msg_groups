@@ -21,6 +21,10 @@ ul.sidebar-menu li a
 	padding:4px 0;
 }
 
+ h3 {
+    font-size: 1.1rem;
+}
+
 li.humb-wrap 
 {
     width: 35px;
@@ -304,7 +308,7 @@ select.form-control:not([size]):not([multiple]),
   /*border: 1.5px solid var(--border-color);*/
   border-radius: 10px;
   transition: all 0.2s ease-in-out;
-  width: 100%;
+  /*width: 100%;*/
 }
 
 .form-control:focus {
@@ -333,11 +337,6 @@ select.form-control:not([size]):not([multiple]),
 {
     background: #FAFAFB !important;
     border: 1px solid #E2E8F0 !important;
-}
-
-.section 
-{
-   margin-top: 20px;
 }
 
 .form-save-wrap 
@@ -2085,7 +2084,7 @@ nav.app-navigation
 	top: 100%;
 	left: 0;
 	min-width: 210px;
-	background: #39160a;
+	/*background: #39160a;*/
 	border: 1px solid rgba(255, 255, 255, 0.12);
 	border-radius: 0 0 8px 8px;
 	box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25);
@@ -2271,3 +2270,3950 @@ footer
 	}		
 }
 
+
+
+/* =========================================================
+   APP SIDEBAR LAYOUT
+========================================================= */
+
+:root {
+    --sidebar-width: 255px;
+    --topbar-height: 68px;
+    --sidebar-bg: #08233f;
+    --sidebar-hover: #10395f;
+    --sidebar-active: #0d6efd;
+    --sidebar-text: #d7e2ec;
+    --sidebar-muted: #8fa8bd;
+    --page-bg: #f5f7fa;
+}
+
+
+/* =========================================================
+   SIDEBAR
+========================================================= */
+
+.app-sidebar {
+
+    position: fixed;
+
+    left: 0;
+    top: 0;
+    bottom: 0;
+
+    width: var(--sidebar-width);
+
+    background: var(--sidebar-bg);
+
+    color: white;
+
+    z-index: 1050;
+
+    display: flex;
+
+    flex-direction: column;
+
+    box-shadow: 2px 0 12px rgba(0,0,0,.08);
+
+}
+
+
+/* =========================================================
+   BRAND
+========================================================= */
+
+.sidebar-brand {
+
+    height: var(--topbar-height);
+
+    padding: 0 20px;
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 12px;
+
+    border-bottom: 1px solid rgba(255,255,255,.08);
+
+}
+
+
+.sidebar-logo {
+
+    width: 38px;
+    height: 38px;
+
+    border-radius: 10px;
+
+    background: #f59e0b;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    color: white;
+
+    font-size: 20px;
+
+}
+
+
+.sidebar-brand-text {
+
+    display: flex;
+
+    flex-direction: column;
+
+    line-height: 1.2;
+
+}
+
+
+.sidebar-brand-text strong {
+
+    font-size: 15px;
+
+    color: white;
+
+}
+
+
+.sidebar-brand-text small {
+
+    color: var(--sidebar-muted);
+
+    font-size: 10px;
+
+    margin-top: 3px;
+
+}
+
+
+/* =========================================================
+   SIDEBAR MENU
+========================================================= */
+
+.sidebar-menu {
+
+    flex: 1;
+
+    overflow-y: auto;
+
+    padding: 14px 10px;
+
+}
+
+
+/* scrollbar */
+
+.sidebar-menu::-webkit-scrollbar {
+
+    width: 5px;
+
+}
+
+.sidebar-menu::-webkit-scrollbar-thumb {
+
+    background: rgba(255,255,255,.15);
+
+    border-radius: 10px;
+
+}
+
+
+/* =========================================================
+   MAIN SIDEBAR LINK
+========================================================= */
+
+.sidebar-link {
+
+    width: 100%;
+
+    min-height: 43px;
+
+    padding: 10px 13px;
+
+    margin-bottom: 3px;
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 11px;
+
+    color: var(--sidebar-text);
+
+    text-decoration: none;
+
+    border: 0;
+
+    background: transparent;
+
+    border-radius: 7px;
+
+    font-size: 13px;
+
+    cursor: pointer;
+
+    transition: all .2s ease;
+
+}
+
+
+.sidebar-link i:first-child {
+
+    width: 19px;
+
+    font-size: 17px;
+
+    flex-shrink: 0;
+
+}
+
+
+.sidebar-link:hover {
+
+    background: var(--sidebar-hover);
+
+    color: white;
+
+}
+
+
+.sidebar-link.active {
+
+    background: var(--sidebar-active);
+
+    color: white;
+
+}
+
+
+/* =========================================================
+   DROPDOWN ARROW
+========================================================= */
+
+.sidebar-arrow {
+
+    margin-left: auto;
+
+    font-size: 16px !important;
+
+    transition: transform .2s ease;
+
+}
+
+
+.sidebar-group[open] > summary .sidebar-arrow {
+
+    transform: rotate(90deg);
+
+}
+
+
+/* remove details marker */
+
+.sidebar-group > summary {
+
+    list-style: none;
+
+}
+
+
+.sidebar-group > summary::-webkit-details-marker {
+
+    display: none;
+
+}
+
+
+/* =========================================================
+   SUB MENU
+========================================================= */
+
+.sidebar-submenu {
+
+    margin: 0 0 7px 29px;
+
+    padding-left: 10px;
+
+    border-left: 1px solid rgba(255,255,255,.12);
+
+}
+
+
+.sidebar-sublink {
+
+    display: block;
+
+    padding: 8px 10px;
+
+    color: #b9c9d8;
+
+    font-size: 12px;
+
+    text-decoration: none;
+
+    border-radius: 5px;
+
+    margin: 2px 0;
+
+}
+
+
+.sidebar-sublink:hover {
+
+    color: white;
+
+    background: rgba(255,255,255,.07);
+
+}
+
+
+.sidebar-sublink.active {
+
+    color: white;
+
+    background: rgba(13,110,253,.25);
+
+}
+
+
+/* =========================================================
+   SUBMENU SECTION LABEL
+========================================================= */
+
+.sidebar-section-label {
+
+    padding: 10px 10px 4px;
+
+    color: #718da5;
+
+    font-size: 9px;
+
+    text-transform: uppercase;
+
+    letter-spacing: .7px;
+
+    font-weight: 600;
+
+}
+
+
+/* =========================================================
+   TOPBAR
+========================================================= */
+
+.app-topbar {
+
+    position: fixed;
+
+    left: var(--sidebar-width);
+
+    right: 0;
+
+    top: 0;
+
+    height: var(--topbar-height);
+
+    background: white;
+
+    border-bottom: 1px solid #e6e9ed;
+
+    z-index: 1000;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    padding: 0 25px;
+
+}
+
+
+.topbar-left {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 15px;
+
+}
+
+
+.sidebar-toggle {
+
+    width: 36px;
+    height: 36px;
+
+    border: 1px solid #e1e5ea;
+
+    background: white;
+
+    border-radius: 7px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    cursor: pointer;
+
+    color: #344054;
+
+}
+
+
+.breadcrumb-area {
+
+    display: flex;
+
+    flex-direction: column;
+
+}
+
+
+.breadcrumb-area strong {
+
+    font-size: 16px;
+
+    color: #172b4d;
+
+}
+
+
+.breadcrumb-area small {
+
+    font-size: 10px;
+
+    color: #98a2b3;
+
+    margin-top: 2px;
+
+}
+
+
+/* =========================================================
+   TOPBAR RIGHT
+========================================================= */
+
+.topbar-right {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 25px;
+
+}
+
+
+.topbar-date {
+
+    color: #667085;
+
+    font-size: 12px;
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 6px;
+
+}
+
+
+.topbar-user {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 9px;
+
+}
+
+
+.topbar-user-avatar {
+
+    width: 35px;
+    height: 35px;
+
+    border-radius: 50%;
+
+    background: #e8f1ff;
+
+    color: #1769e0;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    font-size: 13px;
+
+    font-weight: 600;
+
+}
+
+
+.topbar-user-info {
+
+    display: flex;
+
+    flex-direction: column;
+
+}
+
+
+.topbar-user-info strong {
+
+    font-size: 12px;
+
+    color: #344054;
+
+}
+
+
+.topbar-user-info small {
+
+    font-size: 9px;
+
+    color: #98a2b3;
+
+}
+
+
+/* =========================================================
+   MAIN CONTENT
+========================================================= */
+
+.app-main {
+
+    margin-left: var(--sidebar-width);
+
+    padding-top: var(--topbar-height);
+
+    min-height: 100vh;
+
+    background: var(--page-bg);
+
+}
+
+
+.app-content {
+
+    padding: 25px;
+
+    max-width: 1800px;
+
+    margin: 0 auto;
+
+}
+
+
+/* =========================================================
+   SIDEBAR FOOTER
+========================================================= */
+
+.sidebar-footer {
+
+    padding: 12px 18px;
+
+    border-top: 1px solid rgba(255,255,255,.08);
+
+    color: #718da5;
+
+    font-size: 9px;
+
+}
+
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media (max-width: 991px) {
+
+    .app-sidebar {
+
+        transform: translateX(-100%);
+
+        transition: transform .25s ease;
+
+    }
+
+
+    .app-sidebar.show {
+
+        transform: translateX(0);
+
+    }
+
+
+    .app-topbar {
+
+        left: 0;
+
+    }
+
+
+    .app-main {
+
+        margin-left: 0;
+
+    }
+
+
+    .topbar-date {
+
+        display: none;
+
+    }
+
+}
+
+
+@media (max-width: 576px) {
+
+    .app-content {
+
+        padding: 15px;
+
+    }
+
+
+    .topbar-user-info {
+
+        display: none;
+
+    }
+
+}
+
+
+/* ============================================================
+   NEW APPLICATION TOPBAR
+   Put this at the VERY END of custom.css
+============================================================ */
+
+
+/* ------------------------------------------------------------
+   TOPBAR
+------------------------------------------------------------ */
+
+body .app-topbar {
+
+    position: fixed !important;
+
+    top: 0 !important;
+    right: 0 !important;
+    left: 255px !important;
+
+    width: auto !important;
+
+    height: 68px !important;
+
+    min-height: 68px !important;
+
+    padding: 0 26px !important;
+
+    margin: 0 !important;
+
+    background: #ffffff !important;
+
+    border: 0 !important;
+
+    border-bottom: 1px solid #e5e7eb !important;
+
+    border-radius: 0 !important;
+
+    box-shadow: 0 1px 4px rgba(15, 23, 42, 0.05) !important;
+
+    display: flex !important;
+
+    align-items: center !important;
+
+    justify-content: space-between !important;
+
+    z-index: 1040 !important;
+
+}
+
+
+/* ------------------------------------------------------------
+   LEFT SIDE
+------------------------------------------------------------ */
+
+body .topbar-left {
+
+    display: flex !important;
+
+    align-items: center !important;
+
+    gap: 14px !important;
+
+}
+
+
+/* ------------------------------------------------------------
+   MENU BUTTON
+------------------------------------------------------------ */
+
+body .sidebar-toggle {
+
+    width: 36px !important;
+
+    height: 36px !important;
+
+    padding: 0 !important;
+
+    border: 1px solid #e5e7eb !important;
+
+    border-radius: 7px !important;
+
+    background: #ffffff !important;
+
+    color: #475467 !important;
+
+    display: flex !important;
+
+    align-items: center !important;
+
+    justify-content: center !important;
+
+    font-size: 19px !important;
+
+    cursor: pointer !important;
+
+}
+
+
+body .sidebar-toggle:hover {
+
+    background: #f8fafc !important;
+
+}
+
+
+/* ------------------------------------------------------------
+   PAGE HEADING
+------------------------------------------------------------ */
+
+body .page-heading {
+
+    display: flex !important;
+
+    flex-direction: column !important;
+
+    justify-content: center !important;
+
+}
+
+
+body .page-heading h5 {
+
+    margin: 0 !important;
+
+    padding: 0 !important;
+
+    color: #172b4d !important;
+
+    font-size: 16px !important;
+
+    font-weight: 700 !important;
+
+    line-height: 20px !important;
+
+}
+
+
+body .page-heading span {
+
+    display: block !important;
+
+    margin-top: 2px !important;
+
+    color: #98a2b3 !important;
+
+    font-size: 10px !important;
+
+    line-height: 14px !important;
+
+}
+
+
+/* ------------------------------------------------------------
+   RIGHT SIDE
+------------------------------------------------------------ */
+
+body .topbar-right {
+
+    display: flex !important;
+
+    align-items: center !important;
+
+    gap: 18px !important;
+
+}
+
+
+/* ------------------------------------------------------------
+   DATE
+------------------------------------------------------------ */
+
+body .topbar-date {
+
+    height: 34px !important;
+
+    padding: 0 11px !important;
+
+    border: 1px solid #e5e7eb !important;
+
+    border-radius: 7px !important;
+
+    background: #ffffff !important;
+
+    color: #667085 !important;
+
+    font-size: 11px !important;
+
+    display: flex !important;
+
+    align-items: center !important;
+
+    gap: 6px !important;
+
+}
+
+
+body .topbar-date i {
+
+    font-size: 15px !important;
+
+    color: #667085 !important;
+
+}
+
+
+/* ------------------------------------------------------------
+   NOTIFICATION
+------------------------------------------------------------ */
+
+body .topbar-icon {
+
+    position: relative !important;
+
+    width: 36px !important;
+
+    height: 36px !important;
+
+    padding: 0 !important;
+
+    border: 1px solid #e5e7eb !important;
+
+    border-radius: 7px !important;
+
+    background: #ffffff !important;
+
+    color: #475467 !important;
+
+    display: flex !important;
+
+    align-items: center !important;
+
+    justify-content: center !important;
+
+    cursor: pointer !important;
+
+}
+
+
+body .topbar-icon i {
+
+    font-size: 17px !important;
+
+}
+
+
+body .notification-dot {
+
+    position: absolute !important;
+
+    top: 7px !important;
+
+    right: 7px !important;
+
+    width: 6px !important;
+
+    height: 6px !important;
+
+    border-radius: 50% !important;
+
+    background: #ef4444 !important;
+
+}
+
+
+/* ------------------------------------------------------------
+   USER
+------------------------------------------------------------ */
+
+body .topbar-user {
+
+    display: flex !important;
+
+    align-items: center !important;
+
+    gap: 9px !important;
+
+    padding-left: 8px !important;
+
+}
+
+
+body .topbar-user-avatar {
+
+    width: 35px !important;
+
+    height: 35px !important;
+
+    flex: 0 0 35px !important;
+
+    border-radius: 50% !important;
+
+    background: #eef4ff !important;
+
+    color: #4f67e8 !important;
+
+    display: flex !important;
+
+    align-items: center !important;
+
+    justify-content: center !important;
+
+    font-size: 13px !important;
+
+    font-weight: 700 !important;
+
+}
+
+
+body .topbar-user-info {
+
+    display: flex !important;
+
+    flex-direction: column !important;
+
+    line-height: 1.2 !important;
+
+}
+
+
+body .topbar-user-info strong {
+
+    margin: 0 !important;
+
+    color: #344054 !important;
+
+    font-size: 12px !important;
+
+    font-weight: 600 !important;
+
+}
+
+
+body .topbar-user-info small {
+
+    margin-top: 3px !important;
+
+    color: #98a2b3 !important;
+
+    font-size: 9px !important;
+
+}
+
+
+body .user-arrow {
+
+    color: #98a2b3 !important;
+
+    font-size: 17px !important;
+
+}
+
+
+/* ------------------------------------------------------------
+   MAIN CONTENT
+------------------------------------------------------------ */
+
+body .app-main {
+
+    margin-left: 255px !important;
+
+    padding-top: 68px !important;
+
+    min-height: 100vh !important;
+
+    background: #f5f7fa !important;
+
+}
+
+
+body .app-content {
+
+    padding: 15px 15px !important;
+
+    max-width: 1600px !important;
+
+    margin: 0 auto !important;
+
+}
+
+
+/* ------------------------------------------------------------
+   MOBILE
+------------------------------------------------------------ */
+
+@media (max-width: 991px) {
+
+    body .app-topbar {
+
+        left: 0 !important;
+
+    }
+
+
+    body .app-main {
+
+        margin-left: 0 !important;
+
+    }
+
+}
+
+
+@media (max-width: 767px) {
+
+    body .app-content {
+
+        padding: 20px !important;
+
+    }
+
+
+    body .topbar-date {
+
+        display: none !important;
+
+    }
+
+
+    body .topbar-user-info {
+
+        display: none !important;
+
+    }
+
+}
+
+
+
+/* ============================================================
+   DASHBOARD KPI CARDS
+============================================================ */
+
+.dashboard-kpi-grid {
+
+    display: grid;
+
+    grid-template-columns: repeat(6, minmax(0, 1fr));
+
+    gap: 12px;
+
+    margin-bottom: 18px;
+
+}
+
+
+/* ------------------------------------------------------------
+   CARD
+------------------------------------------------------------ */
+
+.dashboard-kpi-card {
+
+    position: relative;
+
+    min-height: 105px;
+
+    padding: 16px;
+
+    background: #ffffff;
+
+    border: 1px solid #e5e7eb;
+
+    border-radius: 10px;
+
+    display: flex;
+
+    align-items: flex-start;
+
+    gap: 12px;
+
+    transition: all .2s ease;
+
+}
+
+
+.dashboard-kpi-card:hover {
+
+    transform: translateY(-2px);
+
+    box-shadow: 0 5px 16px rgba(15, 23, 42, .08);
+
+}
+
+
+/* ------------------------------------------------------------
+   ICON
+------------------------------------------------------------ */
+
+.kpi-icon {
+
+    width: 42px;
+
+    height: 42px;
+
+    min-width: 42px;
+
+    border-radius: 50%;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    font-size: 20px;
+
+}
+
+
+.kpi-icon-blue {
+
+    background: #eef4ff;
+
+    color: #2563eb;
+
+}
+
+
+.kpi-icon-green {
+
+    background: #ecfdf3;
+
+    color: #059669;
+
+}
+
+
+.kpi-icon-purple {
+
+    background: #f5f3ff;
+
+    color: #7c3aed;
+
+}
+
+
+.kpi-icon-yellow {
+
+    background: #fffbeb;
+
+    color: #d97706;
+
+}
+
+
+.kpi-icon-cyan {
+
+    background: #ecfeff;
+
+    color: #0891b2;
+
+}
+
+
+.kpi-icon-red {
+
+    background: #fff1f2;
+
+    color: #e11d48;
+
+}
+
+
+/* ------------------------------------------------------------
+   CONTENT
+------------------------------------------------------------ */
+
+.kpi-content {
+
+    min-width: 0;
+
+    flex: 1;
+
+}
+
+
+.kpi-label {
+
+    margin-bottom: 5px;
+
+    color: #667085;
+
+    font-size: 10px;
+
+    font-weight: 600;
+
+    text-transform: uppercase;
+
+    letter-spacing: .25px;
+
+}
+
+
+.kpi-value {
+
+    color: #172b4d;
+
+    font-size: 20px;
+
+    font-weight: 700;
+
+    line-height: 1.15;
+
+    white-space: nowrap;
+
+}
+
+
+.kpi-change {
+
+    margin-top: 7px;
+
+    font-size: 9px;
+
+    font-weight: 600;
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 2px;
+
+}
+
+
+.kpi-change i {
+
+    font-size: 11px;
+
+}
+
+
+.kpi-change span {
+
+    margin-left: 3px;
+
+    color: #98a2b3;
+
+    font-weight: 400;
+
+}
+
+
+.kpi-change.positive {
+
+    color: #059669;
+
+}
+
+
+.kpi-change.negative {
+
+    color: #dc2626;
+
+}
+
+
+/* ============================================================
+   RESPONSIVE
+============================================================ */
+
+@media (max-width: 1200px) {
+
+    .dashboard-kpi-grid {
+
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+
+    }
+
+}
+
+
+@media (max-width: 768px) {
+
+    .dashboard-kpi-grid {
+
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+
+    }
+
+}
+
+
+@media (max-width: 480px) {
+
+    .dashboard-kpi-grid {
+
+        grid-template-columns: 1fr;
+
+    }
+
+}
+
+/* ============================================================
+   DASHBOARD CHART PANELS
+============================================================ */
+
+.dashboard-chart-grid {
+
+    display: grid;
+
+    grid-template-columns: minmax(0, 1fr);
+
+    gap: 16px;
+
+    margin-bottom: 18px;
+
+}
+
+
+/* ------------------------------------------------------------
+   PANEL
+------------------------------------------------------------ */
+
+.dashboard-panel {
+
+    background: #ffffff;
+
+    border: 1px solid #e5e7eb;
+
+    border-radius: 10px;
+
+    overflow: hidden;
+
+}
+
+
+.dashboard-panel-header {
+
+    min-height: 62px;
+
+    padding: 14px 18px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    border-bottom: 1px solid #f0f2f5;
+
+}
+
+
+.dashboard-panel-title {
+
+    margin: 0;
+
+    color: #172b4d;
+
+    font-size: 13px;
+
+    font-weight: 700;
+
+}
+
+
+.dashboard-panel-subtitle {
+
+    display: block;
+
+    margin-top: 3px;
+
+    color: #98a2b3;
+
+    font-size: 10px;
+
+}
+
+
+.dashboard-panel-actions {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 8px;
+
+}
+
+
+/* ------------------------------------------------------------
+   PERIOD SELECT
+------------------------------------------------------------ */
+
+.dashboard-period-select {
+
+    height: 30px;
+
+    min-width: 95px;
+
+    padding: 0 28px 0 10px;
+
+    border: 1px solid #e4e7ec;
+
+    border-radius: 6px;
+
+    background: #ffffff;
+
+    color: #667085;
+
+    font-size: 10px;
+
+    outline: none;
+
+    cursor: pointer;
+
+}
+
+
+.dashboard-period-select:focus {
+
+    border-color: #6366f1;
+
+}
+
+
+/* ------------------------------------------------------------
+   LEGEND
+------------------------------------------------------------ */
+
+.performance-legend {
+
+    display: flex;
+
+    align-items: center;
+
+    flex-wrap: wrap;
+
+    gap: 18px;
+
+    padding: 12px 18px 0;
+
+}
+
+
+.performance-legend-item {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 5px;
+
+    color: #667085;
+
+    font-size: 9px;
+
+}
+
+
+.legend-dot {
+
+    width: 7px;
+
+    height: 7px;
+
+    border-radius: 50%;
+
+    display: inline-block;
+
+}
+
+
+.legend-dot.revenue {
+    background: #2563eb;
+}
+
+
+.legend-dot.noi {
+    background: #10b981;
+}
+
+
+.legend-dot.expense {
+    background: #f59e0b;
+}
+
+
+.legend-dot.profit {
+    background: #8b5cf6;
+}
+
+
+/* ------------------------------------------------------------
+   CHART
+------------------------------------------------------------ */
+
+.portfolio-chart-container {
+
+    position: relative;
+
+    height: 280px;
+
+    padding: 12px 18px 18px;
+
+}
+
+
+.portfolio-chart-container canvas {
+
+    width: 100% !important;
+
+    height: 100% !important;
+
+}
+
+
+/* ------------------------------------------------------------
+   RESPONSIVE
+------------------------------------------------------------ */
+
+@media (max-width: 768px) {
+
+    .dashboard-panel-header {
+
+        align-items: flex-start;
+
+        gap: 10px;
+
+        flex-direction: column;
+
+    }
+
+
+    .performance-legend {
+
+        gap: 10px;
+
+    }
+
+
+    .portfolio-chart-container {
+
+        height: 240px;
+
+        padding-left: 10px;
+
+        padding-right: 10px;
+
+    }
+
+}
+
+/* ============================================================
+   DEVELOPMENT PIPELINE
+============================================================ */
+
+.dashboard-pipeline-panel {
+
+    margin-bottom: 18px;
+
+}
+
+
+/* ------------------------------------------------------------
+   VIEW ALL
+------------------------------------------------------------ */
+
+.dashboard-view-all {
+
+    color: #6366f1;
+
+    font-size: 10px;
+
+    font-weight: 600;
+
+    text-decoration: none;
+
+}
+
+
+.dashboard-view-all:hover {
+
+    color: #4f46e5;
+
+    text-decoration: underline;
+
+}
+
+
+/* ------------------------------------------------------------
+   PIPELINE
+------------------------------------------------------------ */
+
+.development-pipeline {
+
+    padding: 22px 24px 8px;
+
+}
+
+
+/* ------------------------------------------------------------
+   STAGE
+------------------------------------------------------------ */
+
+.pipeline-stage {
+
+    display: flex;
+
+    align-items: center;
+
+    text-decoration: none;
+
+    margin-bottom: 4px;
+
+    min-height: 38px;
+
+}
+
+
+.pipeline-stage:last-child {
+
+    margin-bottom: 0;
+
+}
+
+
+/* ------------------------------------------------------------
+   SHAPE
+------------------------------------------------------------ */
+
+.pipeline-shape {
+
+    height: 34px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    color: #ffffff;
+
+    font-size: 10px;
+
+    font-weight: 600;
+
+    clip-path: polygon(
+        7% 0,
+        93% 0,
+        100% 50%,
+        93% 100%,
+        7% 100%,
+        0 50%
+    );
+
+    transition: transform .2s ease;
+
+}
+
+
+.pipeline-stage:hover .pipeline-shape {
+
+    transform: translateX(3px);
+
+}
+
+
+.pipeline-shape span {
+
+    white-space: nowrap;
+
+}
+
+
+/* ------------------------------------------------------------
+   DIFFERENT WIDTHS
+------------------------------------------------------------ */
+
+.pipeline-stage-land .pipeline-shape {
+
+    width: 70%;
+
+    background: #3674d9;
+
+}
+
+
+.pipeline-stage-feasibility .pipeline-shape {
+
+    width: 66%;
+
+    background: #5aa4d8;
+
+}
+
+
+.pipeline-stage-design .pipeline-shape {
+
+    width: 62%;
+
+    background: #62b89a;
+
+}
+
+
+.pipeline-stage-procurement .pipeline-shape {
+
+    width: 58%;
+
+    background: #f2b62b;
+
+}
+
+
+.pipeline-stage-construction .pipeline-shape {
+
+    width: 54%;
+
+    background: #ee8141;
+
+}
+
+
+.pipeline-stage-handover .pipeline-shape {
+
+    width: 50%;
+
+    background: #8b5fc7;
+
+}
+
+
+/* ------------------------------------------------------------
+   COUNT
+------------------------------------------------------------ */
+
+.pipeline-count {
+
+    width: 45px;
+
+    margin-left: 12px;
+
+    color: #344054;
+
+    font-size: 11px;
+
+    font-weight: 600;
+
+    text-align: left;
+
+}
+
+
+/* ------------------------------------------------------------
+   TOTAL
+------------------------------------------------------------ */
+
+.pipeline-total {
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    gap: 8px;
+
+    padding: 4px 18px 16px;
+
+    color: #667085;
+
+    font-size: 10px;
+
+}
+
+
+.pipeline-total strong {
+
+    color: #172b4d;
+
+    font-size: 11px;
+
+}
+
+
+/* ------------------------------------------------------------
+   RESPONSIVE
+------------------------------------------------------------ */
+
+@media (max-width: 768px) {
+
+    .development-pipeline {
+
+        padding-left: 15px;
+
+        padding-right: 15px;
+
+    }
+
+
+    .pipeline-shape {
+
+        font-size: 9px;
+
+    }
+
+
+    .pipeline-count {
+
+        margin-left: 8px;
+
+    }
+
+}
+
+/* ============================================================
+   PORTFOLIO BY ASSET TYPE
+============================================================ */
+
+.asset-type-panel {
+    min-height: 365px;
+}
+
+
+/* ------------------------------------------------------------
+   CONTENT
+------------------------------------------------------------ */
+
+.asset-type-content {
+
+    display: grid;
+
+    grid-template-columns: 145px minmax(0, 1fr);
+
+    align-items: center;
+
+    gap: 12px;
+
+    padding: 20px 14px 22px;
+
+}
+
+
+/* ------------------------------------------------------------
+   CHART
+------------------------------------------------------------ */
+
+.asset-type-chart {
+
+    position: relative;
+
+    width: 145px;
+
+    height: 145px;
+
+    flex: none;
+
+}
+
+
+.asset-type-chart canvas {
+
+    width: 145px !important;
+
+    height: 145px !important;
+
+}
+
+
+/* ------------------------------------------------------------
+   CENTER VALUE
+------------------------------------------------------------ */
+
+.asset-type-total {
+
+    position: absolute;
+
+    inset: 0;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    flex-direction: column;
+
+    pointer-events: none;
+
+    text-align: center;
+
+}
+
+
+.asset-type-total span {
+
+    color: #98a2b3;
+
+    font-size: 8px;
+
+    line-height: 11px;
+
+}
+
+
+.asset-type-total strong {
+
+    margin-top: 4px;
+
+    color: #172b4d;
+
+    font-size: 14px;
+
+    line-height: 18px;
+
+    font-weight: 700;
+
+    white-space: nowrap;
+
+}
+
+
+/* ------------------------------------------------------------
+   LEGEND
+------------------------------------------------------------ */
+
+.asset-type-legend {
+
+    width: 100%;
+
+    min-width: 0;
+
+}
+
+
+.asset-type-item {
+
+    display: grid;
+
+    grid-template-columns: 7px minmax(0, 1fr);
+
+    column-gap: 6px;
+
+    align-items: center;
+
+    padding: 6px 0;
+
+    border-bottom: 1px solid #f2f4f7;
+
+}
+
+
+.asset-type-item:last-child {
+
+    border-bottom: 0;
+
+}
+
+
+/* ------------------------------------------------------------
+   DOT
+------------------------------------------------------------ */
+
+.asset-type-dot {
+
+    width: 7px;
+
+    height: 7px;
+
+    border-radius: 50%;
+
+    display: block;
+
+}
+
+
+.asset-type-dot.retail {
+    background: #2563eb;
+}
+
+
+.asset-type-dot.residential {
+    background: #10b981;
+}
+
+
+.asset-type-dot.office {
+    background: #f59e0b;
+}
+
+
+.asset-type-dot.hospitality {
+    background: #8b5cf6;
+}
+
+
+.asset-type-dot.industrial {
+    background: #06b6d4;
+}
+
+
+/* ------------------------------------------------------------
+   NAME + VALUE
+------------------------------------------------------------ */
+
+.asset-type-name {
+
+    min-width: 0;
+
+    display: grid;
+
+    grid-template-columns: minmax(0, 1fr);
+
+}
+
+
+.asset-type-name span {
+
+    display: block;
+
+    color: #667085;
+
+    font-size: 8px;
+
+    line-height: 10px;
+
+    white-space: nowrap;
+
+    overflow: hidden;
+
+    text-overflow: ellipsis;
+
+}
+
+
+.asset-type-name strong {
+
+    display: block;
+
+    margin-top: 1px;
+
+    color: #344054;
+
+    font-size: 9px;
+
+    line-height: 11px;
+
+    font-weight: 700;
+
+    white-space: nowrap;
+
+}
+
+
+/* ------------------------------------------------------------
+   PERCENTAGE
+------------------------------------------------------------ */
+
+.asset-type-percentage {
+
+    display: none;
+
+}
+
+.asset-type-name span small {
+
+    margin-left: 3px;
+
+    color: #98a2b3;
+
+    font-size: 7px;
+
+    font-weight: 400;
+
+}
+
+
+/* ============================================================
+   MEDIUM WIDTH
+============================================================ */
+
+@media (max-width: 1200px) {
+
+    .asset-type-content {
+
+        grid-template-columns: 130px minmax(0, 1fr);
+
+        gap: 8px;
+
+        padding-left: 10px;
+
+        padding-right: 10px;
+
+    }
+
+
+    .asset-type-chart {
+
+        width: 130px;
+
+        height: 130px;
+
+    }
+
+
+    .asset-type-chart canvas {
+
+        width: 130px !important;
+
+        height: 130px !important;
+
+    }
+
+
+    .asset-type-total strong {
+
+        font-size: 13px;
+
+    }
+
+}
+
+
+/* ============================================================
+   SMALL SCREEN
+============================================================ */
+
+@media (max-width: 900px) {
+
+    .asset-type-content {
+
+        grid-template-columns: 145px minmax(0, 1fr);
+
+        gap: 15px;
+
+        padding: 20px;
+
+    }
+
+
+    .asset-type-chart {
+
+        width: 145px;
+
+        height: 145px;
+
+    }
+
+
+    .asset-type-chart canvas {
+
+        width: 145px !important;
+
+        height: 145px !important;
+
+    }
+
+}
+
+
+/* ============================================================
+   MOBILE
+============================================================ */
+
+@media (max-width: 600px) {
+
+    .asset-type-content {
+
+        grid-template-columns: 1fr;
+
+        justify-items: center;
+
+    }
+
+
+    .asset-type-legend {
+
+        width: 100%;
+
+    }
+
+}
+
+.dashboard-three-column-grid {
+
+    display: grid;
+
+    grid-template-columns:
+        1.45fr
+        1fr
+        1fr;
+
+    gap: 16px;
+
+    margin-bottom: 18px;
+
+}
+
+
+.dashboard-three-column-grid > * {
+
+    min-width: 0;
+
+}
+
+
+@media (max-width: 1100px) {
+
+    .dashboard-three-column-grid {
+
+        grid-template-columns: 1fr 1fr;
+
+    }
+
+}
+
+
+@media (max-width: 700px) {
+
+    .dashboard-three-column-grid {
+
+        grid-template-columns: 1fr;
+
+    }
+
+}
+
+/* ============================================================
+   PROJECTS AT RISK
+============================================================ */
+
+.projects-risk-panel {
+
+    min-height: 330px;
+
+}
+
+
+/* ------------------------------------------------------------
+   TABLE WRAPPER
+------------------------------------------------------------ */
+
+.projects-risk-table-wrapper {
+
+    width: 100%;
+
+    overflow-x: auto;
+
+}
+
+
+/* ------------------------------------------------------------
+   TABLE
+------------------------------------------------------------ */
+
+.projects-risk-table {
+
+    width: 100%;
+
+    border-collapse: collapse;
+
+    table-layout: fixed;
+
+}
+
+
+.projects-risk-table th {
+
+    padding: 11px 14px;
+
+    background: #fafbfc;
+
+    border-bottom: 1px solid #eaecf0;
+
+    color: #667085;
+
+    font-size: 8px;
+
+    font-weight: 600;
+
+    text-align: left;
+
+    text-transform: uppercase;
+
+    letter-spacing: .3px;
+
+    white-space: nowrap;
+
+}
+
+
+.projects-risk-table td {
+
+    padding: 10px 14px;
+
+    border-bottom: 1px solid #f2f4f7;
+
+    color: #475467;
+
+    font-size: 9px;
+
+    vertical-align: middle;
+
+}
+
+
+.projects-risk-table tbody tr:last-child td {
+
+    border-bottom: 0;
+
+}
+
+
+.projects-risk-table tbody tr {
+
+    transition: background .15s ease;
+
+}
+
+
+.projects-risk-table tbody tr:hover {
+
+    background: #fafbfc;
+
+}
+
+
+/* ------------------------------------------------------------
+   COLUMN WIDTHS
+------------------------------------------------------------ */
+
+.projects-risk-table th:nth-child(1),
+.projects-risk-table td:nth-child(1) {
+
+    width: 28%;
+
+}
+
+
+.projects-risk-table th:nth-child(2),
+.projects-risk-table td:nth-child(2) {
+
+    width: 27%;
+
+}
+
+
+.projects-risk-table th:nth-child(3),
+.projects-risk-table td:nth-child(3) {
+
+    width: 15%;
+
+}
+
+
+.projects-risk-table th:nth-child(4),
+.projects-risk-table td:nth-child(4) {
+
+    width: 15%;
+
+}
+
+
+.projects-risk-table th:nth-child(5),
+.projects-risk-table td:nth-child(5) {
+
+    width: 15%;
+
+}
+
+
+/* ------------------------------------------------------------
+   PROJECT NAME
+------------------------------------------------------------ */
+
+.risk-project-name {
+
+    color: #344054;
+
+    font-size: 9px;
+
+    font-weight: 600;
+
+    text-decoration: none;
+
+}
+
+
+.risk-project-name:hover {
+
+    color: #4f46e5;
+
+}
+
+
+/* ------------------------------------------------------------
+   PROGRESS
+------------------------------------------------------------ */
+
+.project-progress {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 7px;
+
+}
+
+
+.project-progress-track {
+
+    width: 60px;
+
+    height: 5px;
+
+    overflow: hidden;
+
+    background: #eaecf0;
+
+    border-radius: 20px;
+
+}
+
+
+.project-progress-bar {
+
+    height: 100%;
+
+    background: #6366f1;
+
+    border-radius: 20px;
+
+}
+
+
+.project-progress span {
+
+    color: #667085;
+
+    font-size: 8px;
+
+    font-weight: 600;
+
+}
+
+
+/* ------------------------------------------------------------
+   VARIANCE
+------------------------------------------------------------ */
+
+.variance-negative {
+
+    color: #dc2626;
+
+    font-weight: 600;
+
+}
+
+
+.variance-warning {
+
+    color: #d97706;
+
+    font-weight: 600;
+
+}
+
+
+/* ------------------------------------------------------------
+   RISK BADGES
+------------------------------------------------------------ */
+
+.risk-badge {
+
+    display: inline-flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    min-width: 48px;
+
+    padding: 3px 7px;
+
+    border-radius: 4px;
+
+    font-size: 7px;
+
+    font-weight: 600;
+
+}
+
+
+.risk-high {
+
+    background: #fee4e2;
+
+    color: #b42318;
+
+}
+
+
+.risk-medium {
+
+    background: #fef0c7;
+
+    color: #b54708;
+
+}
+
+
+.risk-low {
+
+    background: #dcfae6;
+
+    color: #027a48;
+
+}
+
+
+/* ------------------------------------------------------------
+   MOBILE
+------------------------------------------------------------ */
+
+@media (max-width: 700px) {
+
+    .projects-risk-table {
+
+        min-width: 620px;
+
+    }
+
+}
+
+/* ============================================================
+   LEASE EXPIRY SUMMARY
+============================================================ */
+
+.lease-expiry-panel {
+
+    min-height: 330px;
+
+}
+
+
+/* ------------------------------------------------------------
+   CHART
+------------------------------------------------------------ */
+
+.lease-expiry-chart-wrapper {
+
+    position: relative;
+
+    height: 215px;
+
+    padding: 14px 16px 0;
+
+}
+
+
+.lease-expiry-chart-wrapper canvas {
+
+    width: 100% !important;
+
+    height: 100% !important;
+
+}
+
+
+/* ------------------------------------------------------------
+   SUMMARY
+------------------------------------------------------------ */
+
+.lease-expiry-summary {
+
+    display: grid;
+
+    grid-template-columns:
+        repeat(4, minmax(0, 1fr));
+
+    gap: 5px;
+
+    padding: 8px 14px 16px;
+
+}
+
+
+.lease-expiry-summary-item {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 6px;
+
+}
+
+
+.lease-expiry-dot {
+
+    width: 7px;
+
+    height: 7px;
+
+    flex: 0 0 7px;
+
+    border-radius: 50%;
+
+}
+
+
+.expiry-0-3 {
+    background: #2563eb;
+}
+
+
+.expiry-3-6 {
+    background: #10b981;
+}
+
+
+.expiry-6-12 {
+    background: #f59e0b;
+}
+
+
+.expiry-12-plus {
+    background: #8b5cf6;
+}
+
+
+.lease-expiry-summary-item div {
+
+    display: flex;
+
+    flex-direction: column;
+
+    min-width: 0;
+
+}
+
+
+.lease-expiry-summary-item strong {
+
+    color: #344054;
+
+    font-size: 10px;
+
+    line-height: 13px;
+
+}
+
+
+.lease-expiry-summary-item span {
+
+    color: #98a2b3;
+
+    font-size: 7px;
+
+    line-height: 10px;
+
+    white-space: nowrap;
+
+}
+
+
+/* ------------------------------------------------------------
+   RESPONSIVE
+------------------------------------------------------------ */
+
+@media (max-width: 900px) {
+
+    .lease-expiry-summary {
+
+        grid-template-columns: repeat(2, 1fr);
+
+        row-gap: 10px;
+
+    }
+
+}
+
+/* ============================================================
+   RENTAL COLLECTION
+============================================================ */
+
+.rental-collection-panel {
+
+    min-height: 330px;
+
+}
+
+
+/* ------------------------------------------------------------
+   CONTENT
+------------------------------------------------------------ */
+
+.rental-collection-content {
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    gap: 24px;
+
+    padding: 22px 20px 26px;
+
+}
+
+
+/* ------------------------------------------------------------
+   CHART
+------------------------------------------------------------ */
+
+.rental-collection-chart {
+
+    position: relative;
+
+    width: 175px;
+
+    height: 175px;
+
+    flex: 0 0 175px;
+
+}
+
+
+.rental-collection-chart canvas {
+
+    width: 100% !important;
+
+    height: 100% !important;
+
+}
+
+
+/* ------------------------------------------------------------
+   CENTER
+------------------------------------------------------------ */
+
+.rental-collection-center {
+
+    position: absolute;
+
+    inset: 0;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    flex-direction: column;
+
+    text-align: center;
+
+    pointer-events: none;
+
+}
+
+
+.rental-collection-center strong {
+
+    color: #172b4d;
+
+    font-size: 18px;
+
+    line-height: 22px;
+
+    font-weight: 700;
+
+}
+
+
+.rental-collection-center span {
+
+    margin-top: 3px;
+
+    color: #98a2b3;
+
+    font-size: 8px;
+
+}
+
+
+/* ------------------------------------------------------------
+   SUMMARY
+------------------------------------------------------------ */
+
+.rental-collection-summary {
+
+    min-width: 90px;
+
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 18px;
+
+}
+
+
+.rental-summary-item {
+
+    display: flex;
+
+    flex-direction: column;
+
+}
+
+
+.rental-summary-label {
+
+    color: #667085;
+
+    font-size: 8px;
+
+    line-height: 11px;
+
+}
+
+
+.rental-summary-item strong {
+
+    margin-top: 2px;
+
+    font-size: 11px;
+
+    line-height: 14px;
+
+    font-weight: 700;
+
+}
+
+
+.rental-summary-billed {
+
+    color: #344054;
+
+}
+
+
+.rental-summary-collected {
+
+    color: #059669;
+
+}
+
+
+.rental-summary-outstanding {
+
+    color: #dc2626;
+
+}
+
+
+/* ------------------------------------------------------------
+   MOBILE
+------------------------------------------------------------ */
+
+@media (max-width: 700px) {
+
+    .rental-collection-content {
+
+        flex-direction: column;
+
+        gap: 15px;
+
+    }
+
+
+    .rental-collection-summary {
+
+        width: 100%;
+
+        display: grid;
+
+        grid-template-columns: repeat(3, 1fr);
+
+        gap: 10px;
+
+    }
+
+}
+
+/* ============================================================
+   PROJECT RISK + LEASE EXPIRY + RENTAL COLLECTION
+============================================================ */
+
+.dashboard-three-column-grid {
+
+    display: grid;
+
+    grid-template-columns:
+        repeat(3, minmax(0, 1fr));
+
+    gap: 16px;
+
+    width: 100%;
+
+    margin-bottom: 18px;
+
+}
+
+
+.dashboard-three-column-grid > .dashboard-grid-item {
+
+    min-width: 0;
+
+    display: flex;
+
+}
+
+
+.dashboard-three-column-grid
+.dashboard-grid-item
+.dashboard-panel {
+
+    width: 100%;
+
+}
+
+
+/* ============================================================
+   EQUAL HEIGHT
+============================================================ */
+
+.dashboard-three-column-grid
+.projects-risk-panel,
+
+.dashboard-three-column-grid
+.lease-expiry-panel,
+
+.dashboard-three-column-grid
+.rental-collection-panel {
+
+    height: 100%;
+
+    min-height: 360px;
+
+}
+
+
+/* ============================================================
+   PROJECT RISK
+============================================================ */
+
+.projects-risk-table th,
+.projects-risk-table td {
+
+    padding-left: 10px;
+
+    padding-right: 10px;
+
+}
+
+
+.projects-risk-table th {
+
+    font-size: 7px;
+
+}
+
+
+.projects-risk-table td {
+
+    font-size: 8px;
+
+}
+
+
+.risk-project-name {
+
+    font-size: 8px;
+
+}
+
+
+.project-progress-track {
+
+    width: 45px;
+
+}
+
+
+/* ============================================================
+   LEASE EXPIRY
+============================================================ */
+
+.lease-expiry-chart-wrapper {
+
+    height: 220px;
+
+    padding: 10px 12px 0;
+
+}
+
+
+.lease-expiry-summary {
+
+    grid-template-columns: repeat(2, 1fr);
+
+    gap: 10px 8px;
+
+    padding: 8px 12px 16px;
+
+}
+
+
+/* ============================================================
+   RENTAL COLLECTION
+============================================================ */
+
+.rental-collection-content {
+
+    flex-direction: column;
+
+    gap: 12px;
+
+    padding: 18px 12px 20px;
+
+}
+
+
+.rental-collection-chart {
+
+    width: 155px;
+
+    height: 155px;
+
+    flex: 0 0 155px;
+
+}
+
+
+.rental-collection-summary {
+
+    width: 100%;
+
+    display: grid;
+
+    grid-template-columns: repeat(3, 1fr);
+
+    gap: 8px;
+
+}
+
+
+.rental-summary-item {
+
+    align-items: center;
+
+    text-align: center;
+
+}
+
+
+.rental-summary-label {
+
+    font-size: 7px;
+
+}
+
+
+.rental-summary-item strong {
+
+    font-size: 10px;
+
+}
+
+
+/* ============================================================
+   RESPONSIVE
+============================================================ */
+
+@media (max-width: 1100px) {
+
+    .dashboard-three-column-grid {
+
+        grid-template-columns: 1fr 1fr;
+
+    }
+
+
+    .dashboard-three-column-grid
+    .dashboard-grid-item:last-child {
+
+        grid-column: 1 / -1;
+
+    }
+
+}
+
+
+@media (max-width: 700px) {
+
+    .dashboard-three-column-grid {
+
+        grid-template-columns: 1fr;
+
+    }
+
+
+    .dashboard-three-column-grid
+    .dashboard-grid-item:last-child {
+
+        grid-column: auto;
+
+    }
+
+}
+
+/* ============================================================
+   FINANCIAL SUMMARY
+============================================================ */
+
+.financial-summary-panel {
+
+    margin-bottom: 18px;
+
+}
+
+
+/* ------------------------------------------------------------
+   GRID
+------------------------------------------------------------ */
+
+.financial-summary-grid {
+
+    display: grid;
+
+    grid-template-columns:
+        repeat(5, minmax(0, 1fr));
+
+    gap: 0;
+
+}
+
+
+/* ------------------------------------------------------------
+   CARD
+------------------------------------------------------------ */
+
+.financial-summary-card {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 10px;
+
+    min-width: 0;
+
+    padding: 18px 16px;
+
+    border-right: 1px solid #f0f2f5;
+
+}
+
+
+.financial-summary-card:last-child {
+
+    border-right: 0;
+
+}
+
+
+/* ------------------------------------------------------------
+   ICON
+------------------------------------------------------------ */
+
+.financial-summary-icon {
+
+    width: 36px;
+
+    height: 36px;
+
+    min-width: 36px;
+
+    border-radius: 8px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    font-size: 17px;
+
+}
+
+
+.financial-icon-revenue {
+
+    background: #eef4ff;
+
+    color: #2563eb;
+
+}
+
+
+.financial-icon-expense {
+
+    background: #fff7ed;
+
+    color: #ea580c;
+
+}
+
+
+.financial-icon-noi {
+
+    background: #ecfdf3;
+
+    color: #059669;
+
+}
+
+
+.financial-icon-profit {
+
+    background: #f5f3ff;
+
+    color: #7c3aed;
+
+}
+
+
+.financial-icon-margin {
+
+    background: #ecfeff;
+
+    color: #0891b2;
+
+}
+
+
+/* ------------------------------------------------------------
+   CONTENT
+------------------------------------------------------------ */
+
+.financial-summary-content {
+
+    min-width: 0;
+
+    display: flex;
+
+    flex-direction: column;
+
+}
+
+
+.financial-summary-label {
+
+    color: #667085;
+
+    font-size: 8px;
+
+    line-height: 11px;
+
+    white-space: nowrap;
+
+    overflow: hidden;
+
+    text-overflow: ellipsis;
+
+}
+
+
+.financial-summary-content strong {
+
+    margin-top: 3px;
+
+    color: #172b4d;
+
+    font-size: 16px;
+
+    line-height: 19px;
+
+    font-weight: 700;
+
+    white-space: nowrap;
+
+}
+
+
+.financial-summary-content small {
+
+    margin-top: 4px;
+
+    font-size: 7px;
+
+    line-height: 10px;
+
+    white-space: nowrap;
+
+}
+
+
+.financial-positive {
+
+    color: #059669;
+
+}
+
+
+.financial-negative {
+
+    color: #dc2626;
+
+}
+
+
+.financial-summary-content small i {
+
+    font-size: 9px;
+
+}
+
+
+/* ------------------------------------------------------------
+   RESPONSIVE
+------------------------------------------------------------ */
+
+@media (max-width: 1100px) {
+
+    .financial-summary-grid {
+
+        grid-template-columns:
+            repeat(3, minmax(0, 1fr));
+
+    }
+
+
+    .financial-summary-card:nth-child(3) {
+
+        border-right: 0;
+
+    }
+
+
+    .financial-summary-card:nth-child(4),
+    .financial-summary-card:nth-child(5) {
+
+        border-top: 1px solid #f0f2f5;
+
+    }
+
+}
+
+
+@media (max-width: 650px) {
+
+    .financial-summary-grid {
+
+        grid-template-columns: 1fr 1fr;
+
+    }
+
+
+    .financial-summary-card {
+
+        border-right: 0;
+
+        border-bottom: 1px solid #f0f2f5;
+
+    }
+
+
+    .financial-summary-card:nth-child(odd) {
+
+        border-right: 1px solid #f0f2f5;
+
+    }
+
+
+    .financial-summary-card:last-child {
+
+        border-bottom: 0;
+
+    }
+
+}
+
+/* ============================================================
+   TENANT & OCCUPANCY SUMMARY
+============================================================ */
+
+.tenant-occupancy-panel {
+
+    margin-bottom: 18px;
+
+}
+
+
+.tenant-occupancy-grid {
+
+    display: grid;
+
+    grid-template-columns:
+        repeat(5, minmax(0, 1fr));
+
+    gap: 0;
+
+}
+
+
+.tenant-occupancy-card {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 10px;
+
+    min-width: 0;
+
+    padding: 18px 16px;
+
+    border-right: 1px solid #f0f2f5;
+
+    text-decoration: none;
+
+}
+
+
+.tenant-occupancy-card:last-child {
+
+    border-right: 0;
+
+}
+
+
+.tenant-occupancy-card:hover {
+
+    background: #fafbfc;
+
+}
+
+
+/* ------------------------------------------------------------
+   ICON
+------------------------------------------------------------ */
+
+.tenant-occupancy-icon {
+
+    width: 36px;
+
+    height: 36px;
+
+    min-width: 36px;
+
+    border-radius: 8px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    font-size: 17px;
+
+}
+
+
+.tenant-icon-blue {
+
+    background: #eef4ff;
+
+    color: #2563eb;
+
+}
+
+
+.tenant-icon-green {
+
+    background: #ecfdf3;
+
+    color: #059669;
+
+}
+
+
+.tenant-icon-purple {
+
+    background: #f5f3ff;
+
+    color: #7c3aed;
+
+}
+
+
+.tenant-icon-orange {
+
+    background: #fff7ed;
+
+    color: #ea580c;
+
+}
+
+
+.tenant-icon-cyan {
+
+    background: #ecfeff;
+
+    color: #0891b2;
+
+}
+
+
+/* ------------------------------------------------------------
+   TEXT
+------------------------------------------------------------ */
+
+.tenant-occupancy-card > div:last-child {
+
+    min-width: 0;
+
+}
+
+
+.tenant-occupancy-card span {
+
+    display: block;
+
+    color: #667085;
+
+    font-size: 8px;
+
+    line-height: 11px;
+
+    white-space: nowrap;
+
+}
+
+
+.tenant-occupancy-card strong {
+
+    display: block;
+
+    margin-top: 3px;
+
+    color: #172b4d;
+
+    font-size: 16px;
+
+    line-height: 19px;
+
+    font-weight: 700;
+
+}
+
+
+/* ------------------------------------------------------------
+   PROGRESS
+------------------------------------------------------------ */
+
+.occupancy-progress-section {
+
+    padding: 0 16px 17px;
+
+}
+
+
+.occupancy-progress-header {
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    margin-bottom: 7px;
+
+}
+
+
+.occupancy-progress-header span {
+
+    color: #667085;
+
+    font-size: 8px;
+
+}
+
+
+.occupancy-progress-header strong {
+
+    color: #344054;
+
+    font-size: 9px;
+
+}
+
+
+.occupancy-progress-track {
+
+    width: 100%;
+
+    height: 6px;
+
+    background: #eaecf0;
+
+    border-radius: 10px;
+
+    overflow: hidden;
+
+}
+
+
+.occupancy-progress-bar {
+
+    height: 100%;
+
+    background: #10b981;
+
+    border-radius: 10px;
+
+}
+
+
+/* ------------------------------------------------------------
+   RESPONSIVE
+------------------------------------------------------------ */
+
+@media (max-width: 1000px) {
+
+    .tenant-occupancy-grid {
+
+        grid-template-columns:
+            repeat(3, minmax(0, 1fr));
+
+    }
+
+
+    .tenant-occupancy-card:nth-child(3) {
+
+        border-right: 0;
+
+    }
+
+
+    .tenant-occupancy-card:nth-child(4),
+    .tenant-occupancy-card:nth-child(5) {
+
+        border-top: 1px solid #f0f2f5;
+
+    }
+
+}
+
+
+@media (max-width: 650px) {
+
+    .tenant-occupancy-grid {
+
+        grid-template-columns:
+            repeat(2, minmax(0, 1fr));
+
+    }
+
+
+    .tenant-occupancy-card {
+
+        border-right: 0;
+
+        border-bottom: 1px solid #f0f2f5;
+
+    }
+
+
+    .tenant-occupancy-card:nth-child(odd) {
+
+        border-right: 1px solid #f0f2f5;
+
+    }
+
+}
+
+/* ============================================================
+   FIT-OUT & HANDOVER SUMMARY
+============================================================ */
+
+.fitout-summary-panel {
+
+    margin-bottom: 18px;
+
+}
+
+
+/* ------------------------------------------------------------
+   GRID
+------------------------------------------------------------ */
+
+.fitout-summary-grid {
+
+    display: grid;
+
+    grid-template-columns:
+        repeat(6, minmax(0, 1fr));
+
+}
+
+
+/* ------------------------------------------------------------
+   CARD
+------------------------------------------------------------ */
+
+.fitout-summary-card {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 9px;
+
+    min-width: 0;
+
+    padding: 16px 12px;
+
+    border-right: 1px solid #f0f2f5;
+
+    text-decoration: none;
+
+    transition: background .15s ease;
+
+}
+
+
+.fitout-summary-card:last-child {
+
+    border-right: 0;
+
+}
+
+
+.fitout-summary-card:hover {
+
+    background: #fafbfc;
+
+}
+
+
+/* ------------------------------------------------------------
+   ICON
+------------------------------------------------------------ */
+
+.fitout-summary-icon {
+
+    width: 34px;
+
+    height: 34px;
+
+    min-width: 34px;
+
+    border-radius: 8px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    font-size: 16px;
+
+}
+
+
+.fitout-icon-blue {
+
+    background: #eef4ff;
+
+    color: #2563eb;
+
+}
+
+
+.fitout-icon-orange {
+
+    background: #fff7ed;
+
+    color: #ea580c;
+
+}
+
+
+.fitout-icon-purple {
+
+    background: #f5f3ff;
+
+    color: #7c3aed;
+
+}
+
+
+.fitout-icon-cyan {
+
+    background: #ecfeff;
+
+    color: #0891b2;
+
+}
+
+
+.fitout-icon-red {
+
+    background: #fff1f2;
+
+    color: #dc2626;
+
+}
+
+
+.fitout-icon-green {
+
+    background: #ecfdf3;
+
+    color: #059669;
+
+}
+
+
+/* ------------------------------------------------------------
+   CONTENT
+------------------------------------------------------------ */
+
+.fitout-summary-content {
+
+    min-width: 0;
+
+    display: flex;
+
+    flex-direction: column;
+
+}
+
+
+.fitout-summary-content span {
+
+    color: #667085;
+
+    font-size: 7px;
+
+    line-height: 10px;
+
+    white-space: nowrap;
+
+    overflow: hidden;
+
+    text-overflow: ellipsis;
+
+}
+
+
+.fitout-summary-content strong {
+
+    margin-top: 3px;
+
+    color: #172b4d;
+
+    font-size: 16px;
+
+    line-height: 18px;
+
+    font-weight: 700;
+
+}
+
+
+/* ------------------------------------------------------------
+   RESPONSIVE
+------------------------------------------------------------ */
+
+@media (max-width: 1100px) {
+
+    .fitout-summary-grid {
+
+        grid-template-columns:
+            repeat(3, minmax(0, 1fr));
+
+    }
+
+
+    .fitout-summary-card:nth-child(3) {
+
+        border-right: 0;
+
+    }
+
+
+    .fitout-summary-card:nth-child(n+4) {
+
+        border-top: 1px solid #f0f2f5;
+
+    }
+
+}
+
+
+@media (max-width: 600px) {
+
+    .fitout-summary-grid {
+
+        grid-template-columns:
+            repeat(2, minmax(0, 1fr));
+
+    }
+
+
+    .fitout-summary-card {
+
+        border-right: 0;
+
+        border-bottom: 1px solid #f0f2f5;
+
+    }
+
+
+    .fitout-summary-card:nth-child(odd) {
+
+        border-right: 1px solid #f0f2f5;
+
+    }
+
+}

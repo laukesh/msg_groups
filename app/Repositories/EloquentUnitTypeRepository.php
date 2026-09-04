@@ -4,8 +4,7 @@ namespace App\Repositories;
 
 use App\Models\UnitType;
 
-class EloquentUnitTypeRepository
-    implements UnitTypeRepositoryInterface
+class EloquentUnitTypeRepository implements UnitTypeRepositoryInterface
 {
     /**
      * Get all unit types.
@@ -15,6 +14,7 @@ class EloquentUnitTypeRepository
         $query = UnitType::with([
             'creator',
             'updater',
+            'units',
         ]);
 
         /*
@@ -24,25 +24,12 @@ class EloquentUnitTypeRepository
         */
         if (!empty($filters['search'])) {
 
-            $search = $filters['search'];
+            $search = trim($filters['search']);
 
             $query->where(function ($q) use ($search) {
 
-                $q->where(
-                    'type_name',
-                    'like',
-                    "%{$search}%"
-                )
-                ->orWhere(
-                    'description',
-                    'like',
-                    "%{$search}%"
-                )
-                ->orWhere(
-                    'status',
-                    'like',
-                    "%{$search}%"
-                );
+                $q->where('type_name', 'like', "%{$search}%")
+                  ->orWhere('description', 'like', "%{$search}%");
 
             });
         }
@@ -52,7 +39,7 @@ class EloquentUnitTypeRepository
         | Status Filter
         |--------------------------------------------------------------------------
         */
-        if (!empty($filters['status'])) {
+        if (isset($filters['status']) && $filters['status'] !== '') {
 
             $query->where(
                 'status',
@@ -60,20 +47,26 @@ class EloquentUnitTypeRepository
             );
         }
 
+        /*
+        |--------------------------------------------------------------------------
+        | Pagination
+        |--------------------------------------------------------------------------
+        */
         return $query
-            ->orderBy('type_name')
-            ->get();
+            ->latest('id')
+            ->paginate(15);
     }
 
     /**
-     * Find unit type.
+     * Find unit type by ID.
      */
-    public function find($id)
+    public function find(int $id)
     {
         return UnitType::with([
             'creator',
             'updater',
-        ])->find($id);
+            'units',
+        ])->findOrFail($id);
     }
 
     /**
@@ -87,23 +80,26 @@ class EloquentUnitTypeRepository
     /**
      * Update unit type.
      */
-    public function update(
-        UnitType $unitType,
-        array $data
-    ) {
+    public function update(int $id, array $data)
+    {
+        $unitType = UnitType::findOrFail($id);
+
         $unitType->update($data);
 
         return $unitType->fresh([
             'creator',
             'updater',
+            'units',
         ]);
     }
 
     /**
      * Delete unit type.
      */
-    public function delete(UnitType $unitType)
+    public function delete(int $id)
     {
+        $unitType = UnitType::findOrFail($id);
+
         return $unitType->delete();
     }
 }

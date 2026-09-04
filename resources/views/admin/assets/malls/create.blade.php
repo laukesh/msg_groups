@@ -168,14 +168,46 @@
                                     Mall Type
                                 </label>
 
-                                <input
+                                <!-- <input
                                     type="text"
                                     name="mall_type"
                                     id="mall_type"
                                     class="form-control @error('mall_type') is-invalid @enderror"
                                     value="{{ old('mall_type') }}"
                                     placeholder="e.g. Shopping Mall"
-                                >
+                                > -->
+                                 <select
+                                        name="mall_type"
+                                        id="mall_type"
+                                        class="form-select @error('mall_type') is-invalid @enderror"
+                                        required
+                                    >
+
+                                        <option value="">
+                                            Select Mall Type
+                                        </option>
+
+                                        <option value="Shopping Mall"
+                                            {{ old('mall_type', $mall->mall_type ?? '') === 'Shopping Mall' ? 'selected' : '' }}>
+                                            Shopping Mall
+                                        </option>
+
+                                        <option value="Retail Park"
+                                            {{ old('mall_type', $mall->mall_type ?? '') === 'Retail Park' ? 'selected' : '' }}>
+                                            Retail Park
+                                        </option>
+
+                                        <option value="Commercial Complex"
+                                            {{ old('mall_type', $mall->mall_type ?? '') === 'Commercial Complex' ? 'selected' : '' }}>
+                                            Commercial Complex
+                                        </option>
+
+                                        <option value="Mixed Use"
+                                            {{ old('mall_type', $mall->mall_type ?? '') === 'Mixed Use' ? 'selected' : '' }}>
+                                            Mixed Use
+                                        </option>
+
+                                    </select>
 
                                 @error('mall_type')
                                     <div class="invalid-feedback">
