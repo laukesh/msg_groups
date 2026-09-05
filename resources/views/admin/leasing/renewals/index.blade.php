@@ -205,7 +205,7 @@
 
                                     <td>
 
-                                        ₹{{ number_format(
+                                        ${{ number_format(
                                             $renewal->current_rent ?? 0,
                                             2
                                         ) }}
@@ -217,7 +217,7 @@
 
                                     <td>
 
-                                        ₹{{ number_format(
+                                        ${{ number_format(
                                             $renewal->proposed_rent ?? 0,
                                             2
                                         ) }}

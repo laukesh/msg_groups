@@ -397,7 +397,7 @@
             <div class="input-group">
 
               <span class="input-group-text">
-                ₹
+                $
               </span>
 
               <input type="number" name="monthly_rent" id="monthly_rent" step="0.01" min="0"
@@ -431,7 +431,7 @@
             <div class="input-group">
 
               <span class="input-group-text">
-                ₹
+                $
               </span>
 
               <input type="number" name="cam_amount" id="cam_amount" step="0.01" min="0"
@@ -465,7 +465,7 @@
             <div class="input-group">
 
               <span class="input-group-text">
-                ₹
+                $
               </span>
 
               <input type="number" name="security_deposit" id="security_deposit" step="0.01" min="0"
@@ -591,7 +591,7 @@
                 </span>
 
                 <strong>
-                  ₹<span id="display_rent">
+                  $<span id="display_rent">
                     0.00
                   </span>
                 </strong>
@@ -606,7 +606,7 @@
                 </span>
 
                 <strong>
-                  ₹<span id="display_cam">
+                  $<span id="display_cam">
                     0.00
                   </span>
                 </strong>
@@ -625,7 +625,7 @@
 
                 <strong class="text-primary fs-5">
 
-                  ₹<span id="monthly_total">
+                  $<span id="monthly_total">
                     0.00
                   </span>
 
@@ -816,7 +816,7 @@
                 {{-- Rent --}}
                 <td>
 
-                  ₹{{ number_format(
+                  ${{ number_format(
                                             $unit->monthly_rent ?? 0,
                                             2
                                         ) }}

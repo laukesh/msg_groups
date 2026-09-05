@@ -123,7 +123,7 @@
 
                     <h5 class="mb-0">
 
-                        {{ $contract->currency ?? 'INR' }}
+                        {{ $contract->currency ?? 'USD' }}
 
                         {{ number_format(
                             $summary['claimed_amount'],
@@ -151,7 +151,7 @@
 
                     <h5 class="mb-0">
 
-                        {{ $contract->currency ?? 'INR' }}
+                        {{ $contract->currency ?? 'USD' }}
 
                         {{ number_format(
                             $summary['approved_amount'],
@@ -319,7 +319,7 @@
 
                                     <td class="text-end">
 
-                                        {{ $claim->currency ?? 'INR' }}
+                                        {{ $claim->currency ?? 'USD' }}
 
                                         {{ number_format(
                                             (float)
@@ -332,7 +332,7 @@
 
                                     <td class="text-end">
 
-                                        {{ $claim->currency ?? 'INR' }}
+                                        {{ $claim->currency ?? 'USD' }}
 
                                         {{ number_format(
                                             (float)

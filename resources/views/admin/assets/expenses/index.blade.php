@@ -129,7 +129,7 @@
 
                             <td>
 
-                                ₹{{ number_format(
+                                ${{ number_format(
                                     $expense->amount,
                                     2
                                 ) }}

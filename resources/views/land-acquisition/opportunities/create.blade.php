@@ -454,7 +454,7 @@
                         <input
                             type="text"
                             name="currency"
-                            value="{{ old('currency', 'INR') }}"
+                            value="{{ old('currency', 'USD') }}"
                             class="form-control @error('currency') is-invalid @enderror"
                             maxlength="10"
                         >

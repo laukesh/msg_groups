@@ -913,7 +913,7 @@ document.addEventListener('DOMContentLoaded', function () {
     {
         if (lateFeeType.value === 'Fixed') {
 
-            lateFeeSuffix.textContent = '₹';
+            lateFeeSuffix.textContent = '$';
 
         } else {
 

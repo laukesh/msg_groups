@@ -78,4 +78,12 @@ class ConstructionMaterialDelivery extends Model
             'updated_by'
         );
     }
+
+    public function receipts(): HasMany
+    {
+        return $this->hasMany(
+            ConstructionMaterialReceipt::class,
+            'material_delivery_id'
+        );
+    }
 }

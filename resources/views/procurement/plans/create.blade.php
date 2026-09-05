@@ -228,7 +228,7 @@
                             class="form-control @error('currency') is-invalid @enderror"
                             value="{{ old(
                                 'currency',
-                                'INR'
+                                'USD'
                             ) }}"
                             maxlength="10"
                             required

@@ -330,7 +330,7 @@
                                name="currency"
                                value="{{ old(
                                    'currency',
-                                   $contract->currency ?? 'INR'
+                                   $contract->currency ?? 'USD'
                                ) }}"
                                maxlength="10"
                                class="form-control @error('currency') is-invalid @enderror">

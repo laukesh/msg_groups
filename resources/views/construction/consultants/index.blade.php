@@ -241,7 +241,7 @@
 
                             <h3 class="mb-0">
 
-                                ₹{{ number_format(
+                                ${{ number_format(
                                     (float) ($summary['total_value'] ?? 0),
                                     2
                                 ) }}
@@ -634,7 +634,7 @@
 
                                             <span class="fw-semibold">
 
-                                                {{ $consultant->currency ?? 'INR' }}
+                                                {{ $consultant->currency ?? 'USD' }}
 
                                                 {{ number_format(
                                                     (float) $consultant->contract_value,

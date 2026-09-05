@@ -194,7 +194,7 @@
 
                     <div class="fs-3 fw-semibold">
 
-                        ₹{{ number_format(
+                        ${{ number_format(
                             $summary['total_value'],
                             2
                         ) }}
@@ -369,7 +369,7 @@
 
                                     <td>
 
-                                        ₹{{
+                                        ${{
                                             number_format(
                                                 $stats['contract_value'] ?? 0,
                                                 2

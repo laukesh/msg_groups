@@ -550,7 +550,7 @@
 
                             <td class="amount">
 
-                                ₹{{ number_format(
+                                ${{ number_format(
                                     $allocation->allocated_amount,
                                     2
                                 ) }}
@@ -586,7 +586,7 @@
 
                         <td class="amount">
 
-                            ₹{{ number_format(
+                            ${{ number_format(
                                 $payment->payment_amount,
                                 2
                             ) }}

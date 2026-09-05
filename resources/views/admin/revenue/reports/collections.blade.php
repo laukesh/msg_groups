@@ -43,7 +43,7 @@
 
                     <h4 class="mb-0 text-success">
 
-                        ₹{{ number_format(
+                        ${{ number_format(
                             (float) $totalCollected,
                             2
                         ) }}
@@ -376,7 +376,7 @@
 
                                 <td class="text-end text-success fw-semibold">
 
-                                    ₹{{ number_format(
+                                    ${{ number_format(
                                         (float) $payment->payment_amount,
                                         2
                                     ) }}

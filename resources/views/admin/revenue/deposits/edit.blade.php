@@ -283,7 +283,7 @@
                             <div class="input-group">
 
                                 <span class="input-group-text">
-                                    ₹
+                                    $
                                 </span>
 
                                 <input type="number"
@@ -437,7 +437,7 @@
 
                         <strong>
 
-                            ₹{{
+                            ${{
                                 number_format(
                                     $deposit->deposit_amount,
                                     2
@@ -463,7 +463,7 @@
 
                         <strong class="text-success">
 
-                            ₹{{
+                            ${{
                                 number_format(
                                     $deposit->received_amount,
                                     2
@@ -489,7 +489,7 @@
 
                         <strong class="text-danger">
 
-                            ₹{{
+                            ${{
                                 number_format(
                                     $deposit->balance_amount,
                                     2
@@ -515,7 +515,7 @@
 
                         <strong class="text-info">
 
-                            ₹{{
+                            ${{
                                 number_format(
                                     $deposit->refundable_amount,
                                     2

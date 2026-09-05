@@ -328,7 +328,7 @@
 
                         @else
 
-                            ₹{{ number_format(
+                            ${{ number_format(
                                 $escalation->escalation_value,
                                 2
                             ) }}
@@ -348,7 +348,7 @@
 
                     <div class="fs-5">
 
-                        ₹{{ number_format(
+                        ${{ number_format(
                             $escalation->previous_rent ?? 0,
                             2
                         ) }}
@@ -366,7 +366,7 @@
 
                     <div class="fs-5 fw-bold text-success">
 
-                        ₹{{ number_format(
+                        ${{ number_format(
                             $escalation->revised_rent ?? 0,
                             2
                         ) }}
@@ -384,7 +384,7 @@
 
                     <div class="fs-5 fw-bold">
 
-                        ₹{{ number_format(
+                        ${{ number_format(
                             ($escalation->revised_rent ?? 0)
                             -
                             ($escalation->previous_rent ?? 0),
@@ -479,7 +479,7 @@
 
                         <div class="fw-bold text-success">
 
-                            ₹{{ number_format(
+                            ${{ number_format(
                                 $escalation->agreement?->monthly_rent ?? 0,
                                 2
                             ) }}

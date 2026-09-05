@@ -521,7 +521,7 @@
                                     <td>
 
                                         <strong>
-                                            ₹{{ number_format(
+                                            ${{ number_format(
                                                 $payment->payment_amount,
                                                 2
                                             ) }}

@@ -140,7 +140,7 @@
 
                     <div class="fs-4 fw-semibold">
 
-                        ₹{{
+                        ${{
                             number_format(
                                 $summary['total_contract_value'],
                                 2
@@ -367,7 +367,7 @@
 
                                     <td>
 
-                                        ₹{{
+                                        ${{
                                             number_format(
                                                 $contractor[
                                                     'total_contract_value'
@@ -749,7 +749,7 @@
 
                                                     <td>
 
-                                                        ₹{{
+                                                        ${{
                                                             number_format(
                                                                 (float)
                                                                 $contract

@@ -109,7 +109,7 @@
 
                     <div class="fs-5 fw-semibold text-primary">
 
-                        {{ $contract->currency ?? 'INR' }}
+                        {{ $contract->currency ?? 'USD' }}
 
                         {{ number_format(
                             $contract->advance_payment_amount,
@@ -129,7 +129,7 @@
 
                     <div class="fs-5 fw-semibold">
 
-                        {{ $contract->currency ?? 'INR' }}
+                        {{ $contract->currency ?? 'USD' }}
 
                     </div>
 
@@ -347,7 +347,7 @@
                                name="currency"
                                value="{{ old(
                                    'currency',
-                                   $contract->currency ?? 'INR'
+                                   $contract->currency ?? 'USD'
                                ) }}"
                                class="form-control"
                                maxlength="10">

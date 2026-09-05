@@ -193,7 +193,7 @@
                                     $analysis->total_investment !== null
                                 )
 
-                                    ₹
+                                    $
                                     {{
                                         number_format(
                                             $analysis->total_investment,

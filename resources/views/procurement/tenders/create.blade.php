@@ -280,7 +280,7 @@
                                maxlength="10"
                                value="{{ old(
                                    'currency',
-                                   'INR'
+                                   'USD'
                                ) }}"
                                required>
 

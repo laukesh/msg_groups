@@ -451,6 +451,14 @@ class Project extends Model
     |--------------------------------------------------------------------------
     */
 
+    public function projectConsultants(): HasMany
+    {
+        return $this->hasMany(
+            ProjectConsultant::class,
+            'project_id'
+        );
+    }
+
     public function hseObservations(): HasMany
     {
         return $this->hasMany(
@@ -495,6 +503,104 @@ class Project extends Model
     {
         return $this->hasMany(
             ConstructionMaterialDelivery::class,
+            'project_id'
+        );
+    }
+
+    public function materialReceipts(): HasMany
+    {
+        return $this->hasMany(
+            ConstructionMaterialReceipt::class,
+            'project_id'
+        );
+    }
+
+    public function materialTransactions(): HasMany
+    {
+        return $this->hasMany(
+            ConstructionMaterialTransaction::class,
+            'project_id'
+        );
+    }
+
+    public function constructionEquipmentDeployments()
+    {
+        return $this->hasMany(
+            ConstructionEquipmentDeployment::class,
+            'project_id'
+        );
+    }
+
+    public function constructionEquipmentUsageLogs()
+    {
+        return $this->hasMany(
+            ConstructionEquipmentUsageLog::class,
+            'project_id'
+        );
+    }
+
+    public function constructionManpowerAssignments()
+    {
+        return $this->hasMany(
+            ConstructionManpowerAssignment::class,
+            'project_id'
+        );
+    }
+
+    public function constructionManpowerEntries()
+    {
+        return $this->hasMany(
+            ConstructionManpowerEntry::class,
+            'project_id'
+        );
+    }
+
+    /*Sudhir Function */
+
+    public function designProjectBriefs(): HasMany
+    {
+        return $this->hasMany(
+            DesignProjectBrief::class,
+            'project_id'
+        );
+    }
+
+    public function designPackages(): HasMany
+    {
+        return $this->hasMany(
+            DesignPackage::class,
+            'project_id'
+        );
+    }
+
+    public function designDrawings(): HasMany
+    {
+        return $this->hasMany(
+            DesignDrawing::class,
+            'project_id'
+        );
+    }
+
+    public function designSubmittals(): HasMany
+    {
+        return $this->hasMany(
+            DesignSubmittal::class,
+            'project_id'
+        );
+    }
+
+    public function designRfis(): HasMany
+    {
+        return $this->hasMany(
+            DesignRfi::class,
+            'project_id'
+        );
+    }
+
+    public function designChanges(): HasMany
+    {
+        return $this->hasMany(
+            DesignChange::class,
             'project_id'
         );
     }

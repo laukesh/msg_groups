@@ -1,5 +1,7 @@
 @extends('layouts.app')
 
+@section('title', 'New Material Request')
+
 @section('content')
 
 <div class="container-fluid">
@@ -7,309 +9,382 @@
     <div class="d-flex justify-content-between align-items-center mb-4">
 
         <div>
-
-            <h4 class="mb-1 fw-bold">
+            <h4 class="mb-1">
                 New Material Request
             </h4>
 
-            <p class="text-muted mb-0">
-                {{ $project->project_number }}
-                <span class="mx-1">•</span>
+            <div class="text-muted">
                 {{ $project->project_name }}
-            </p>
-
+            </div>
         </div>
 
-        <a href="{{ route(
-            'admin.projects.construction.materials.requests.index',
-            $project
-        ) }}"
+        <a href="{{ route('admin.projects.construction.materials.requests.index', [
+            'project' => $project->id
+        ]) }}"
            class="btn btn-secondary">
-
             ← Back to Requests
-
         </a>
 
     </div>
 
 
     <form method="POST"
-          action="{{ route(
-              'admin.projects.construction.materials.requests.store',
-              $project
-          ) }}">
+          action="{{ route('admin.projects.construction.materials.requests.store', [
+              'project' => $project->id
+          ]) }}">
 
         @csrf
 
+        <div class="row">
 
-        {{-- Request Information --}}
+            <div class="col-lg-9">
 
-        <div class="card border-0 shadow-sm mb-4">
+                {{-- Request Information --}}
+                <div class="card border-0 shadow-sm mb-4">
 
-            <div class="card-header bg-white">
-
-                <h6 class="mb-0 fw-bold">
-                    Request Information
-                </h6>
-
-            </div>
-
-            <div class="card-body">
-
-                <div class="row g-3">
-
-                    <div class="col-md-4">
-
-                        <label class="form-label">
-                            Request Date
-                            <span class="text-danger">*</span>
-                        </label>
-
-                        <input type="date"
-                               name="request_date"
-                               value="{{ old(
-                                   'request_date',
-                                   date('Y-m-d')
-                               ) }}"
-                               class="form-control"
-                               required>
-
+                    <div class="card-header bg-white">
+                        <h5 class="mb-0">
+                            Request Information
+                        </h5>
                     </div>
 
+                    <div class="card-body">
 
-                    <div class="col-md-4">
+                        <div class="row g-3">
 
-                        <label class="form-label">
-                            Required Date
-                        </label>
+                            <div class="col-md-6">
 
-                        <input type="date"
-                               name="required_date"
-                               value="{{ old('required_date') }}"
-                               class="form-control">
+                                <label class="form-label">
+                                    Work Order
+                                </label>
 
-                    </div>
+                                <select name="construction_work_order_id"
+                                        class="form-select">
 
+                                    <option value="">
+                                        General Project
+                                    </option>
 
-                    <div class="col-md-4">
+                                    @foreach($workOrders as $workOrder)
 
-                        <label class="form-label">
-                            Work Order
-                        </label>
+                                        <option value="{{ $workOrder->id }}"
+                                            @selected(
+                                                old('construction_work_order_id')
+                                                == $workOrder->id
+                                            )>
 
-                        <select name="construction_work_order_id"
-                                class="form-select">
+                                            {{ $workOrder->work_order_number }}
+                                            -
+                                            {{ $workOrder->work_order_title }}
 
-                            <option value="">
-                                Select Work Order
-                            </option>
-
-                            @foreach($workOrders as $workOrder)
-
-                                <option value="{{ $workOrder->id }}"
-                                    @selected(
-                                        old(
-                                            'construction_work_order_id'
-                                        ) == $workOrder->id
-                                    )>
-
-                                    {{ $workOrder->work_order_number }}
-                                    -
-                                    {{ $workOrder->work_order_title }}
-
-                                </option>
-
-                            @endforeach
-
-                        </select>
-
-                    </div>
-
-
-                    <div class="col-md-12">
-
-                        <label class="form-label">
-                            Remarks
-                        </label>
-
-                        <textarea name="remarks"
-                                  rows="3"
-                                  class="form-control">{{ old('remarks') }}</textarea>
-
-                    </div>
-
-                </div>
-
-            </div>
-
-        </div>
-
-
-        {{-- Items --}}
-
-        <div class="card border-0 shadow-sm mb-4">
-
-            <div class="card-header bg-white d-flex justify-content-between align-items-center">
-
-                <h6 class="mb-0 fw-bold">
-                    Requested Materials
-                </h6>
-
-                <button type="button"
-                        class="btn btn-sm btn-primary"
-                        id="addItem">
-
-                    + Add Material
-
-                </button>
-
-            </div>
-
-
-            <div class="card-body">
-
-                <div class="table-responsive">
-
-                    <table class="table table-bordered align-middle"
-                           id="itemsTable">
-
-                        <thead>
-
-                            <tr>
-
-                                <th width="35%">
-                                    Material
-                                </th>
-
-                                <th width="20%">
-                                    Quantity
-                                </th>
-
-                                <th width="15%">
-                                    Unit
-                                </th>
-
-                                <th>
-                                    Remarks
-                                </th>
-
-                                <th width="70">
-                                    Action
-                                </th>
-
-                            </tr>
-
-                        </thead>
-
-                        <tbody id="itemsBody">
-
-                            <tr class="item-row">
-
-                                <td>
-
-                                    <select name="items[0][material_id]"
-                                            class="form-select material-select"
-                                            required>
-
-                                        <option value="">
-                                            Select Material
                                         </option>
 
-                                        @foreach($materials as $material)
+                                    @endforeach
 
-                                            <option
-                                                value="{{ $material->id }}"
-                                                data-unit="{{ $material->unit }}">
+                                </select>
 
-                                                {{ $material->material_code }}
-                                                -
-                                                {{ $material->material_name }}
-
-                                            </option>
-
-                                        @endforeach
-
-                                    </select>
-
-                                </td>
+                            </div>
 
 
-                                <td>
+                            <div class="col-md-3">
 
-                                    <input type="number"
-                                           name="items[0][requested_quantity]"
-                                           class="form-control"
-                                           step="0.0001"
-                                           min="0.0001"
-                                           required>
+                                <label class="form-label">
+                                    Request Date
+                                    <span class="text-danger">*</span>
+                                </label>
 
-                                </td>
+                                <input type="date"
+                                       name="request_date"
+                                       value="{{ old('request_date', now()->format('Y-m-d')) }}"
+                                       class="form-control"
+                                       required>
 
-
-                                <td>
-
-                                    <input type="text"
-                                           name="items[0][unit]"
-                                           class="form-control unit-field"
-                                           readonly
-                                           required>
-
-                                </td>
+                            </div>
 
 
-                                <td>
+                            <div class="col-md-3">
 
-                                    <input type="text"
-                                           name="items[0][remarks]"
-                                           class="form-control">
+                                <label class="form-label">
+                                    Required Date
+                                </label>
 
-                                </td>
+                                <input type="date"
+                                       name="required_date"
+                                       value="{{ old('required_date') }}"
+                                       class="form-control">
+
+                            </div>
 
 
-                                <td class="text-center">
+                            <div class="col-12">
 
-                                    <button type="button"
-                                            class="btn btn-sm btn-outline-danger remove-item">
+                                <label class="form-label">
+                                    Remarks
+                                </label>
 
-                                        ×
+                                <textarea name="remarks"
+                                          rows="3"
+                                          class="form-control">{{ old('remarks') }}</textarea>
 
-                                    </button>
+                            </div>
 
-                                </td>
+                        </div>
 
-                            </tr>
+                    </div>
 
-                        </tbody>
+                </div>
 
-                    </table>
+
+                {{-- Items --}}
+                <div class="card border-0 shadow-sm">
+
+                    <div class="card-header bg-white d-flex justify-content-between align-items-center">
+
+                        <h5 class="mb-0">
+                            Material Items
+                        </h5>
+
+                        <button type="button"
+                                class="btn btn-sm btn-primary"
+                                id="addItem">
+                            + Add Item
+                        </button>
+
+                    </div>
+
+                    <div class="card-body">
+
+                        <div class="table-responsive">
+
+                            <table class="table align-middle"
+                                   id="itemsTable">
+
+                                <thead class="table-light">
+
+                                    <tr>
+
+                                        <th style="width: 28%;">
+                                            Material Requirement
+                                        </th>
+
+                                        <th style="width: 22%;">
+                                            Material
+                                        </th>
+
+                                        <th style="width: 15%;">
+                                            Quantity
+                                        </th>
+
+                                        <th style="width: 12%;">
+                                            Unit
+                                        </th>
+
+                                        <th>
+                                            Remarks
+                                        </th>
+
+                                        <th style="width: 50px;">
+                                        </th>
+
+                                    </tr>
+
+                                </thead>
+
+                                <tbody>
+
+                                    <tr class="item-row">
+
+                                        <td>
+
+                                            <select name="items[0][material_requirement_id]"
+                                                    class="form-select requirement-select">
+
+                                                <option value="">
+                                                    No Requirement
+                                                </option>
+
+                                                @foreach($requirements as $requirement)
+
+                                                    <option value="{{ $requirement->id }}"
+                                                            data-material="{{ $requirement->material_id }}"
+                                                            data-unit="{{ $requirement->unit }}"
+                                                            data-required="{{ $requirement->required_quantity }}">
+
+                                                        {{ $requirement->material?->material_code }}
+                                                        -
+                                                        {{ $requirement->material?->material_name }}
+
+                                                        @if($requirement->workOrder)
+                                                            | {{ $requirement->workOrder->work_order_number }}
+                                                        @endif
+
+                                                        | Required:
+                                                        {{ number_format((float) $requirement->required_quantity, 2) }}
+                                                        {{ $requirement->unit }}
+
+                                                    </option>
+
+                                                @endforeach
+
+                                            </select>
+
+                                        </td>
+
+
+                                        <td>
+
+                                            <select name="items[0][material_id]"
+                                                    class="form-select material-select"
+                                                    required>
+
+                                                <option value="">
+                                                    Select Material
+                                                </option>
+
+                                                @foreach($materials as $material)
+
+                                                    <option value="{{ $material->id }}"
+                                                            data-unit="{{ $material->unit }}">
+
+                                                        {{ $material->material_code }}
+                                                        -
+                                                        {{ $material->material_name }}
+
+                                                    </option>
+
+                                                @endforeach
+
+                                            </select>
+
+                                        </td>
+
+
+                                        <td>
+
+                                            <input type="number"
+                                                   name="items[0][requested_quantity]"
+                                                   class="form-control quantity-input"
+                                                   step="0.0001"
+                                                   min="0.0001"
+                                                   required>
+
+                                        </td>
+
+
+                                        <td>
+
+                                            <input type="text"
+                                                   name="items[0][unit]"
+                                                   class="form-control unit-input"
+                                                   required>
+
+                                        </td>
+
+
+                                        <td>
+
+                                            <input type="text"
+                                                   name="items[0][remarks]"
+                                                   class="form-control">
+
+                                        </td>
+
+
+                                        <td>
+
+                                            <button type="button"
+                                                    class="btn btn-sm btn-outline-danger remove-item">
+                                                ×
+                                            </button>
+
+                                        </td>
+
+                                    </tr>
+
+                                </tbody>
+
+                            </table>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <div class="d-flex justify-content-end gap-2 mt-4">
+
+                    <a href="{{ route('admin.projects.construction.materials.requests.index', [
+                        'project' => $project->id
+                    ]) }}"
+                       class="btn btn-outline-secondary">
+                        Cancel
+                    </a>
+
+                    <button type="submit"
+                            class="btn btn-primary">
+                        Save Material Request
+                    </button>
 
                 </div>
 
             </div>
 
-        </div>
 
+            {{-- Information --}}
+            <div class="col-lg-3">
 
-        {{-- Buttons --}}
+                <div class="card border-0 shadow-sm">
 
-        <div class="d-flex justify-content-end gap-2">
+                    <div class="card-header bg-white">
+                        <h6 class="mb-0">
+                            Requirement Integration
+                        </h6>
+                    </div>
 
-            <a href="{{ route(
-                'admin.projects.construction.materials.requests.index',
-                $project
-            ) }}"
-               class="btn btn-secondary">
+                    <div class="card-body">
 
-                Cancel
+                        <p class="text-muted small">
 
-            </a>
+                            Select a Material Requirement when
+                            the request is being raised against
+                            an existing material requirement.
 
-            <button type="submit"
-                    class="btn btn-primary">
+                        </p>
 
-                Save Material Request
+                        <div class="small">
 
-            </button>
+                            <strong>Example</strong>
+
+                            <div class="mt-2 text-muted">
+
+                                Requirement:
+                                <strong>500 Bags</strong><br>
+
+                                Already Requested:
+                                <strong>300 Bags</strong><br>
+
+                                Remaining:
+                                <strong>200 Bags</strong>
+
+                            </div>
+
+                        </div>
+
+                        <hr>
+
+                        <div class="small text-muted">
+
+                            A single requirement can be fulfilled
+                            through multiple material requests.
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
 
         </div>
 
@@ -322,120 +397,67 @@
 
 document.addEventListener('DOMContentLoaded', function () {
 
-    let itemIndex = 1;
+    const tableBody =
+        document.querySelector('#itemsTable tbody');
 
-    const itemsBody =
-        document.getElementById('itemsBody');
-
-    const addItemButton =
+    const addButton =
         document.getElementById('addItem');
 
+    let rowIndex = 1;
 
-    function materialOptions() {
 
-        return `
-            <option value="">
-                Select Material
-            </option>
+    function updateRow(row) {
 
-            @foreach($materials as $material)
+        const requirementSelect =
+            row.querySelector('.requirement-select');
 
-                <option
-                    value="{{ $material->id }}"
-                    data-unit="{{ $material->unit }}">
+        const materialSelect =
+            row.querySelector('.material-select');
 
-                    {{ $material->material_code }}
-                    -
-                    {{ $material->material_name }}
+        const unitInput =
+            row.querySelector('.unit-input');
 
-                </option>
+        const selectedRequirement =
+            requirementSelect.options[
+                requirementSelect.selectedIndex
+            ];
 
-            @endforeach
-        `;
+        if (
+            selectedRequirement &&
+            selectedRequirement.value
+        ) {
+
+            const materialId =
+                selectedRequirement.dataset.material;
+
+            const unit =
+                selectedRequirement.dataset.unit;
+
+            materialSelect.value =
+                materialId;
+
+            unitInput.value =
+                unit;
+        }
     }
 
 
-    addItemButton.addEventListener(
-        'click',
-        function () {
-
-            const row =
-                document.createElement('tr');
-
-            row.classList.add('item-row');
-
-            row.innerHTML = `
-
-                <td>
-
-                    <select
-                        name="items[${itemIndex}][material_id]"
-                        class="form-select material-select"
-                        required>
-
-                        ${materialOptions()}
-
-                    </select>
-
-                </td>
-
-                <td>
-
-                    <input
-                        type="number"
-                        name="items[${itemIndex}][requested_quantity]"
-                        class="form-control"
-                        step="0.0001"
-                        min="0.0001"
-                        required>
-
-                </td>
-
-                <td>
-
-                    <input
-                        type="text"
-                        name="items[${itemIndex}][unit]"
-                        class="form-control unit-field"
-                        readonly
-                        required>
-
-                </td>
-
-                <td>
-
-                    <input
-                        type="text"
-                        name="items[${itemIndex}][remarks]"
-                        class="form-control">
-
-                </td>
-
-                <td class="text-center">
-
-                    <button
-                        type="button"
-                        class="btn btn-sm btn-outline-danger remove-item">
-
-                        ×
-
-                    </button>
-
-                </td>
-
-            `;
-
-            itemsBody.appendChild(row);
-
-            itemIndex++;
-
-        }
-    );
-
-
-    document.addEventListener(
+    tableBody.addEventListener(
         'change',
         function (event) {
+
+            if (
+                event.target.classList.contains(
+                    'requirement-select'
+                )
+            ) {
+
+                updateRow(
+                    event.target.closest(
+                        '.item-row'
+                    )
+                );
+            }
 
             if (
                 event.target.classList.contains(
@@ -443,28 +465,30 @@ document.addEventListener('DOMContentLoaded', function () {
                 )
             ) {
 
+                const row =
+                    event.target.closest(
+                        '.item-row'
+                    );
+
                 const selected =
                     event.target.options[
                         event.target.selectedIndex
                     ];
 
-                const unit =
-                    selected.dataset.unit || '';
+                if (selected) {
 
-                const row =
-                    event.target.closest('.item-row');
-
-                row.querySelector(
-                    '.unit-field'
-                ).value = unit;
-
+                    row.querySelector(
+                        '.unit-input'
+                    ).value =
+                        selected.dataset.unit || '';
+                }
             }
 
         }
     );
 
 
-    document.addEventListener(
+    tableBody.addEventListener(
         'click',
         function (event) {
 
@@ -475,7 +499,7 @@ document.addEventListener('DOMContentLoaded', function () {
             ) {
 
                 const rows =
-                    itemsBody.querySelectorAll(
+                    tableBody.querySelectorAll(
                         '.item-row'
                     );
 
@@ -485,9 +509,76 @@ document.addEventListener('DOMContentLoaded', function () {
                         .closest('.item-row')
                         .remove();
 
-                }
+                } else {
 
+                    alert(
+                        'At least one material item is required.'
+                    );
+                }
             }
+
+        }
+    );
+
+
+    addButton.addEventListener(
+        'click',
+        function () {
+
+            const firstRow =
+                tableBody.querySelector(
+                    '.item-row'
+                );
+
+            const newRow =
+                firstRow.cloneNode(true);
+
+            newRow
+                .querySelectorAll('input')
+                .forEach(function (input) {
+
+                    input.value = '';
+
+                });
+
+            newRow
+                .querySelectorAll('select')
+                .forEach(function (select) {
+
+                    select.selectedIndex = 0;
+
+                });
+
+
+            newRow
+                .querySelectorAll(
+                    'input, select'
+                )
+                .forEach(function (element) {
+
+                    const name =
+                        element.getAttribute(
+                            'name'
+                        );
+
+                    if (name) {
+
+                        element.setAttribute(
+                            'name',
+                            name.replace(
+                                /\[\d+\]/,
+                                '[' + rowIndex + ']'
+                            )
+                        );
+                    }
+
+                });
+
+            tableBody.appendChild(
+                newRow
+            );
+
+            rowIndex++;
 
         }
     );

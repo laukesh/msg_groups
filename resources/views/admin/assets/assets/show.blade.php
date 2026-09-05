@@ -347,7 +347,7 @@
 
                             @if($asset->purchase_cost !== null)
 
-                                ₹{{ number_format((float) $asset->purchase_cost, 2) }}
+                                ${{ number_format((float) $asset->purchase_cost, 2) }}
 
                             @else
                                 -

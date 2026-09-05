@@ -133,7 +133,7 @@
 
                     <div class="fs-5 fw-semibold text-primary">
 
-                        {{ $contract->currency ?? 'INR' }}
+                        {{ $contract->currency ?? 'USD' }}
 
                         {{ number_format(
                             $summary['contract_advance_amount'],
@@ -230,7 +230,7 @@
 
                     <div class="fs-4 fw-semibold text-primary">
 
-                        {{ $contract->currency ?? 'INR' }}
+                        {{ $contract->currency ?? 'USD' }}
 
                         {{ number_format(
                             $summary['total_released'],
@@ -258,7 +258,7 @@
 
                     <div class="fs-4 fw-semibold text-success">
 
-                        {{ $contract->currency ?? 'INR' }}
+                        {{ $contract->currency ?? 'USD' }}
 
                         {{ number_format(
                             $summary['total_recovered'],
@@ -286,7 +286,7 @@
 
                     <div class="fs-4 fw-semibold text-warning">
 
-                        {{ $contract->currency ?? 'INR' }}
+                        {{ $contract->currency ?? 'USD' }}
 
                         {{ number_format(
                             $summary['total_adjustments']
@@ -316,7 +316,7 @@
 
                     <div class="fs-4 fw-semibold text-danger">
 
-                        {{ $contract->currency ?? 'INR' }}
+                        {{ $contract->currency ?? 'USD' }}
 
                         {{ number_format(
                             $summary['outstanding'],

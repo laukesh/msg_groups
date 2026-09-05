@@ -394,7 +394,7 @@
                                 {{-- Rent --}}
                                 <td>
 
-                                    ₹{{ number_format(
+                                    ${{ number_format(
                                         $agreement->monthly_rent ?? 0,
                                         2
                                     ) }}
@@ -408,7 +408,7 @@
                                             <small class="text-muted">
 
                                                 CAM:
-                                                ₹{{ number_format(
+                                                ${{ number_format(
                                                     $agreement->cam_amount,
                                                     2
                                                 ) }}

@@ -5,27 +5,31 @@ namespace App\Http\Controllers\Admin\Construction;
 use App\Http\Controllers\Controller;
 use App\Models\ConstructionMaterial;
 use App\Models\ConstructionMaterialRequest;
+use App\Models\ConstructionMaterialRequestItem;
+use App\Models\ConstructionMaterialRequirement;
 use App\Models\ConstructionWorkOrder;
 use App\Models\Project;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\View\View;
 
 class ConstructionMaterialRequestController extends Controller
 {
     /**
-     * Material Requests
+     * List Material Requests
      */
     public function index(
         Project $project,
         Request $request
-    ) {
+    ): View {
         $query = ConstructionMaterialRequest::query()
             ->where('project_id', $project->id)
             ->with([
                 'workOrder',
                 'requestedBy',
                 'items.material',
+                'items.materialRequirement',
             ]);
 
         /*
@@ -36,7 +40,7 @@ class ConstructionMaterialRequestController extends Controller
 
         if ($request->filled('search')) {
 
-            $search = $request->search;
+            $search = trim($request->search);
 
             $query->where(function ($q) use ($search) {
 
@@ -48,13 +52,50 @@ class ConstructionMaterialRequestController extends Controller
 
                 $q->orWhereHas(
                     'workOrder',
-                    function ($workOrder) use ($search) {
+                    function ($workOrderQuery) use ($search) {
 
-                        $workOrder->where(
-                            'work_order_number',
-                            'like',
-                            '%' . $search . '%'
-                        );
+                        $workOrderQuery
+                            ->where(
+                                'work_order_number',
+                                'like',
+                                '%' . $search . '%'
+                            )
+                            ->orWhere(
+                                'work_order_title',
+                                'like',
+                                '%' . $search . '%'
+                            );
+                    }
+                );
+
+                $q->orWhereHas(
+                    'items.material',
+                    function ($materialQuery) use ($search) {
+
+                        $materialQuery
+                            ->where(
+                                'material_code',
+                                'like',
+                                '%' . $search . '%'
+                            )
+                            ->orWhere(
+                                'material_name',
+                                'like',
+                                '%' . $search . '%'
+                            );
+                    }
+                );
+
+                $q->orWhereHas(
+                    'items.materialRequirement',
+                    function ($requirementQuery) use ($search) {
+
+                        $requirementQuery
+                            ->where(
+                                'purpose',
+                                'like',
+                                '%' . $search . '%'
+                            );
                     }
                 );
             });
@@ -62,7 +103,7 @@ class ConstructionMaterialRequestController extends Controller
 
         /*
         |--------------------------------------------------------------------------
-        | Status Filter
+        | Status
         |--------------------------------------------------------------------------
         */
 
@@ -74,55 +115,144 @@ class ConstructionMaterialRequestController extends Controller
             );
         }
 
+        /*
+        |--------------------------------------------------------------------------
+        | Pagination
+        |--------------------------------------------------------------------------
+        */
+
         $requests = $query
             ->orderByDesc('request_date')
             ->orderByDesc('id')
             ->paginate(15)
             ->withQueryString();
 
+        /*
+        |--------------------------------------------------------------------------
+        | Summary
+        |--------------------------------------------------------------------------
+        */
+
+        $summaryQuery = ConstructionMaterialRequest::query()
+            ->where(
+                'project_id',
+                $project->id
+            );
+
+        $summary = [
+
+            'total' => (clone $summaryQuery)
+                ->count(),
+
+            'draft' => (clone $summaryQuery)
+                ->where('status', 'Draft')
+                ->count(),
+
+            'submitted' => (clone $summaryQuery)
+                ->where('status', 'Submitted')
+                ->count(),
+
+            'under_review' => (clone $summaryQuery)
+                ->where('status', 'Under Review')
+                ->count(),
+
+            'approved' => (clone $summaryQuery)
+                ->where('status', 'Approved')
+                ->count(),
+
+            'changes_requested' => (clone $summaryQuery)
+                ->where(
+                    'status',
+                    'Changes Requested'
+                )
+                ->count(),
+        ];
+
         return view(
             'construction.materials.requests.index',
             compact(
                 'project',
-                'requests'
+                'requests',
+                'summary'
             )
         );
     }
 
 
     /**
-     * Create Material Request
+     * Create Request
      */
-    public function create(Project $project)
-    {
+    public function create(
+        Project $project
+    ): View {
+
         $materials = ConstructionMaterial::query()
             ->where('status', 'Active')
             ->orderBy('material_name')
             ->get();
 
         $workOrders = ConstructionWorkOrder::query()
-            ->where('project_id', $project->id)
-            ->orderByDesc('id')
+            ->where(
+                'project_id',
+                $project->id
+            )
+            ->orderBy(
+                'work_order_number'
+            )
             ->get();
+
+        /*
+        |--------------------------------------------------------------------------
+        | Available Requirements
+        |--------------------------------------------------------------------------
+        |
+        | Cancelled / Fulfilled requirements are not offered.
+        |
+        */
+
+        $requirements =
+            ConstructionMaterialRequirement::query()
+                ->where(
+                    'project_id',
+                    $project->id
+                )
+                ->whereNotIn(
+                    'status',
+                    [
+                        'Cancelled',
+                        'Fulfilled',
+                    ]
+                )
+                ->with([
+                    'material',
+                    'workOrder',
+                ])
+                ->orderBy(
+                    'required_date'
+                )
+                ->orderBy('id')
+                ->get();
 
         return view(
             'construction.materials.requests.create',
             compact(
                 'project',
                 'materials',
-                'workOrders'
+                'workOrders',
+                'requirements'
             )
         );
     }
 
 
     /**
-     * Store Material Request
+     * Store Request
      */
     public function store(
         Request $request,
         Project $project
     ) {
+
         $validated = $request->validate([
 
             'construction_work_order_id' => [
@@ -152,6 +282,12 @@ class ConstructionMaterialRequestController extends Controller
                 'min:1',
             ],
 
+            'items.*.material_requirement_id' => [
+                'nullable',
+                'integer',
+                'exists:construction_material_requirements,id',
+            ],
+
             'items.*.material_id' => [
                 'required',
                 'integer',
@@ -176,21 +312,33 @@ class ConstructionMaterialRequestController extends Controller
             ],
         ]);
 
-
         /*
         |--------------------------------------------------------------------------
-        | Validate Work Order belongs to Project
+        | Validate Work Order
         |--------------------------------------------------------------------------
         */
 
-        if (!empty($validated['construction_work_order_id'])) {
+        if (
+            !empty(
+                $validated['construction_work_order_id']
+            )
+        ) {
 
-            $workOrderExists = ConstructionWorkOrder::query()
-                ->where('id', $validated['construction_work_order_id'])
-                ->where('project_id', $project->id)
-                ->exists();
+            $workOrder =
+                ConstructionWorkOrder::query()
+                    ->where(
+                        'id',
+                        $validated[
+                            'construction_work_order_id'
+                        ]
+                    )
+                    ->where(
+                        'project_id',
+                        $project->id
+                    )
+                    ->first();
 
-            if (!$workOrderExists) {
+            if (!$workOrder) {
 
                 return back()
                     ->withInput()
@@ -201,102 +349,331 @@ class ConstructionMaterialRequestController extends Controller
             }
         }
 
-
         /*
         |--------------------------------------------------------------------------
-        | Validate Materials are Active
+        | Validate Request Items
         |--------------------------------------------------------------------------
         */
 
-        $materialIds = collect($validated['items'])
-            ->pluck('material_id')
-            ->unique();
+        $preparedItems = [];
 
-        $activeMaterialCount = ConstructionMaterial::query()
-            ->whereIn('id', $materialIds)
-            ->where('status', 'Active')
-            ->count();
-
-        if ($activeMaterialCount !== $materialIds->count()) {
-
-            return back()
-                ->withInput()
-                ->withErrors([
-                    'items' =>
-                        'One or more selected materials are inactive.',
-                ]);
-        }
-
-
-        DB::transaction(function () use (
-            $validated,
-            $project
+        foreach (
+            $validated['items']
+            as $index => $item
         ) {
-
-            $materialRequest =
-                new ConstructionMaterialRequest();
-
-            $materialRequest->project_id =
-                $project->id;
-
-            $materialRequest->construction_work_order_id =
-                $validated['construction_work_order_id'] ?? null;
-
-            $materialRequest->request_number =
-                $this->generateRequestNumber();
-
-            $materialRequest->request_date =
-                $validated['request_date'];
-
-            $materialRequest->requested_by =
-                Auth::id();
-
-            $materialRequest->required_date =
-                $validated['required_date'] ?? null;
-
-            $materialRequest->status =
-                'Draft';
-
-            $materialRequest->remarks =
-                $validated['remarks'] ?? null;
-
-            $materialRequest->created_by =
-                Auth::id();
-
-            $materialRequest->save();
-
 
             /*
             |--------------------------------------------------------------------------
-            | Items
+            | Validate Material
             |--------------------------------------------------------------------------
             */
 
-            foreach ($validated['items'] as $item) {
+            $material =
+                ConstructionMaterial::query()
+                    ->where(
+                        'id',
+                        $item['material_id']
+                    )
+                    ->where(
+                        'status',
+                        'Active'
+                    )
+                    ->first();
 
-                $materialRequest->items()->create([
+            if (!$material) {
 
-                    'material_id' =>
-                        $item['material_id'],
-
-                    'requested_quantity' =>
-                        $item['requested_quantity'],
-
-                    'unit' =>
-                        $item['unit'],
-
-                    'remarks' =>
-                        $item['remarks'] ?? null,
-
-                ]);
+                return back()
+                    ->withInput()
+                    ->withErrors([
+                        "items.$index.material_id" =>
+                            'Selected material is not active.',
+                    ]);
             }
-        });
 
+            /*
+            |--------------------------------------------------------------------------
+            | Requirement
+            |--------------------------------------------------------------------------
+            */
+
+            $requirement = null;
+
+            if (
+                !empty(
+                    $item['material_requirement_id']
+                )
+            ) {
+
+                $requirement =
+                    ConstructionMaterialRequirement::query()
+                        ->where(
+                            'id',
+                            $item[
+                                'material_requirement_id'
+                            ]
+                        )
+                        ->where(
+                            'project_id',
+                            $project->id
+                        )
+                        ->first();
+
+                if (!$requirement) {
+
+                    return back()
+                        ->withInput()
+                        ->withErrors([
+                            "items.$index.material_requirement_id" =>
+                                'Selected material requirement does not belong to this project.',
+                        ]);
+                }
+
+                /*
+                |--------------------------------------------------------------------------
+                | Requirement Status
+                |--------------------------------------------------------------------------
+                */
+
+                if (
+                    in_array(
+                        $requirement->status,
+                        [
+                            'Cancelled',
+                            'Fulfilled',
+                        ],
+                        true
+                    )
+                ) {
+
+                    return back()
+                        ->withInput()
+                        ->withErrors([
+                            "items.$index.material_requirement_id" =>
+                                'This material requirement is no longer available for requests.',
+                        ]);
+                }
+
+                /*
+                |--------------------------------------------------------------------------
+                | Material Must Match Requirement
+                |--------------------------------------------------------------------------
+                */
+
+                if (
+                    (int) $requirement->material_id !==
+                    (int) $item['material_id']
+                ) {
+
+                    return back()
+                        ->withInput()
+                        ->withErrors([
+                            "items.$index.material_id" =>
+                                'Selected material does not match the material requirement.',
+                        ]);
+                }
+
+                /*
+                |--------------------------------------------------------------------------
+                | Unit Should Match Requirement
+                |--------------------------------------------------------------------------
+                */
+
+                if (
+                    strtolower(
+                        trim($requirement->unit)
+                    ) !==
+                    strtolower(
+                        trim($item['unit'])
+                    )
+                ) {
+
+                    return back()
+                        ->withInput()
+                        ->withErrors([
+                            "items.$index.unit" =>
+                                'Selected unit does not match the material requirement unit.',
+                        ]);
+                }
+
+                /*
+                |--------------------------------------------------------------------------
+                | Already Requested
+                |--------------------------------------------------------------------------
+                */
+
+                $alreadyRequested =
+                    ConstructionMaterialRequestItem::query()
+                        ->where(
+                            'material_requirement_id',
+                            $requirement->id
+                        )
+                        ->whereHas(
+                            'materialRequest',
+                            function ($query) {
+
+                                $query->whereNotIn(
+                                    'status',
+                                    [
+                                        'Rejected',
+                                        'Cancelled',
+                                    ]
+                                );
+                            }
+                        )
+                        ->sum(
+                            'requested_quantity'
+                        );
+
+                /*
+                |--------------------------------------------------------------------------
+                | Remaining Requirement
+                |--------------------------------------------------------------------------
+                */
+
+                $remaining =
+                    (float)
+                        $requirement->required_quantity
+                    -
+                    (float)
+                        $alreadyRequested;
+
+                $requestedQuantity =
+                    (float)
+                        $item['requested_quantity'];
+
+                if ($remaining <= 0) {
+
+                    return back()
+                        ->withInput()
+                        ->withErrors([
+                            "items.$index.requested_quantity" =>
+                                'This material requirement has already been fully requested.',
+                        ]);
+                }
+
+                if (
+                    $requestedQuantity >
+                    $remaining
+                ) {
+
+                    return back()
+                        ->withInput()
+                        ->withErrors([
+                            "items.$index.requested_quantity" =>
+                                'Requested quantity exceeds the remaining requirement. Remaining: '
+                                . number_format(
+                                    $remaining,
+                                    4
+                                )
+                                . ' '
+                                . $requirement->unit,
+                        ]);
+                }
+            }
+
+            $preparedItems[] = [
+
+                'material_requirement_id' =>
+                    $item[
+                        'material_requirement_id'
+                    ] ?? null,
+
+                'material_id' =>
+                    $item['material_id'],
+
+                'requested_quantity' =>
+                    $item['requested_quantity'],
+
+                'unit' =>
+                    $item['unit'],
+
+                'remarks' =>
+                    $item['remarks'] ?? null,
+            ];
+        }
+
+        /*
+        |--------------------------------------------------------------------------
+        | Create Request
+        |--------------------------------------------------------------------------
+        */
+
+        $materialRequest =
+            DB::transaction(
+                function () use (
+                    $validated,
+                    $project,
+                    $preparedItems
+                ) {
+
+                    $materialRequest =
+                        new ConstructionMaterialRequest();
+
+                    $materialRequest->project_id =
+                        $project->id;
+
+                    $materialRequest->construction_work_order_id =
+                        $validated[
+                            'construction_work_order_id'
+                        ] ?? null;
+
+                    $materialRequest->request_number =
+                        $this->generateRequestNumber();
+
+                    $materialRequest->request_date =
+                        $validated['request_date'];
+
+                    $materialRequest->requested_by =
+                        Auth::id();
+
+                    $materialRequest->required_date =
+                        $validated[
+                            'required_date'
+                        ] ?? null;
+
+                    $materialRequest->status =
+                        'Draft';
+
+                    $materialRequest->remarks =
+                        $validated[
+                            'remarks'
+                        ] ?? null;
+
+                    $materialRequest->created_by =
+                        Auth::id();
+
+                    $materialRequest->save();
+
+                    /*
+                    |--------------------------------------------------------------------------
+                    | Items
+                    |--------------------------------------------------------------------------
+                    */
+
+                    foreach (
+                        $preparedItems
+                        as $item
+                    ) {
+
+                        $materialRequest
+                            ->items()
+                            ->create($item);
+                    }
+
+                    return $materialRequest;
+                }
+            );
 
         return redirect()
             ->route(
-                'admin.projects.construction.materials.requests.index',
-                $project
+                'admin.projects.construction.materials.requests.show',
+                [
+                    'project' =>
+                        $project->id,
+
+                    'materialRequest' =>
+                        $materialRequest->id,
+                ]
             )
             ->with(
                 'success',
@@ -306,18 +683,17 @@ class ConstructionMaterialRequestController extends Controller
 
 
     /**
-     * Show Material Request
+     * Show Request
      */
     public function show(
         Project $project,
         ConstructionMaterialRequest $materialRequest
-    ) {
-        if (
-            $materialRequest->project_id !==
-            $project->id
-        ) {
-            abort(404);
-        }
+    ): View {
+
+        $this->validateProjectRequest(
+            $project,
+            $materialRequest
+        );
 
         $materialRequest->load([
             'project',
@@ -327,45 +703,140 @@ class ConstructionMaterialRequestController extends Controller
             'creator',
             'updater',
             'items.material',
+            'items.materialRequirement',
         ]);
+
+        /*
+        |--------------------------------------------------------------------------
+        | Requirement Summary
+        |--------------------------------------------------------------------------
+        */
+
+        $requirementSummary = [];
+
+        foreach (
+            $materialRequest->items
+            as $item
+        ) {
+
+            if (
+                !$item->materialRequirement
+            ) {
+                continue;
+            }
+
+            $requirement =
+                $item->materialRequirement;
+
+            $alreadyRequested =
+                ConstructionMaterialRequestItem::query()
+                    ->where(
+                        'material_requirement_id',
+                        $requirement->id
+                    )
+                    ->whereHas(
+                        'materialRequest',
+                        function ($query) {
+
+                            $query->whereNotIn(
+                                'status',
+                                [
+                                    'Rejected',
+                                    'Cancelled',
+                                ]
+                            );
+                        }
+                    )
+                    ->sum(
+                        'requested_quantity'
+                    );
+
+            $remaining =
+                max(
+                    0,
+                    (float)
+                        $requirement->required_quantity
+                    -
+                    (float)
+                        $alreadyRequested
+                );
+
+            $requirementSummary[
+                $requirement->id
+            ] = [
+
+                'required' =>
+                    (float)
+                    $requirement->required_quantity,
+
+                'requested' =>
+                    (float)
+                    $alreadyRequested,
+
+                'remaining' =>
+                    $remaining,
+
+                'unit' =>
+                    $requirement->unit,
+            ];
+        }
 
         return view(
             'construction.materials.requests.show',
             compact(
                 'project',
-                'materialRequest'
+                'materialRequest',
+                'requirementSummary'
             )
         );
     }
 
 
     /**
-     * Edit Material Request
+     * Edit Request
      */
     public function edit(
         Project $project,
         ConstructionMaterialRequest $materialRequest
-    ) {
-        if (
-            $materialRequest->project_id !==
-            $project->id
-        ) {
-            abort(404);
-        }
+    ): View {
+
+        $this->validateProjectRequest(
+            $project,
+            $materialRequest
+        );
 
         if (
             !in_array(
                 $materialRequest->status,
-                ['Draft', 'Rejected']
+                [
+                    'Draft',
+                    'Changes Requested',
+                ],
+                true
             )
         ) {
-            return back()->with(
-                'error',
-                'Only Draft or Rejected requests can be edited.'
-            );
+
+            return redirect()
+                ->route(
+                    'admin.projects.construction.materials.requests.show',
+                    [
+                        'project' =>
+                            $project->id,
+
+                        'materialRequest' =>
+                            $materialRequest->id,
+                    ]
+                )
+                ->with(
+                    'error',
+                    'This request cannot be edited in its current status.'
+                );
         }
 
-        $materialRequest->load('items.material');
+        $materialRequest->load([
+            'items.material',
+            'items.materialRequirement',
+        ]);
 
         $materials = ConstructionMaterial::query()
             ->where('status', 'Active')
@@ -373,9 +844,37 @@ class ConstructionMaterialRequestController extends Controller
             ->get();
 
         $workOrders = ConstructionWorkOrder::query()
-            ->where('project_id', $project->id)
-            ->orderByDesc('id')
+            ->where(
+                'project_id',
+                $project->id
+            )
+            ->orderBy(
+                'work_order_number'
+            )
             ->get();
+
+        $requirements =
+            ConstructionMaterialRequirement::query()
+                ->where(
+                    'project_id',
+                    $project->id
+                )
+                ->whereNotIn(
+                    'status',
+                    [
+                        'Cancelled',
+                        'Fulfilled',
+                    ]
+                )
+                ->with([
+                    'material',
+                    'workOrder',
+                ])
+                ->orderBy(
+                    'required_date'
+                )
+                ->orderBy('id')
+                ->get();
 
         return view(
             'construction.materials.requests.edit',
@@ -383,37 +882,43 @@ class ConstructionMaterialRequestController extends Controller
                 'project',
                 'materialRequest',
                 'materials',
-                'workOrders'
+                'workOrders',
+                'requirements'
             )
         );
     }
 
 
     /**
-     * Update Material Request
+     * Update Request
      */
     public function update(
         Request $request,
         Project $project,
         ConstructionMaterialRequest $materialRequest
     ) {
-        if (
-            $materialRequest->project_id !==
-            $project->id
-        ) {
-            abort(404);
-        }
+
+        $this->validateProjectRequest(
+            $project,
+            $materialRequest
+        );
 
         if (
             !in_array(
                 $materialRequest->status,
-                ['Draft', 'Rejected']
+                [
+                    'Draft',
+                    'Changes Requested',
+                ],
+                true
             )
         ) {
-            return back()->with(
-                'error',
-                'This request cannot be edited in its current status.'
-            );
+
+            return back()
+                ->with(
+                    'error',
+                    'This request cannot be edited in its current status.'
+                );
         }
 
         $validated = $request->validate([
@@ -445,6 +950,12 @@ class ConstructionMaterialRequestController extends Controller
                 'min:1',
             ],
 
+            'items.*.material_requirement_id' => [
+                'nullable',
+                'integer',
+                'exists:construction_material_requirements,id',
+            ],
+
             'items.*.material_id' => [
                 'required',
                 'integer',
@@ -469,21 +980,33 @@ class ConstructionMaterialRequestController extends Controller
             ],
         ]);
 
+        /*
+        |--------------------------------------------------------------------------
+        | Work Order Validation
+        |--------------------------------------------------------------------------
+        */
 
-        if (!empty($validated['construction_work_order_id'])) {
+        if (
+            !empty(
+                $validated['construction_work_order_id']
+            )
+        ) {
 
-            $workOrderExists = ConstructionWorkOrder::query()
-                ->where(
-                    'id',
-                    $validated['construction_work_order_id']
-                )
-                ->where(
-                    'project_id',
-                    $project->id
-                )
-                ->exists();
+            $validWorkOrder =
+                ConstructionWorkOrder::query()
+                    ->where(
+                        'id',
+                        $validated[
+                            'construction_work_order_id'
+                        ]
+                    )
+                    ->where(
+                        'project_id',
+                        $project->id
+                    )
+                    ->exists();
 
-            if (!$workOrderExists) {
+            if (!$validWorkOrder) {
 
                 return back()
                     ->withInput()
@@ -494,92 +1017,292 @@ class ConstructionMaterialRequestController extends Controller
             }
         }
 
+        /*
+        |--------------------------------------------------------------------------
+        | Validate Items
+        |--------------------------------------------------------------------------
+        */
 
-        $materialIds = collect($validated['items'])
-            ->pluck('material_id')
-            ->unique();
+        $preparedItems = [];
 
-        $activeMaterialCount = ConstructionMaterial::query()
-            ->whereIn('id', $materialIds)
-            ->where('status', 'Active')
-            ->count();
-
-        if ($activeMaterialCount !== $materialIds->count()) {
-
-            return back()
-                ->withInput()
-                ->withErrors([
-                    'items' =>
-                        'One or more selected materials are inactive.',
-                ]);
-        }
-
-
-        DB::transaction(function () use (
-            $validated,
-            $materialRequest
+        foreach (
+            $validated['items']
+            as $index => $item
         ) {
 
-            $materialRequest->construction_work_order_id =
-                $validated['construction_work_order_id'] ?? null;
+            $material =
+                ConstructionMaterial::query()
+                    ->where(
+                        'id',
+                        $item['material_id']
+                    )
+                    ->where(
+                        'status',
+                        'Active'
+                    )
+                    ->first();
 
-            $materialRequest->request_date =
-                $validated['request_date'];
+            if (!$material) {
 
-            $materialRequest->required_date =
-                $validated['required_date'] ?? null;
-
-            $materialRequest->remarks =
-                $validated['remarks'] ?? null;
-
-            /*
-             * Rejected request becomes Draft again
-             * when edited.
-             */
-            if ($materialRequest->status === 'Rejected') {
-                $materialRequest->status = 'Draft';
+                return back()
+                    ->withInput()
+                    ->withErrors([
+                        "items.$index.material_id" =>
+                            'Selected material is not active.',
+                    ]);
             }
 
-            $materialRequest->updated_by =
-                Auth::id();
+            $requirement = null;
 
-            $materialRequest->save();
+            if (
+                !empty(
+                    $item['material_requirement_id']
+                )
+            ) {
 
+                $requirement =
+                    ConstructionMaterialRequirement::query()
+                        ->where(
+                            'id',
+                            $item[
+                                'material_requirement_id'
+                            ]
+                        )
+                        ->where(
+                            'project_id',
+                            $project->id
+                        )
+                        ->first();
 
-            /*
-            |--------------------------------------------------------------------------
-            | Replace Items
-            |--------------------------------------------------------------------------
-            */
+                if (!$requirement) {
 
-            $materialRequest->items()->delete();
+                    return back()
+                        ->withInput()
+                        ->withErrors([
+                            "items.$index.material_requirement_id" =>
+                                'Selected requirement does not belong to this project.',
+                        ]);
+                }
 
-            foreach ($validated['items'] as $item) {
+                if (
+                    in_array(
+                        $requirement->status,
+                        [
+                            'Cancelled',
+                            'Fulfilled',
+                        ],
+                        true
+                    )
+                ) {
 
-                $materialRequest->items()->create([
+                    return back()
+                        ->withInput()
+                        ->withErrors([
+                            "items.$index.material_requirement_id" =>
+                                'Selected requirement is no longer available.',
+                        ]);
+                }
 
-                    'material_id' =>
-                        $item['material_id'],
+                if (
+                    (int) $requirement->material_id !==
+                    (int) $item['material_id']
+                ) {
 
-                    'requested_quantity' =>
-                        $item['requested_quantity'],
+                    return back()
+                        ->withInput()
+                        ->withErrors([
+                            "items.$index.material_id" =>
+                                'Selected material does not match the requirement.',
+                        ]);
+                }
 
-                    'unit' =>
-                        $item['unit'],
+                if (
+                    strtolower(
+                        trim($requirement->unit)
+                    ) !==
+                    strtolower(
+                        trim($item['unit'])
+                    )
+                ) {
 
-                    'remarks' =>
-                        $item['remarks'] ?? null,
+                    return back()
+                        ->withInput()
+                        ->withErrors([
+                            "items.$index.unit" =>
+                                'Selected unit does not match the requirement.',
+                        ]);
+                }
 
-                ]);
+                /*
+                |--------------------------------------------------------------------------
+                | Existing Quantity From Other Requests
+                |--------------------------------------------------------------------------
+                |
+                | Exclude the current request while editing.
+                |
+                */
+
+                $alreadyRequested =
+                    ConstructionMaterialRequestItem::query()
+                        ->where(
+                            'material_requirement_id',
+                            $requirement->id
+                        )
+                        ->where(
+                            'material_request_id',
+                            '!=',
+                            $materialRequest->id
+                        )
+                        ->whereHas(
+                            'materialRequest',
+                            function ($query) {
+
+                                $query->whereNotIn(
+                                    'status',
+                                    [
+                                        'Rejected',
+                                        'Cancelled',
+                                    ]
+                                );
+                            }
+                        )
+                        ->sum(
+                            'requested_quantity'
+                        );
+
+                $remaining =
+                    (float)
+                        $requirement->required_quantity
+                    -
+                    (float)
+                        $alreadyRequested;
+
+                if (
+                    (float)
+                        $item['requested_quantity']
+                    >
+                    $remaining
+                ) {
+
+                    return back()
+                        ->withInput()
+                        ->withErrors([
+                            "items.$index.requested_quantity" =>
+                                'Requested quantity exceeds the remaining requirement. Remaining: '
+                                . number_format(
+                                    max(
+                                        0,
+                                        $remaining
+                                    ),
+                                    4
+                                )
+                                . ' '
+                                . $requirement->unit,
+                        ]);
+                }
             }
-        });
 
+            $preparedItems[] = [
+
+                'material_requirement_id' =>
+                    $item[
+                        'material_requirement_id'
+                    ] ?? null,
+
+                'material_id' =>
+                    $item['material_id'],
+
+                'requested_quantity' =>
+                    $item['requested_quantity'],
+
+                'unit' =>
+                    $item['unit'],
+
+                'remarks' =>
+                    $item['remarks'] ?? null,
+            ];
+        }
+
+        /*
+        |--------------------------------------------------------------------------
+        | Update
+        |--------------------------------------------------------------------------
+        */
+
+        DB::transaction(
+            function () use (
+                $materialRequest,
+                $validated,
+                $preparedItems
+            ) {
+
+                $materialRequest->construction_work_order_id =
+                    $validated[
+                        'construction_work_order_id'
+                    ] ?? null;
+
+                $materialRequest->request_date =
+                    $validated['request_date'];
+
+                $materialRequest->required_date =
+                    $validated[
+                        'required_date'
+                    ] ?? null;
+
+                $materialRequest->remarks =
+                    $validated[
+                        'remarks'
+                    ] ?? null;
+
+                /*
+                |--------------------------------------------------------------------------
+                | Changes Requested → Draft
+                |--------------------------------------------------------------------------
+                */
+
+                if (
+                    $materialRequest->status ===
+                    'Changes Requested'
+                ) {
+
+                    $materialRequest->status =
+                        'Draft';
+                }
+
+                $materialRequest->updated_by =
+                    Auth::id();
+
+                $materialRequest->save();
+
+                /*
+                |--------------------------------------------------------------------------
+                | Replace Items
+                |--------------------------------------------------------------------------
+                */
+
+                $materialRequest
+                    ->items()
+                    ->delete();
+
+                foreach (
+                    $preparedItems
+                    as $item
+                ) {
+
+                    $materialRequest
+                        ->items()
+                        ->create($item);
+                }
+            }
+        );
 
         return redirect()
             ->route(
                 'admin.projects.construction.materials.requests.show',
                 [
-                    'project' => $project->id,
+                    'project' =>
+                        $project->id,
+
                     'materialRequest' =>
                         $materialRequest->id,
                 ]
@@ -598,25 +1321,22 @@ class ConstructionMaterialRequestController extends Controller
         Project $project,
         ConstructionMaterialRequest $materialRequest
     ) {
+
         $this->validateProjectRequest(
             $project,
             $materialRequest
         );
 
-        if ($materialRequest->status !== 'Draft') {
+        if (
+            $materialRequest->status !==
+            'Draft'
+        ) {
 
-            return back()->with(
-                'error',
-                'Only Draft requests can be submitted.'
-            );
-        }
-
-        if (!$materialRequest->items()->exists()) {
-
-            return back()->with(
-                'error',
-                'A material request must contain at least one item.'
-            );
+            return back()
+                ->with(
+                    'error',
+                    'Only draft requests can be submitted.'
+                );
         }
 
         $materialRequest->status =
@@ -627,10 +1347,11 @@ class ConstructionMaterialRequestController extends Controller
 
         $materialRequest->save();
 
-        return back()->with(
-            'success',
-            'Material request submitted for review.'
-        );
+        return back()
+            ->with(
+                'success',
+                'Material request submitted for review.'
+            );
     }
 
 
@@ -641,17 +1362,22 @@ class ConstructionMaterialRequestController extends Controller
         Project $project,
         ConstructionMaterialRequest $materialRequest
     ) {
+
         $this->validateProjectRequest(
             $project,
             $materialRequest
         );
 
-        if ($materialRequest->status !== 'Submitted') {
+        if (
+            $materialRequest->status !==
+            'Submitted'
+        ) {
 
-            return back()->with(
-                'error',
-                'Only Submitted requests can be moved to review.'
-            );
+            return back()
+                ->with(
+                    'error',
+                    'Only submitted requests can be moved to review.'
+                );
         }
 
         $materialRequest->status =
@@ -662,10 +1388,11 @@ class ConstructionMaterialRequestController extends Controller
 
         $materialRequest->save();
 
-        return back()->with(
-            'success',
-            'Material request is now under review.'
-        );
+        return back()
+            ->with(
+                'success',
+                'Material request moved to review.'
+            );
     }
 
 
@@ -676,17 +1403,22 @@ class ConstructionMaterialRequestController extends Controller
         Project $project,
         ConstructionMaterialRequest $materialRequest
     ) {
+
         $this->validateProjectRequest(
             $project,
             $materialRequest
         );
 
-        if ($materialRequest->status !== 'Under Review') {
+        if (
+            $materialRequest->status !==
+            'Under Review'
+        ) {
 
-            return back()->with(
-                'error',
-                'Only requests under review can be approved.'
-            );
+            return back()
+                ->with(
+                    'error',
+                    'Only requests under review can be approved.'
+                );
         }
 
         $materialRequest->status =
@@ -703,10 +1435,52 @@ class ConstructionMaterialRequestController extends Controller
 
         $materialRequest->save();
 
-        return back()->with(
-            'success',
-            'Material request approved successfully.'
+        return back()
+            ->with(
+                'success',
+                'Material request approved successfully.'
+            );
+    }
+
+
+    /**
+     * Request Changes
+     */
+    public function requestChanges(
+        Project $project,
+        ConstructionMaterialRequest $materialRequest
+    ) {
+
+        $this->validateProjectRequest(
+            $project,
+            $materialRequest
         );
+
+        if (
+            $materialRequest->status !==
+            'Under Review'
+        ) {
+
+            return back()
+                ->with(
+                    'error',
+                    'Only requests under review can have changes requested.'
+                );
+        }
+
+        $materialRequest->status =
+            'Changes Requested';
+
+        $materialRequest->updated_by =
+            Auth::id();
+
+        $materialRequest->save();
+
+        return back()
+            ->with(
+                'success',
+                'Changes requested for this material request.'
+            );
     }
 
 
@@ -717,17 +1491,22 @@ class ConstructionMaterialRequestController extends Controller
         Project $project,
         ConstructionMaterialRequest $materialRequest
     ) {
+
         $this->validateProjectRequest(
             $project,
             $materialRequest
         );
 
-        if ($materialRequest->status !== 'Under Review') {
+        if (
+            $materialRequest->status !==
+            'Under Review'
+        ) {
 
-            return back()->with(
-                'error',
-                'Only requests under review can be rejected.'
-            );
+            return back()
+                ->with(
+                    'error',
+                    'Only requests under review can be rejected.'
+                );
         }
 
         $materialRequest->status =
@@ -738,10 +1517,11 @@ class ConstructionMaterialRequestController extends Controller
 
         $materialRequest->save();
 
-        return back()->with(
-            'success',
-            'Material request rejected.'
-        );
+        return back()
+            ->with(
+                'success',
+                'Material request rejected.'
+            );
     }
 
 
@@ -752,6 +1532,7 @@ class ConstructionMaterialRequestController extends Controller
         Project $project,
         ConstructionMaterialRequest $materialRequest
     ) {
+
         $this->validateProjectRequest(
             $project,
             $materialRequest
@@ -760,13 +1541,20 @@ class ConstructionMaterialRequestController extends Controller
         if (
             in_array(
                 $materialRequest->status,
-                ['Approved', 'Completed', 'Cancelled']
+                [
+                    'Approved',
+                    'Rejected',
+                    'Cancelled',
+                ],
+                true
             )
         ) {
-            return back()->with(
-                'error',
-                'This request cannot be cancelled.'
-            );
+
+            return back()
+                ->with(
+                    'error',
+                    'This material request cannot be cancelled.'
+                );
         }
 
         $materialRequest->status =
@@ -777,23 +1565,25 @@ class ConstructionMaterialRequestController extends Controller
 
         $materialRequest->save();
 
-        return back()->with(
-            'success',
-            'Material request cancelled.'
-        );
+        return back()
+            ->with(
+                'success',
+                'Material request cancelled successfully.'
+            );
     }
 
 
     /**
-     * Validate project/request relation
+     * Validate Request Belongs to Project
      */
     private function validateProjectRequest(
         Project $project,
         ConstructionMaterialRequest $materialRequest
     ): void {
+
         if (
-            $materialRequest->project_id !==
-            $project->id
+            (int) $materialRequest->project_id !==
+            (int) $project->id
         ) {
             abort(404);
         }
@@ -803,14 +1593,17 @@ class ConstructionMaterialRequestController extends Controller
     /**
      * Generate Request Number
      *
-     * MR-YYYY-000001
+     * Format:
+     * MR-2026-000001
      */
     private function generateRequestNumber(): string
     {
-        $lastId = ConstructionMaterialRequest::withTrashed()
-            ->max('id');
+        $lastId =
+            ConstructionMaterialRequest::withTrashed()
+                ->max('id');
 
-        $nextId = ((int) $lastId) + 1;
+        $nextId =
+            ((int) $lastId) + 1;
 
         return 'MR-' .
             date('Y') .

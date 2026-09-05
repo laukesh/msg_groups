@@ -212,7 +212,7 @@
                                 </td>
 
                                 <td>
-                                    ₹{{ number_format(
+                                    ${{ number_format(
                                         $data['estimated_value'],
                                         2
                                     ) }}
@@ -235,14 +235,14 @@
                                 </td>
 
                                 <td>
-                                    ₹{{ number_format(
+                                    ${{ number_format(
                                         $data['award_value'],
                                         2
                                     ) }}
                                 </td>
 
                                 <td>
-                                    ₹{{ number_format(
+                                    ${{ number_format(
                                         $data['contract_value'],
                                         2
                                     ) }}

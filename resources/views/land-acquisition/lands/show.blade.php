@@ -1466,7 +1466,7 @@
 
                             <strong>
 
-                                INR
+                                USD
 
                                 {{ number_format(
                                     $land->acquisitionCosts

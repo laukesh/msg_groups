@@ -163,7 +163,7 @@
                     </div>
 
                     <div class="fw-semibold">
-                        ₹{{ number_format(
+                        ${{ number_format(
                             $term->agreement?->monthly_rent ?? 0,
                             2
                         ) }}
@@ -385,7 +385,7 @@
 
                         @if($term->late_fee_type === 'Fixed')
 
-                            ₹{{ number_format(
+                            ${{ number_format(
                                 $term->late_fee_value ?? 0,
                                 2
                             ) }}

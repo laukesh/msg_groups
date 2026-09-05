@@ -257,7 +257,7 @@
 
                                 <div class="fw-semibold">
 
-                                    ₹{{ number_format(
+                                    ${{ number_format(
                                         $renewal->current_rent ?? 0,
                                         2
                                     ) }}
@@ -475,7 +475,7 @@
 
                         <input type="text"
                                class="form-control"
-                               value="₹{{ number_format(
+                               value="${{ number_format(
                                    $renewal->current_rent ?? 0,
                                    2
                                ) }}"
@@ -592,7 +592,7 @@
                         <input type="text"
                                id="rent_difference"
                                class="form-control"
-                               value="₹{{ number_format(
+                               value="${{ number_format(
                                    $difference,
                                    2
                                ) }}"
@@ -853,7 +853,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
 
         rentDifference.value =
-            '₹' + difference.toLocaleString(
+            '$' + difference.toLocaleString(
                 'en-IN',
                 {
                     minimumFractionDigits: 2,

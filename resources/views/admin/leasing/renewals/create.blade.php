@@ -192,7 +192,7 @@
 
                                 <div class="fw-semibold">
 
-                                    ₹{{ number_format(
+                                    ${{ number_format(
                                         $agreement->monthly_rent ?? 0,
                                         2
                                     ) }}

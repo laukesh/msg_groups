@@ -240,7 +240,7 @@
 
                             <span class="fw-semibold text-success">
 
-                                ₹{{ number_format(
+                                ${{ number_format(
                                     $income->amount,
                                     2
                                 ) }}

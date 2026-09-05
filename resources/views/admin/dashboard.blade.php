@@ -35,7 +35,7 @@
 			            </div>
 
 			            <div class="kpi-value">
-			                {{ $totalAssetValue ?? '₹0.00 M' }}
+			                {{ $totalAssetValue ?? '$0.00 M' }}
 			            </div>
 
 			            <div class="kpi-change positive">
@@ -149,7 +149,7 @@
 			            </div>
 
 			            <div class="kpi-value">
-			                {{ $annualRevenue ?? '₹0.00 M' }}
+			                {{ $annualRevenue ?? '$0.00 M' }}
 			            </div>
 
 			            <div class="kpi-change positive">
@@ -187,7 +187,7 @@
 			            </div>
 
 			            <div class="kpi-value">
-			                {{ $netOperatingIncome ?? '₹0.00 M' }}
+			                {{ $netOperatingIncome ?? '$0.00 M' }}
 			            </div>
 
 			            <div class="kpi-change positive">
@@ -594,7 +594,7 @@
 				                </span>
 
 				                <strong>
-				                    {{ $totalAssetValue ?? '₹185.00 M' }}
+				                    {{ $totalAssetValue ?? '$185.00 M' }}
 				                </strong>
 
 				            </div>
@@ -620,7 +620,7 @@
 							        </span>
 
 							        <strong>
-							            ₹75.20M
+							            $75.20M
 							        </strong>
 
 							    </div>
@@ -641,7 +641,7 @@
 							        </span>
 
 							        <strong>
-							            ₹45.60M
+							            $45.60M
 							        </strong>
 
 							    </div>
@@ -662,7 +662,7 @@
 							        </span>
 
 							        <strong>
-							            ₹28.70M
+							            $28.70M
 							        </strong>
 
 							    </div>
@@ -683,7 +683,7 @@
 							        </span>
 
 							        <strong>
-							            ₹18.30M
+							            $18.30M
 							        </strong>
 
 							    </div>
@@ -704,7 +704,7 @@
 							        </span>
 
 							        <strong>
-							            ₹17.20M
+							            $17.20M
 							        </strong>
 
 							    </div>
@@ -1185,7 +1185,7 @@
 			                    </span>
 
 			                    <strong class="rental-summary-billed">
-			                        {{ $rentalBilled ?? '₹1.20M' }}
+			                        {{ $rentalBilled ?? '$1.20M' }}
 			                    </strong>
 
 			                </div>
@@ -1198,7 +1198,7 @@
 			                    </span>
 
 			                    <strong class="rental-summary-collected">
-			                        {{ $rentalCollected ?? '₹1.16M' }}
+			                        {{ $rentalCollected ?? '$1.16M' }}
 			                    </strong>
 
 			                </div>
@@ -1211,7 +1211,7 @@
 			                    </span>
 
 			                    <strong class="rental-summary-outstanding">
-			                        {{ $rentalOutstanding ?? '₹0.04M' }}
+			                        {{ $rentalOutstanding ?? '$0.04M' }}
 			                    </strong>
 
 			                </div>
@@ -1280,7 +1280,7 @@
 			                </span>
 
 			                <strong>
-			                    {{ $financialRevenue ?? '₹12.80M' }}
+			                    {{ $financialRevenue ?? '$12.80M' }}
 			                </strong>
 
 			                <small class="financial-positive">
@@ -1316,7 +1316,7 @@
 			                </span>
 
 			                <strong>
-			                    {{ $financialExpense ?? '₹4.10M' }}
+			                    {{ $financialExpense ?? '$4.10M' }}
 			                </strong>
 
 			                <small class="financial-negative">
@@ -1352,7 +1352,7 @@
 			                </span>
 
 			                <strong>
-			                    {{ $financialNoi ?? '₹8.70M' }}
+			                    {{ $financialNoi ?? '$8.70M' }}
 			                </strong>
 
 			                <small class="financial-positive">
@@ -1388,7 +1388,7 @@
 			                </span>
 
 			                <strong>
-			                    {{ $financialProfit ?? '₹7.40M' }}
+			                    {{ $financialProfit ?? '$7.40M' }}
 			                </strong>
 
 			                <small class="financial-positive">
@@ -2217,7 +2217,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
                         label: function (context) {
 
-                            return ' ₹'
+                            return ' $'
                                 + context.parsed
                                 + 'M';
 
@@ -2600,7 +2600,7 @@ document.addEventListener('DOMContentLoaded', function () {
                             const value =
                                 context.parsed;
 
-                            return ' ₹'
+                            return ' $'
                                 + (
                                     value / 1000000
                                 ).toFixed(2)

@@ -395,7 +395,7 @@
                             class="form-control"
                             value="{{ old(
                                 'currency',
-                                'INR'
+                                'USD'
                             ) }}"
                             maxlength="10"
                             required
@@ -458,7 +458,7 @@
                         Example:
                     </strong>
 
-                    Minimum ₹10,00,000 and Maximum ₹1,00,00,000
+                    Minimum $10,00,000 and Maximum $1,00,00,000
                     means this authority applies to transactions
                     within that range.
 

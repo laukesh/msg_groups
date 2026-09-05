@@ -62,7 +62,7 @@
                             </p>
 
                             <h4 class="mb-0">
-                                ₹{{ number_format($totalInvoiced, 2) }}
+                                ${{ number_format($totalInvoiced, 2) }}
                             </h4>
 
                         </div>
@@ -96,7 +96,7 @@
                             </p>
 
                             <h4 class="mb-0 text-success">
-                                ₹{{ number_format($totalCollected, 2) }}
+                                ${{ number_format($totalCollected, 2) }}
                             </h4>
 
                         </div>
@@ -130,7 +130,7 @@
                             </p>
 
                             <h4 class="mb-0 text-warning">
-                                ₹{{ number_format($outstandingAmount, 2) }}
+                                ${{ number_format($outstandingAmount, 2) }}
                             </h4>
 
                         </div>
@@ -164,7 +164,7 @@
                             </p>
 
                             <h4 class="mb-0 text-danger">
-                                ₹{{ number_format($overdueAmount, 2) }}
+                                ${{ number_format($overdueAmount, 2) }}
                             </h4>
 
                         </div>
@@ -201,7 +201,7 @@
                     </p>
 
                     <h5>
-                        ₹{{ number_format($currentMonthInvoiced, 2) }}
+                        ${{ number_format($currentMonthInvoiced, 2) }}
                     </h5>
 
                 </div>
@@ -222,7 +222,7 @@
                     </p>
 
                     <h5 class="text-success">
-                        ₹{{ number_format($currentMonthCollected, 2) }}
+                        ${{ number_format($currentMonthCollected, 2) }}
                     </h5>
 
                 </div>
@@ -360,7 +360,7 @@
                         </span>
 
                         <strong class="text-warning">
-                            ₹{{ number_format(
+                            ${{ number_format(
                                 $pendingReconciliation,
                                 2
                             ) }}
@@ -582,7 +582,7 @@
 
                                 <td>
 
-                                    ₹{{ number_format(
+                                    ${{ number_format(
                                         $payment->payment_amount,
                                         2
                                     ) }}
@@ -693,21 +693,21 @@
                                 </td>
 
                                 <td class="text-end">
-                                    ₹{{ number_format(
+                                    ${{ number_format(
                                         (float) $charge->invoiced_amount,
                                         2
                                     ) }}
                                 </td>
 
                                 <td class="text-end text-success fw-semibold">
-                                    ₹{{ number_format(
+                                    ${{ number_format(
                                         (float) $charge->collected_amount,
                                         2
                                     ) }}
                                 </td>
 
                                 <td class="text-end text-danger">
-                                    ₹{{ number_format(
+                                    ${{ number_format(
                                         (float) $charge->outstanding_amount,
                                         2
                                     ) }}
@@ -825,7 +825,7 @@
 
 
                                 <td>
-                                    ₹{{ number_format(
+                                    ${{ number_format(
                                         $invoice->total_amount,
                                         2
                                     ) }}
@@ -833,7 +833,7 @@
 
 
                                 <td>
-                                    ₹{{ number_format(
+                                    ${{ number_format(
                                         $invoice->paid_amount,
                                         2
                                     ) }}
@@ -842,7 +842,7 @@
 
                                 <td class="fw-semibold text-danger">
 
-                                    ₹{{ number_format(
+                                    ${{ number_format(
                                         $invoice->balance_amount,
                                         2
                                     ) }}
@@ -964,7 +964,7 @@
 
                     ticks: {
                         callback: function(value) {
-                            return '₹' +
+                            return '$' +
                                 Number(value).toLocaleString('en-IN');
                         }
                     }

@@ -441,7 +441,7 @@
                         </small>
 
                         <h4 class="mb-0">
-                            ₹{{ number_format($totalInvoiced, 2) }}
+                            ${{ number_format($totalInvoiced, 2) }}
                         </h4>
                     </div>
                 </div>
@@ -454,7 +454,7 @@
                         </small>
 
                         <h4 class="mb-0 text-success">
-                            ₹{{ number_format($totalPaid, 2) }}
+                            ${{ number_format($totalPaid, 2) }}
                         </h4>
                     </div>
                 </div>
@@ -467,7 +467,7 @@
                         </small>
 
                         <h4 class="mb-0 text-danger">
-                            ₹{{ number_format($totalOutstanding, 2) }}
+                            ${{ number_format($totalOutstanding, 2) }}
                         </h4>
                     </div>
                 </div>
@@ -518,15 +518,15 @@
                                     </td>
 
                                     <td>
-                                        ₹{{ number_format($invoice->total_amount, 2) }}
+                                        ${{ number_format($invoice->total_amount, 2) }}
                                     </td>
 
                                     <td class="text-success">
-                                        ₹{{ number_format($invoice->paid_amount, 2) }}
+                                        ${{ number_format($invoice->paid_amount, 2) }}
                                     </td>
 
                                     <td class="text-danger">
-                                        ₹{{ number_format($invoice->balance_amount, 2) }}
+                                        ${{ number_format($invoice->balance_amount, 2) }}
                                     </td>
 
                                     <td>
@@ -601,14 +601,14 @@
                             <div class="col-md-3">
                                 <small class="text-muted">Monthly Rent</small>
                                 <div>
-                                    ₹{{ number_format($agreement->monthly_rent, 2) }}
+                                    ${{ number_format($agreement->monthly_rent, 2) }}
                                 </div>
                             </div>
 
                             <div class="col-md-3">
                                 <small class="text-muted">CAM</small>
                                 <div>
-                                    ₹{{ number_format($agreement->cam_amount, 2) }}
+                                    ${{ number_format($agreement->cam_amount, 2) }}
                                 </div>
                             </div>
 
@@ -693,7 +693,7 @@
                                             </td>
 
                                             <td>
-                                                ₹{{ number_format($schedule->total_amount, 2) }}
+                                                ${{ number_format($schedule->total_amount, 2) }}
                                             </td>
 
                                             <td>

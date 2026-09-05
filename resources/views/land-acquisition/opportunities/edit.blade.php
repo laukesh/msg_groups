@@ -304,7 +304,7 @@
                             name="currency"
                             value="{{ old(
                                 'currency',
-                                $opportunity->currency ?? 'INR'
+                                $opportunity->currency ?? 'USD'
                             ) }}"
                             class="form-control"
                         >

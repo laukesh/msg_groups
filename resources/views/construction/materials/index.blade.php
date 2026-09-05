@@ -19,7 +19,7 @@
         </div>
 
         <div>
-            <a href="{{ route('admin.projects.construction.index', $project) }}"
+            <a href="{{ route('admin.projects.construction.dashboard', $project) }}"
                class="btn btn-secondary">
                 ← Back to Construction
             </a>
@@ -243,12 +243,19 @@
                     </h5>
 
                     <p class="text-muted">
-                        Record receipt, inspection and acceptance.
+                        Record material receipt, acceptance,
+                        rejection and inspection status.
                     </p>
 
-                    <span class="text-muted">
-                        Coming next
-                    </span>
+                    <a href="{{ route(
+                        'admin.projects.construction.materials.receipts.index',
+                        $project
+                    ) }}"
+                       class="btn btn-primary">
+
+                        Open Receipts
+
+                    </a>
 
                 </div>
 
@@ -264,16 +271,23 @@
                 <div class="card-body">
 
                     <h5>
-                        Stock & Consumption
+                        Stock
                     </h5>
 
                     <p class="text-muted">
-                        Monitor site stock and material consumption.
+                        View project-wise material stock,
+                        batches and stock transactions.
                     </p>
 
-                    <span class="text-muted">
-                        Coming next
-                    </span>
+                    <a href="{{ route(
+                        'admin.projects.construction.materials.stock.index',
+                        $project
+                    ) }}"
+                       class="btn btn-primary">
+
+                        Open Stock
+
+                    </a>
 
                 </div>
 

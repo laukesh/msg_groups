@@ -237,7 +237,7 @@
 
                     <div class="fs-5 fw-semibold">
 
-                        {{ $contract->currency ?? 'INR' }}
+                        {{ $contract->currency ?? 'USD' }}
 
                         {{ number_format(
                             $summary['total_coverage'],
@@ -265,7 +265,7 @@
 
                     <div class="fs-5 fw-semibold">
 
-                        {{ $contract->currency ?? 'INR' }}
+                        {{ $contract->currency ?? 'USD' }}
 
                         {{ number_format(
                             $summary['total_premium'],

@@ -565,7 +565,7 @@
                             !== null
                         )
 
-                            ₹{{
+                            ${{
                                 number_format(
                                     $investmentDecision
                                         ->recommended_investment,
@@ -600,7 +600,7 @@
                             !== null
                         )
 
-                            ₹{{
+                            ${{
                                 number_format(
                                     $investmentDecision
                                         ->approved_investment,
@@ -702,7 +702,7 @@
                             !== null
                         )
 
-                            ₹{{
+                            ${{
                                 number_format(
                                     $investmentDecision
                                         ->expected_npv,

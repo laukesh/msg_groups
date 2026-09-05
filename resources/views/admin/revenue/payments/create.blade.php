@@ -92,7 +92,7 @@
 
                     <div class="mt-1">
 
-                        ₹{{ number_format(
+                        ${{ number_format(
                             $invoice->total_amount,
                             2
                         ) }}
@@ -108,7 +108,7 @@
 
                     <div class="mt-1 text-danger fw-bold">
 
-                        ₹{{ number_format(
+                        ${{ number_format(
                             $invoice->balance_amount,
                             2
                         ) }}
@@ -210,7 +210,7 @@
                         <small class="text-muted">
 
                             Maximum:
-                            ₹{{ number_format(
+                            ${{ number_format(
                                 $invoice->balance_amount,
                                 2
                             ) }}

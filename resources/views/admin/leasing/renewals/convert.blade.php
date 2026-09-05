@@ -247,7 +247,7 @@
 
                     <div>
 
-                        ₹{{ number_format(
+                        ${{ number_format(
                             $renewal->current_rent ?? 0,
                             2
                         ) }}
@@ -265,7 +265,7 @@
 
                     <div class="fw-semibold text-success">
 
-                        ₹{{ number_format(
+                        ${{ number_format(
                             $renewal->proposed_rent ?? 0,
                             2
                         ) }}
@@ -283,7 +283,7 @@
 
                     <div class="fw-semibold">
 
-                        ₹{{ number_format(
+                        ${{ number_format(
                             $renewal->proposed_security_deposit ?? 0,
                             2
                         ) }}

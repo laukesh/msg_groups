@@ -262,7 +262,7 @@
                                 {{-- Base Rent --}}
                                 <td class="text-end">
 
-                                    ₹{{ number_format(
+                                    ${{ number_format(
                                         $schedule->base_rent ?? 0,
                                         2
                                     ) }}
@@ -273,7 +273,7 @@
                                 {{-- CAM --}}
                                 <td class="text-end">
 
-                                    ₹{{ number_format(
+                                    ${{ number_format(
                                         $schedule->cam_amount ?? 0,
                                         2
                                     ) }}
@@ -284,7 +284,7 @@
                                 {{-- Tax --}}
                                 <td class="text-end">
 
-                                    ₹{{ number_format(
+                                    ${{ number_format(
                                         $schedule->tax_amount ?? 0,
                                         2
                                     ) }}
@@ -297,7 +297,7 @@
 
                                     <strong>
 
-                                        ₹{{ number_format(
+                                        ${{ number_format(
                                             $schedule->total_amount ?? 0,
                                             2
                                         ) }}

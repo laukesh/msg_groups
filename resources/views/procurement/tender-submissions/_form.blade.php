@@ -227,7 +227,7 @@
                     @selected(
                         old(
                             'currency',
-                            $submission?->currency ?? 'INR'
+                            $submission?->currency ?? 'USD'
                         ) === $currency
                     )
                 >

@@ -161,7 +161,7 @@
 
                         <div class="col-sm-7 fw-bold text-success">
 
-                            ₹{{ number_format(
+                            ${{ number_format(
                                 $payment->payment_amount,
                                 2
                             ) }}
@@ -467,7 +467,7 @@
 
                             <div class="col-sm-7 fw-bold">
 
-                                ₹{{ number_format(
+                                ${{ number_format(
                                     $payment->invoice->total_amount,
                                     2
                                 ) }}
@@ -485,7 +485,7 @@
 
                             <div class="col-sm-7 text-success fw-bold">
 
-                                ₹{{ number_format(
+                                ${{ number_format(
                                     $payment->invoice->paid_amount,
                                     2
                                 ) }}
@@ -503,7 +503,7 @@
 
                             <div class="col-sm-7 text-danger fw-bold">
 
-                                ₹{{ number_format(
+                                ${{ number_format(
                                     $payment->invoice->balance_amount,
                                     2
                                 ) }}
@@ -878,7 +878,7 @@
 
                                     <td class="text-end fw-semibold">
 
-                                        ₹{{ number_format(
+                                        ${{ number_format(
                                             $allocation->allocated_amount,
                                             2
                                         ) }}

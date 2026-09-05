@@ -43,7 +43,7 @@
 
                     <h4 class="mb-0">
 
-                        ₹{{ number_format(
+                        ${{ number_format(
                             (float) $totalRevenue,
                             2
                         ) }}
@@ -339,7 +339,7 @@
 
                                 <td class="text-end fw-semibold">
 
-                                    ₹{{ number_format(
+                                    ${{ number_format(
                                         (float) $row->total_revenue,
                                         2
                                     ) }}
@@ -394,7 +394,7 @@
 
                                 <th class="text-end">
 
-                                    ₹{{ number_format(
+                                    ${{ number_format(
                                         (float) $totalRevenue,
                                         2
                                     ) }}

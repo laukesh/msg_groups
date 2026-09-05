@@ -126,7 +126,7 @@
 
                             <td>
 
-                                ₹{{ number_format(
+                                ${{ number_format(
                                     $escalation->previous_rent ?? 0,
                                     2
                                 ) }}
@@ -145,7 +145,7 @@
 
                                 @else
 
-                                    ₹{{ number_format(
+                                    ${{ number_format(
                                         $escalation->escalation_value,
                                         2
                                     ) }}
@@ -157,7 +157,7 @@
 
                             <td class="fw-semibold">
 
-                                ₹{{ number_format(
+                                ${{ number_format(
                                     $escalation->revised_rent ?? 0,
                                     2
                                 ) }}

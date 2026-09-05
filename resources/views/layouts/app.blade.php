@@ -174,6 +174,7 @@
                     || request()->is('admin/procurement*')
                     || request()->is('admin/feasibility-investment*')
                     || request()->is('admin/construction*')
+                    || request()->is('admin/design-management*')
                     ? 'open'
                     : ''
                 }}
@@ -269,17 +270,17 @@
                          FUTURE MODULES
                     ====================================================== --}}
 
-                    <a
+                    <!-- <a
                         href="#"
                         class="sidebar-sublink"
                     >
                         <i class="ri-layout-4-line"></i>
                         <span>Development Planning</span>
-                    </a>
+                    </a> -->
 
 
                     <a
-                        href="#"
+                        href="{{ route('admin.design-management.index') }}"
                         class="sidebar-sublink"
                     >
                         <i class="ri-draft-line"></i>

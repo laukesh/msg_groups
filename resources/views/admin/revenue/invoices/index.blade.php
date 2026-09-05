@@ -136,7 +136,7 @@
                                 <td>
 
                                     <strong>
-                                        ₹{{ number_format($invoice->total_amount, 2) }}
+                                        ${{ number_format($invoice->total_amount, 2) }}
                                     </strong>
 
                                 </td>
@@ -144,7 +144,7 @@
 
                                 <td>
 
-                                    ₹{{ number_format($invoice->paid_amount, 2) }}
+                                    ${{ number_format($invoice->paid_amount, 2) }}
 
                                 </td>
 
@@ -152,7 +152,7 @@
                                 <td>
 
                                     <strong>
-                                        ₹{{ number_format($invoice->balance_amount, 2) }}
+                                        ${{ number_format($invoice->balance_amount, 2) }}
                                     </strong>
 
                                 </td>

@@ -337,6 +337,8 @@ class ConstructionDashboardController extends Controller
                 $scheduleStatus,
         ];
 
+        //echo "<pre>";print_r($contracts);die();
+
 
         return view(
             'construction.dashboard.index',

@@ -1,5 +1,7 @@
 @extends('layouts.app')
 
+@section('title', 'Material Requests')
+
 @section('content')
 
 <div class="container-fluid">
@@ -7,37 +9,32 @@
     <div class="d-flex justify-content-between align-items-center mb-4">
 
         <div>
-            <h4 class="mb-1 fw-bold">
+
+            <h4 class="mb-1">
                 Material Requests
             </h4>
 
-            <p class="text-muted mb-0">
-                {{ $project->project_number }}
-                <span class="mx-1">•</span>
+            <div class="text-muted">
                 {{ $project->project_name }}
-            </p>
+            </div>
+
         </div>
+
 
         <div class="d-flex gap-2">
 
-            <a href="{{ route(
-                'admin.projects.construction.materials.index',
-                $project
-            ) }}"
-               class="btn btn-light border">
-
-                ← Back to Materials
-
+            <a href="{{ route('admin.projects.construction.materials.index', [
+                'project' => $project->id
+            ]) }}"
+               class="btn btn-outline-secondary">
+                ← Materials
             </a>
 
-            <a href="{{ route(
-                'admin.projects.construction.materials.requests.create',
-                $project
-            ) }}"
+            <a href="{{ route('admin.projects.construction.materials.requests.create', [
+                'project' => $project->id
+            ]) }}"
                class="btn btn-primary">
-
-                + New Material Request
-
+                + New Request
             </a>
 
         </div>
@@ -45,17 +42,138 @@
     </div>
 
 
-    {{-- Filters --}}
+    {{-- Summary --}}
+    <div class="row g-3 mb-4">
 
+        <div class="col-md-2">
+
+            <div class="card border-0 shadow-sm h-100">
+                <div class="card-body">
+
+                    <div class="text-muted small">
+                        Total
+                    </div>
+
+                    <div class="fs-3 fw-bold">
+                        {{ $summary['total'] }}
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+
+
+        <div class="col-md-2">
+
+            <div class="card border-0 shadow-sm h-100">
+                <div class="card-body">
+
+                    <div class="text-muted small">
+                        Draft
+                    </div>
+
+                    <div class="fs-3 fw-bold text-secondary">
+                        {{ $summary['draft'] }}
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+
+
+        <div class="col-md-2">
+
+            <div class="card border-0 shadow-sm h-100">
+                <div class="card-body">
+
+                    <div class="text-muted small">
+                        Submitted
+                    </div>
+
+                    <div class="fs-3 fw-bold text-primary">
+                        {{ $summary['submitted'] }}
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+
+
+        <div class="col-md-2">
+
+            <div class="card border-0 shadow-sm h-100">
+                <div class="card-body">
+
+                    <div class="text-muted small">
+                        Under Review
+                    </div>
+
+                    <div class="fs-3 fw-bold text-warning">
+                        {{ $summary['under_review'] }}
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+
+
+        <div class="col-md-2">
+
+            <div class="card border-0 shadow-sm h-100">
+                <div class="card-body">
+
+                    <div class="text-muted small">
+                        Approved
+                    </div>
+
+                    <div class="fs-3 fw-bold text-success">
+                        {{ $summary['approved'] }}
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+
+
+        <div class="col-md-2">
+
+            <div class="card border-0 shadow-sm h-100">
+                <div class="card-body">
+
+                    <div class="text-muted small">
+                        Changes
+                    </div>
+
+                    <div class="fs-3 fw-bold text-danger">
+                        {{ $summary['changes_requested'] }}
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+
+    {{-- Filters --}}
     <div class="card border-0 shadow-sm mb-4">
 
         <div class="card-body">
 
-            <form method="GET">
+            <form method="GET"
+                  action="{{ route('admin.projects.construction.materials.requests.index', [
+                      'project' => $project->id
+                  ]) }}">
 
-                <div class="row g-3">
+                <div class="row g-3 align-items-end">
 
-                    <div class="col-md-5">
+                    <div class="col-md-6">
 
                         <label class="form-label">
                             Search
@@ -65,9 +183,10 @@
                                name="search"
                                value="{{ request('search') }}"
                                class="form-control"
-                               placeholder="Request number or work order">
+                               placeholder="Request number, material or work order">
 
                     </div>
+
 
                     <div class="col-md-3">
 
@@ -79,17 +198,18 @@
                                 class="form-select">
 
                             <option value="">
-                                All Status
+                                All Statuses
                             </option>
 
                             @foreach([
                                 'Draft',
                                 'Submitted',
                                 'Under Review',
+                                'Changes Requested',
                                 'Approved',
                                 'Rejected',
                                 'Cancelled',
-                                'Completed'
+                                'Completed',
                             ] as $status)
 
                                 <option value="{{ $status }}"
@@ -103,20 +223,19 @@
 
                     </div>
 
-                    <div class="col-md-4 d-flex align-items-end">
 
-                        <button class="btn btn-primary me-2">
+                    <div class="col-md-3 d-flex gap-2">
+
+                        <button type="submit"
+                                class="btn btn-primary">
                             Search
                         </button>
 
-                        <a href="{{ route(
-                            'admin.projects.construction.materials.requests.index',
-                            $project
-                        ) }}"
-                           class="btn btn-secondary">
-
+                        <a href="{{ route('admin.projects.construction.materials.requests.index', [
+                            'project' => $project->id
+                        ]) }}"
+                           class="btn btn-outline-secondary">
                             Reset
-
                         </a>
 
                     </div>
@@ -131,40 +250,50 @@
 
 
     {{-- Table --}}
-
     <div class="card border-0 shadow-sm">
 
-        <div class="card-body">
+        <div class="card-body p-0">
 
             <div class="table-responsive">
 
-                <table class="table table-hover align-middle">
+                <table class="table table-hover align-middle mb-0">
 
-                    <thead>
+                    <thead class="table-light">
 
                         <tr>
 
-                            <th>#</th>
+                            <th>
+                                Request No.
+                            </th>
 
-                            <th>Request No.</th>
+                            <th>
+                                Date
+                            </th>
 
-                            <th>Request Date</th>
+                            <th>
+                                Work Order
+                            </th>
 
-                            <th>Work Order</th>
+                            <th>
+                                Materials
+                            </th>
 
-                            <th>Items</th>
+                            <th>
+                                Requested By
+                            </th>
 
-                            <th>Required Date</th>
+                            <th>
+                                Status
+                            </th>
 
-                            <th>Requested By</th>
-
-                            <th>Status</th>
-
-                            <th>Action</th>
+                            <th class="text-end">
+                                Action
+                            </th>
 
                         </tr>
 
                     </thead>
+
 
                     <tbody>
 
@@ -173,53 +302,82 @@
                         <tr>
 
                             <td>
-                                {{ $requests->firstItem() + $loop->index }}
-                            </td>
 
-                            <td>
-
-                                <strong>
+                                <div class="fw-semibold">
                                     {{ $materialRequest->request_number }}
-                                </strong>
+                                </div>
 
                             </td>
+
 
                             <td>
-                                {{ $materialRequest->request_date?->format('d M Y') }}
+
+                                {{ $materialRequest->request_date
+                                    ? $materialRequest->request_date->format('d M Y')
+                                    : '—'
+                                }}
+
                             </td>
+
 
                             <td>
 
                                 @if($materialRequest->workOrder)
 
-                                    {{ $materialRequest->workOrder->work_order_number }}
+                                    <div class="fw-semibold">
+                                        {{ $materialRequest->workOrder->work_order_number }}
+                                    </div>
+
+                                    <small class="text-muted">
+                                        {{ $materialRequest->workOrder->work_order_title }}
+                                    </small>
 
                                 @else
 
                                     <span class="text-muted">
-                                        —
+                                        General Project
                                     </span>
 
                                 @endif
 
                             </td>
 
-                            <td>
-
-                                <span class="badge bg-light text-dark border">
-
-                                    {{ $materialRequest->items->count() }}
-                                    item(s)
-
-                                </span>
-
-                            </td>
 
                             <td>
 
-                                {{ $materialRequest->required_date?->format('d M Y') ?? '—' }}
+                                @foreach($materialRequest->items->take(2) as $item)
+
+                                    <div class="small">
+
+                                        {{ $item->material?->material_name ?? '—' }}
+
+                                        -
+                                        {{ number_format((float) $item->requested_quantity, 2) }}
+                                        {{ $item->unit }}
+
+                                        @if($item->materialRequirement)
+
+                                            <span class="badge bg-light text-dark">
+                                                Requirement Linked
+                                            </span>
+
+                                        @endif
+
+                                    </div>
+
+                                @endforeach
+
+                                @if($materialRequest->items->count() > 2)
+
+                                    <small class="text-muted">
+                                        + {{ $materialRequest->items->count() - 2 }}
+                                        more
+                                    </small>
+
+                                @endif
 
                             </td>
+
 
                             <td>
 
@@ -227,47 +385,60 @@
 
                             </td>
 
+
                             <td>
 
                                 @php
 
-                                    $statusClass = match(
+                                    $badgeClass = match(
                                         $materialRequest->status
                                     ) {
-                                        'Draft' => 'secondary',
-                                        'Submitted' => 'info',
-                                        'Under Review' => 'warning',
-                                        'Approved' => 'success',
-                                        'Rejected' => 'danger',
-                                        'Cancelled' => 'dark',
-                                        'Completed' => 'primary',
-                                        default => 'secondary',
+
+                                        'Draft' =>
+                                            'bg-secondary',
+
+                                        'Submitted' =>
+                                            'bg-primary',
+
+                                        'Under Review' =>
+                                            'bg-warning text-dark',
+
+                                        'Changes Requested' =>
+                                            'bg-danger',
+
+                                        'Approved' =>
+                                            'bg-success',
+
+                                        'Rejected' =>
+                                            'bg-danger',
+
+                                        'Cancelled' =>
+                                            'bg-dark',
+
+                                        'Completed' =>
+                                            'bg-success',
+
+                                        default =>
+                                            'bg-secondary',
                                     };
 
                                 @endphp
 
-                                <span class="badge bg-{{ $statusClass }}">
-
+                                <span class="badge {{ $badgeClass }}">
                                     {{ $materialRequest->status }}
-
                                 </span>
 
                             </td>
 
-                            <td>
 
-                                <a href="{{ route(
-                                    'admin.projects.construction.materials.requests.show',
-                                    [
-                                        'project' => $project->id,
-                                        'materialRequest' =>
-                                            $materialRequest->id,
-                                    ]
-                                ) }}"
-                                   class="btn btn-sm btn-info">
+                            <td class="text-end">
 
+                                <a href="{{ route('admin.projects.construction.materials.requests.show', [
+                                    'project' => $project->id,
+                                    'materialRequest' => $materialRequest->id,
+                                ]) }}"
+                                   class="btn btn-sm btn-outline-primary">
                                     View
-
                                 </a>
 
                             </td>
@@ -278,10 +449,19 @@
 
                         <tr>
 
-                            <td colspan="9"
-                                class="text-center text-muted py-5">
+                            <td colspan="7"
+                                class="text-center py-5">
 
-                                No material requests found.
+                                <div class="text-muted mb-2">
+                                    No material requests found.
+                                </div>
+
+                                <a href="{{ route('admin.projects.construction.materials.requests.create', [
+                                    'project' => $project->id
+                                ]) }}"
+                                   class="btn btn-primary btn-sm">
+                                    + Create Request
+                                </a>
 
                             </td>
 
@@ -295,11 +475,18 @@
 
             </div>
 
-            <div class="mt-3">
+        </div>
+
+
+        @if($requests->hasPages())
+
+            <div class="card-footer bg-white">
+
                 {{ $requests->links() }}
+
             </div>
 
-        </div>
+        @endif
 
     </div>
 

@@ -341,7 +341,7 @@
                     </small>
 
                     <strong>
-                        ₹ {{ number_format((float) $fitoutRequest->estimated_cost, 2) }}
+                        $ {{ number_format((float) $fitoutRequest->estimated_cost, 2) }}
                     </strong>
 
                 </div>

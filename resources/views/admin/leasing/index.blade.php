@@ -522,7 +522,7 @@
 
                                 <td>
 
-                                    ₹{{ number_format(
+                                    ${{ number_format(
                                         $lease->monthly_rent ?? 0,
                                         2
                                     ) }}
@@ -534,7 +534,7 @@
 
                                 <td>
 
-                                    ₹{{ number_format(
+                                    ${{ number_format(
                                         $lease->cam_amount ?? 0,
                                         2
                                     ) }}

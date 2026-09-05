@@ -826,7 +826,7 @@
 
                                     <td>
 
-                                        ₹{{ number_format(
+                                        ${{ number_format(
                                             $proposalUnit->proposed_rent ?? 0,
                                             2
                                         ) }}
@@ -894,7 +894,7 @@
 
                     <div class="fs-5 fw-bold">
 
-                        ₹{{ number_format(
+                        ${{ number_format(
                             $agreement->monthly_rent ?? 0,
                             2
                         ) }}
@@ -912,7 +912,7 @@
 
                     <div class="fs-5 fw-bold">
 
-                        ₹{{ number_format(
+                        ${{ number_format(
                             $agreement->cam_amount ?? 0,
                             2
                         ) }}
@@ -930,7 +930,7 @@
 
                     <div class="fs-5 fw-bold">
 
-                        ₹{{ number_format(
+                        ${{ number_format(
                             $agreement->security_deposit ?? 0,
                             2
                         ) }}
@@ -948,7 +948,7 @@
 
                     <div class="fs-5 fw-bold">
 
-                        ₹{{ number_format(
+                        ${{ number_format(
                             $agreement->utility_deposit ?? 0,
                             2
                         ) }}
@@ -974,7 +974,7 @@
 
                     <div class="fw-semibold">
 
-                        ₹{{ number_format(
+                        ${{ number_format(
                             (
                                 $agreement->monthly_rent ?? 0
                             ) +
@@ -1637,7 +1637,7 @@
                             </td>
 
                             <td>
-                                ₹{{ number_format(
+                                ${{ number_format(
                                     $renewal->proposed_rent ?? 0,
                                     2
                                 ) }}
@@ -1721,7 +1721,7 @@
                             </td>
 
                             <td>
-                                ₹{{ number_format(
+                                ${{ number_format(
                                     $escalation->previous_rent ?? 0,
                                     2
                                 ) }}
@@ -1738,7 +1738,7 @@
 
                                 @else
 
-                                    ₹{{ number_format(
+                                    ${{ number_format(
                                         $escalation->escalation_value ?? 0,
                                         2
                                     ) }}
@@ -1749,7 +1749,7 @@
 
                             <td class="fw-bold">
 
-                                ₹{{ number_format(
+                                ${{ number_format(
                                     $escalation->revised_rent ?? 0,
                                     2
                                 ) }}

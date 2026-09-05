@@ -572,7 +572,7 @@
 
                         @if($decision->financial_impact !== null)
 
-                            ₹{{ number_format(
+                            ${{ number_format(
                                 $decision->financial_impact,
                                 2
                             ) }}

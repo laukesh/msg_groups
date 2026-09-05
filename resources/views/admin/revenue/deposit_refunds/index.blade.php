@@ -195,7 +195,7 @@
 
                                         -
 
-                                        ₹{{
+                                        ${{
                                             number_format(
                                                 $deposit->refundable_amount,
                                                 2
@@ -238,7 +238,7 @@
 
                                 <strong id="originalDeposit">
 
-                                    ₹0.00
+                                    $0.00
 
                                 </strong>
 
@@ -257,7 +257,7 @@
                                 <strong id="availableRefund"
                                         class="text-success">
 
-                                    ₹0.00
+                                    $0.00
 
                                 </strong>
 
@@ -471,7 +471,7 @@
                                     <strong id="totalDeduction"
                                             class="text-danger">
 
-                                        ₹0.00
+                                        $0.00
 
                                     </strong>
 
@@ -491,7 +491,7 @@
                                     <strong id="refundAmount"
                                             class="text-success fs-5">
 
-                                        ₹0.00
+                                        $0.00
 
                                     </strong>
 
@@ -761,7 +761,7 @@
 
                                             <td>
 
-                                                ₹{{
+                                                ${{
                                                     number_format(
                                                         $refund
                                                             ->original_deposit,
@@ -778,7 +778,7 @@
 
                                                 <span class="text-danger">
 
-                                                    ₹{{
+                                                    ${{
                                                         number_format(
                                                             $refund
                                                                 ->total_deduction,
@@ -797,7 +797,7 @@
 
                                                 <strong class="text-success">
 
-                                                    ₹{{
+                                                    ${{
                                                         number_format(
                                                             $refund
                                                                 ->refund_amount,
@@ -1300,7 +1300,7 @@ document.addEventListener(
 
         function formatCurrency(amount)
         {
-            return '₹' +
+            return '$' +
                 Number(amount || 0).toLocaleString(
                     'en-IN',
                     {
@@ -1489,7 +1489,7 @@ document.addEventListener(
                     document.getElementById(
                         'processRefundAmount'
                     ).value =
-                        '₹' + amount;
+                        '$' + amount;
 
 
                     document.getElementById(
