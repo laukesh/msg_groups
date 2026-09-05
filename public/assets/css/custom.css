@@ -6217,3 +6217,254 @@ body .app-content {
     }
 
 }
+ svg.w-5.h-5 {
+    height: 14px !important;
+}
+
+/* =================================================
+   TOPBAR USER
+================================================= */
+
+.topbar-user {
+    position: relative;
+}
+
+
+/* User Toggle */
+
+.topbar-user-toggle {
+    border: 0;
+    background: transparent;
+    padding: 6px 10px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    cursor: pointer;
+    border-radius: 10px;
+    transition: all 0.2s ease;
+}
+
+.topbar-user-toggle:hover,
+.topbar-user-toggle:focus {
+    background: rgba(0, 0, 0, 0.05);
+    outline: none;
+}
+
+
+/* Avatar */
+
+.topbar-user-avatar {
+    width: 42px;
+    height: 42px;
+    min-width: 42px;
+
+    border-radius: 50%;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    background: #0d6efd;
+    color: #fff;
+
+    font-size: 17px;
+    font-weight: 700;
+
+    text-transform: uppercase;
+}
+
+
+/* User Info */
+
+.topbar-user-info {
+    display: flex;
+    flex-direction: column;
+    text-align: left;
+    line-height: 1.2;
+}
+
+.topbar-user-info strong {
+    font-size: 14px;
+    color: #212529;
+}
+
+.topbar-user-info small {
+    margin-top: 3px;
+    font-size: 11px;
+    color: #6c757d;
+}
+
+
+/* Arrow */
+
+.user-arrow {
+    font-size: 20px;
+    color: #6c757d;
+    transition: transform 0.2s ease;
+}
+
+.topbar-user-toggle[aria-expanded="true"] .user-arrow {
+    transform: rotate(180deg);
+}
+
+
+/* =================================================
+   USER DROPDOWN
+================================================= */
+
+.user-dropdown-menu {
+    min-width: 270px;
+
+    margin-top: 10px !important;
+
+    padding: 8px;
+
+    border: 1px solid rgba(0, 0, 0, 0.08);
+
+    border-radius: 12px;
+
+    box-shadow:
+        0 10px 30px rgba(0, 0, 0, 0.12);
+
+    animation: userDropdown 0.15s ease;
+}
+
+@keyframes userDropdown {
+    from {
+        opacity: 0;
+        transform: translateY(-5px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+
+/* =================================================
+   DROPDOWN HEADER
+================================================= */
+
+.user-dropdown-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+
+    padding: 10px 8px;
+}
+
+.user-dropdown-avatar {
+    width: 45px;
+    height: 45px;
+    min-width: 45px;
+}
+
+.user-dropdown-header strong {
+    display: block;
+    font-size: 14px;
+    color: #212529;
+}
+
+.user-dropdown-header small {
+    display: block;
+    margin-top: 3px;
+    font-size: 11px;
+    color: #6c757d;
+}
+
+
+/* =================================================
+   DROPDOWN ITEMS
+================================================= */
+
+.user-dropdown-menu .dropdown-item {
+    display: flex;
+    align-items: center;
+
+    gap: 12px;
+
+    padding: 10px 12px;
+
+    border-radius: 8px;
+
+    font-size: 14px;
+
+    color: #343a40;
+
+    transition: all 0.15s ease;
+}
+
+.user-dropdown-menu .dropdown-item i {
+    width: 20px;
+
+    font-size: 18px;
+
+    color: #6c757d;
+}
+
+.user-dropdown-menu .dropdown-item:hover {
+    background: #f1f3f5;
+    color: #0d6efd;
+}
+
+.user-dropdown-menu .dropdown-item:hover i {
+    color: #0d6efd;
+}
+
+
+/* =================================================
+   LOGOUT
+================================================= */
+
+.user-dropdown-menu .logout-item {
+    width: 100%;
+
+    border: 0;
+
+    background: transparent;
+
+    text-align: left;
+
+    cursor: pointer;
+}
+
+.user-dropdown-menu .logout-item:hover {
+    background: #fff1f1;
+    color: #dc3545;
+}
+
+.user-dropdown-menu .logout-item:hover i {
+    color: #dc3545;
+}
+
+
+/* =================================================
+   MOBILE
+================================================= */
+
+@media (max-width: 576px) {
+
+    .topbar-user-info {
+        display: none;
+    }
+
+    .topbar-user-toggle {
+        padding: 4px;
+        gap: 4px;
+    }
+
+    .topbar-user-avatar {
+        width: 38px;
+        height: 38px;
+        min-width: 38px;
+    }
+
+    .user-arrow {
+        font-size: 18px;
+    }
+
+    .user-dropdown-menu {
+        min-width: 250px;
+    }
+}

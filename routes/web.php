@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\AuthController;
-
+use App\Http\Controllers\Admin\ActivityLogController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\UserManagementController;
 use App\Http\Controllers\Admin\RoleController;
@@ -18,6 +18,11 @@ use App\Http\Controllers\Admin\Assets\AssetCategoryController;
 use App\Http\Controllers\Admin\Assets\UnitDocumentController;
 use App\Http\Controllers\Admin\Assets\UnitStatusController;
 use App\Http\Controllers\Admin\Assets\DepartmentController;
+use App\Http\Controllers\Admin\Assets\AssetExpenseController;
+use App\Http\Controllers\Admin\Assets\AssetIncomeController;
+use App\Http\Controllers\Admin\Assets\EconomicDashboardController;
+use App\Http\Controllers\Admin\Assets\AssetPerformanceController;
+
 
 
 use App\Http\Controllers\Admin\Leasing\LeasingController;
@@ -274,45 +279,54 @@ Route::controller(AuthController::class)->group(function () {
 |--------------------------------------------------------------------------
 */
 
-Route::prefix('auth')
-    ->group(function () {
+    Route::middleware('auth')
+        ->prefix('profile')
+        ->name('profile.')
+        ->group(function () {
 
-        Route::prefix('profile')
-            ->name('profile.')
-            ->group(function () {
-                Route::get('/dashboard', [
-                    AuthController::class,
-                    'dashboard'
-                ])->name('show');
-                Route::get('/', [
-                    AuthController::class,
-                    'profileForm'
-                ])
-                    ->middleware('permission:profile.view')
-                    ->name('show');
+            Route::get('/dashboard', [
+                AuthController::class,
+                'dashboard'
+            ])->name('dashboard');
 
-                Route::post('/update', [
-                    AuthController::class,
-                    'updateProfile'
-                ])
-                    ->middleware('permission:profile.update')
-                    ->name('update');
+            Route::get('/', [
+                AuthController::class,
+                'profileForm'
+            ])
+                ->middleware('permission:profile.view')
+                ->name('show');
 
-                Route::post('/change-password', [
-                    AuthController::class,
-                    'changePassword'
-                ])
-                    ->middleware('permission:profile.update')
-                    ->name('change-password');
-            });
-    });
+            Route::get('/edit', [
+                AuthController::class,
+                'profileEditForm'
+            ])
+                ->middleware('permission:profile.view')
+                ->name('edit');
 
+            Route::post('/update', [
+                AuthController::class,
+                'updateProfile'
+            ])
+                ->middleware('permission:profile.update')
+                ->name('update');
+
+            Route::get('/change-password', [
+                AuthController::class,
+                'passwordForm'
+            ])
+                ->middleware('permission:profile.update')
+                ->name('password');
+
+            Route::post('/change-password', [
+                AuthController::class,
+                'changePassword'
+            ])
+                ->middleware('permission:profile.update')
+                ->name('change-password');
+        });
 Route::middleware('auth')->group(function () {
-
-
-
-
-    /*
+ 
+     /*
     |--------------------------------------------------------------------------
     | ADMIN PANEL
     |--------------------------------------------------------------------------
@@ -634,21 +648,111 @@ Route::middleware('auth')->group(function () {
                 'destroy' => 'permission:unit_documents.delete',
             ]);
 
-            /*income*/
+          
+              /*expenses*/
 
-            Route::resource('incomes', App\Http\Controllers\Admin\Assets\AssetIncomeController::class)
-            ->middleware([
-                'index' => 'permission:incomes.view',
-                'show' => 'permission:incomes.view',
-                'create' => 'permission:incomes.create',
-                'store' => 'permission:incomes.create',
-                'edit' => 'permission:incomes.edit',
-                'update' => 'permission:incomes.edit',
-                'destroy' => 'permission:incomes.delete',
-            ]);
+            Route::get('expenses/{asset}', [AssetExpenseController::class, 'index'])
+                ->middleware('permission:expenses.view')
+                ->name('expenses.index');
 
+            Route::get('expenses/{asset}/create', [AssetExpenseController::class, 'create'])
+                ->middleware('permission:expenses.create')
+                ->name('expenses.create');
+
+            Route::post('expenses/{asset}', [AssetExpenseController::class, 'store'])
+                ->middleware('permission:expenses.create')
+                ->name('expenses.store');
+
+            Route::get('expenses/{asset}/{expense}', [AssetExpenseController::class, 'show'])
+                ->middleware('permission:expenses.view')
+                ->name('expenses.show');
+
+            Route::get('expenses/{asset}/{expense}/edit', [AssetExpenseController::class, 'edit'])
+                ->middleware('permission:expenses.edit')
+                ->name('expenses.edit');
+
+            Route::put('expenses/{asset}/{expense}', [AssetExpenseController::class, 'update'])
+                ->middleware('permission:expenses.edit')
+                ->name('expenses.update');
+
+            Route::patch('expenses/{asset}/{expense}', [AssetExpenseController::class, 'update'])
+                ->middleware('permission:expenses.edit')
+                ->name('expenses.update.patch');
+
+            Route::delete('expenses/{asset}/{expense}', [AssetExpenseController::class, 'destroy'])
+                ->middleware('permission:expenses.delete')
+                ->name('expenses.destroy');
+
+                 /*Incomes*/
+
+            Route::get('incomes/{asset}', [AssetIncomeController::class, 'index'])
+                ->middleware('permission:incomes.view')
+                ->name('incomes.index');
+
+            Route::get('incomes/{asset}/create', [AssetIncomeController::class, 'create'])
+                ->middleware('permission:incomes.create')
+                ->name('incomes.create');
+
+            Route::post('incomes/{asset}', [AssetIncomeController::class, 'store'])
+                ->middleware('permission:incomes.create')
+                ->name('incomes.store');
+
+            Route::get('incomes/{asset}/{income}', [AssetIncomeController::class, 'show'])
+                ->middleware('permission:incomes.view')
+                ->name('incomes.show');
+
+            Route::get('incomes/{asset}/{income}/edit', [AssetIncomeController::class, 'edit'])
+                ->middleware('permission:incomes.edit')
+                ->name('incomes.edit');
+
+            Route::put('incomes/{asset}/{income}', [AssetIncomeController::class, 'update'])
+                ->middleware('permission:incomes.edit')
+                ->name('incomes.update');
+
+            Route::patch('incomes/{asset}/{income}', [AssetIncomeController::class, 'update'])
+                ->middleware('permission:incomes.edit')
+                ->name('incomes.update.patch');
+
+            Route::delete('incomes/{asset}/{income}', [AssetIncomeController::class, 'destroy'])
+                ->middleware('permission:incomes.delete')
+                ->name('incomes.destroy');
+                
+            Route::get('/economic-dashboard', [
+                        EconomicDashboardController::class,
+                        'index'
+                    ])
+                    ->middleware('permission:economic_dashboard.view')
+                    ->name('economic-dashboard');
+                    Route::get(
+                                'performance',
+                                [AssetPerformanceController::class, 'index']
+                            )
+                                ->middleware('permission:performance.view')
+                                ->name('performance.index');
+
+
+                            Route::get(
+                                'assets/{asset}/performance',
+                                [AssetPerformanceController::class, 'show']
+                            )
+                                ->middleware('permission:performance.view')
+                                ->name('performance.show');
+               
 
         });
+        Route::get(
+            'activity-logs',
+            [ActivityLogController::class, 'index']
+        )
+            ->name('activity-logs.index')
+            ->middleware('permission:audit.view');
+
+        Route::get(
+            'activity-logs/{activityLog}',
+            [ActivityLogController::class, 'show']
+        )
+            ->name('activity-logs.show')
+            ->middleware('permission:audit.view');
     });
 });
 

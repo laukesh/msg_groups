@@ -76,38 +76,138 @@
         </button>
 
 
-        {{-- USER --}}
-        <div class="topbar-user">
+       {{-- =================================================
+     USER DROPDOWN
+================================================== --}}
+<div class="dropdown topbar-user">
 
-            <div class="topbar-user-avatar">
+    {{-- User Toggle --}}
+    <button
+        type="button"
+        class="topbar-user-toggle"
+        data-bs-toggle="dropdown"
+        aria-expanded="false"
+    >
 
-                {{ strtoupper(
-                    substr(auth()->user()->name ?? 'U', 0, 1)
-                ) }}
+        {{-- Avatar --}}
+        <div class="topbar-user-avatar">
+            {{ strtoupper(
+                substr(auth()->user()->name ?? 'U', 0, 1)
+            ) }}
+        </div>
 
-            </div>
+        {{-- User Information --}}
+        <div class="topbar-user-info">
 
+            <strong>
+                {{ auth()->user()->name ?? 'User' }}
+            </strong>
 
-            <div class="topbar-user-info">
-
-                <strong>
-                    {{ auth()->user()->name }}
-                </strong>
-
-                <small>
-
-                    {{ auth()->user()
-                        ->getRoleNames()
-                        ->implode(', ') }}
-
-                </small>
-
-            </div>
-
-
-            <i class="ri-arrow-down-s-line user-arrow"></i>
+            <small>
+                {{ auth()->user()
+                    ->getRoleNames()
+                    ->implode(', ') ?: 'User' }}
+            </small>
 
         </div>
+
+        <i class="ri-arrow-down-s-line user-arrow"></i>
+
+    </button>
+
+
+    {{-- =================================================
+         DROPDOWN MENU
+    ================================================== --}}
+    <div class="dropdown-menu dropdown-menu-end user-dropdown-menu">
+
+        {{-- User Header --}}
+        
+
+
+        <div class="dropdown-divider"></div>
+
+
+        {{-- Dashboard --}}
+        <!--a href="{{ route('profile.dashboard') }}"
+           class="dropdown-item">
+
+            <i class="ri-dashboard-3-line"></i>
+
+            <span>Dashboard</span>
+
+        </a-->
+
+
+        {{-- Profile --}}
+        @can('profile.view')
+
+            <a href="{{ route('profile.show') }}"
+               class="dropdown-item">
+
+                <i class="ri-user-line"></i>
+
+                <span>My Profile</span>
+
+            </a>
+
+        @endcan
+
+
+        {{-- Edit Profile --}}
+        @can('profile.view')
+
+            <!--a href="{{ route('profile.edit') }}"
+               class="dropdown-item">
+
+                <i class="ri-edit-line"></i>
+
+                <span>Edit Profile</span>
+
+            </a-->
+
+        @endcan
+
+
+        {{-- Change Password --}}
+        @can('profile.update')
+
+            <a href="{{ route('profile.password') }}"
+               class="dropdown-item">
+
+                <i class="ri-lock-password-line"></i>
+
+                <span>Change Password</span>
+
+            </a>
+
+        @endcan
+
+
+        <div class="dropdown-divider"></div>
+
+
+        {{-- Logout --}}
+        <form action="{{ route('logout') }}"
+              method="POST"
+              class="m-0">
+
+            @csrf
+
+            <button type="submit"
+                    class="dropdown-item logout-item">
+
+                <i class="ri-logout-box-r-line"></i>
+
+                <span>Logout</span>
+
+            </button>
+
+        </form>
+
+    </div>
+
+</div>
 
     </div>
 
@@ -144,882 +244,1317 @@
 
         @auth
 
+        @php
+
+            /*
+            |--------------------------------------------------------------------------
+            | DASHBOARD
+            |--------------------------------------------------------------------------
+            */
+            $isDashboardActive = request()->routeIs('admin.dashboard');
+
+
+            /*
+            |--------------------------------------------------------------------------
+            | DEVELOPMENT MANAGEMENT
+            |--------------------------------------------------------------------------
+            */
+            $isLandActive = request()->routeIs('admin.land.*');
+
+            $isFeasibilityActive = request()->routeIs(
+                'admin.feasibility-investment.*'
+            );
+
+            $isProjectsActive = request()->routeIs(
+                'admin.projects.*'
+            );
+
+            $isProcurementActive = request()->routeIs(
+                'admin.procurement.*'
+            );
+
+            $isConstructionActive = request()->routeIs(
+                'admin.construction.*'
+            );
+
+            $isDevelopmentActive =
+                $isLandActive ||
+                $isFeasibilityActive ||
+                $isProjectsActive ||
+                $isProcurementActive ||
+                $isConstructionActive;
+
+
+            /*
+            |--------------------------------------------------------------------------
+            | CONTRACT MANAGEMENT
+            |--------------------------------------------------------------------------
+            */
+            $isContractActive = request()->routeIs(
+                'admin.contract-management.*'
+            );
+
+
+            /*
+            |--------------------------------------------------------------------------
+            | ASSET MANAGEMENT
+            |--------------------------------------------------------------------------
+            */
+            $isMallsActive = request()->routeIs(
+                'admin.assets.malls.*'
+            );
+
+            $isBuildingsActive = request()->routeIs(
+                'admin.assets.buildings.*'
+            );
+
+            $isFloorsActive = request()->routeIs(
+                'admin.assets.floors.*'
+            );
+
+            $isZonesActive = request()->routeIs(
+                'admin.assets.zones.*'
+            );
+
+            $isUnitTypesActive = request()->routeIs(
+                'admin.assets.unit-types.*'
+            );
+
+            $isUnitsActive = request()->routeIs(
+                'admin.assets.units.*'
+            );
+
+            $isAssetCategoriesActive = request()->routeIs(
+                'admin.assets.asset-categories.*'
+            );
+
+            $isAssetsActive = request()->routeIs(
+                'admin.assets.assets.*'
+            );
+
+            $isDepartmentsActive = request()->routeIs(
+                'admin.assets.departments.*'
+            );
+
+            $isIncomesActive = request()->routeIs(
+                'admin.assets.incomes.*'
+            );
+
+            $isExpensesActive = request()->routeIs(
+                'admin.assets.expenses.*'
+            );
+
+            $isComplaintsActive = request()->routeIs(
+                'admin.assets.complaints.*'
+            );
+            $isPerformanceActive = request()->routeIs(
+                'admin.assets.performance.*'
+            );
+
+            $isAssetManagementActive =
+                $isMallsActive ||
+                $isBuildingsActive ||
+                $isFloorsActive ||
+                $isZonesActive ||
+                $isUnitTypesActive ||
+                $isUnitsActive ||
+                $isAssetCategoriesActive ||
+                $isAssetsActive ||
+                $isDepartmentsActive ||
+                $isIncomesActive ||
+                $isExpensesActive ||
+                $isComplaintsActive ||
+                $isPerformanceActive;
+
+
+            /*
+            |--------------------------------------------------------------------------
+            | LEASING
+            |--------------------------------------------------------------------------
+            */
+            $isLeasingDashboardActive = request()->routeIs(
+                'admin.leasing.dashboard'
+            );
+
+            $isLeasingActive = request()->routeIs(
+                'admin.leasing.index'
+            );
+
+            $isLeaseProposalsActive = request()->routeIs(
+                'admin.leasing.proposals.*'
+            );
+
+            $isLeaseAgreementsActive = request()->routeIs(
+                'admin.leasing.agreements.*'
+            );
+
+            $isLeaseTermsActive = request()->routeIs(
+                'admin.leasing.terms.*'
+            );
+
+            $isLeaseDocumentsActive = request()->routeIs(
+                'admin.leasing.documents.*'
+            );
+
+            $isLeaseEscalationsActive = request()->routeIs(
+                'admin.leasing.escalations.*'
+            );
+
+            $isLeaseRenewalsActive = request()->routeIs(
+                'admin.leasing.renewals.*'
+            );
+
+            $isLeaseTerminationsActive = request()->routeIs(
+                'admin.leasing.terminations.*'
+            );
+
+            $isLeaseHistoryActive = request()->routeIs(
+                'admin.leasing.history.*'
+            );
+
+            $isLeasingGroupActive =
+                request()->routeIs('admin.leasing.*');
+
+
+            /*
+            |--------------------------------------------------------------------------
+            | TENANTS
+            |--------------------------------------------------------------------------
+            */
+            $isTenantsDashboardActive =
+                request()->is('admin/tenants/dashboard');
+
+            $isTenantsIndexActive =
+                request()->is('admin/tenants') &&
+                !request()->has('status');
+
+            $isActiveTenantsActive =
+                request()->is('admin/tenants') &&
+                request()->get('status') === 'Active';
+
+            $isInactiveTenantsActive =
+                request()->is('admin/tenants') &&
+                request()->get('status') === 'Inactive';
+
+            $isTenantLeasesActive =
+                request()->is('admin/tenants/leases');
+
+            $isLeaseExpiryActive =
+                request()->is('admin/tenants/leases/expiry');
+
+            $isTenantContactsActive =
+                request()->is('admin/tenants/contacts');
+
+            $isEmergencyContactsActive =
+                request()->is('admin/tenants/emergency-contacts');
+
+            $isTenantDocumentsActive =
+                request()->is('admin/tenants/documents');
+
+            $isTenantsGroupActive =
+                request()->is('admin/tenants*');
+
+
+            /*
+            |--------------------------------------------------------------------------
+            | REVENUE
+            |--------------------------------------------------------------------------
+            */
+            $isRevenueDashboardActive =
+                request()->is('admin/revenue/dashboard');
+
+            $isRentSchedulesActive =
+                request()->is('admin/revenue/rent-schedules*');
+
+            $isInvoicesActive =
+                request()->is('admin/revenue/invoices*');
+
+            $isPaymentsActive =
+                request()->is('admin/revenue/payments*');
+
+            $isReconciliationActive =
+                request()->is('admin/revenue/reconciliation*');
+
+            $isOutstandingActive =
+                request()->is('admin/revenue/outstanding') &&
+                !request()->is('admin/revenue/outstanding/*');
+
+            $isOverdueActive =
+                request()->is('admin/revenue/outstanding/overdue*');
+
+            $isTenantOutstandingActive =
+                request()->is('admin/revenue/outstanding/tenants*');
+
+            $isRevenueReportActive =
+                request()->is('admin/revenue/reports/revenue*');
+
+            $isCollectionReportActive =
+                request()->is('admin/revenue/reports/collections*');
+
+            $isTenantWiseRevenueActive =
+                request()->is('admin/revenue/reports/tenant-wise*');
+
+            $isAgingReportActive =
+                request()->is('admin/revenue/reports/aging*');
+
+            $isRevenueGroupActive =
+                request()->is('admin/revenue*');
+
+
+            /*
+            |--------------------------------------------------------------------------
+            | FIT-OUT
+            |--------------------------------------------------------------------------
+            */
+            $isFitoutDashboardActive =
+                request()->routeIs('admin.fitout.dashboard');
+
+            $isFitoutRequestsActive =
+                request()->routeIs('admin.fitout.requests.*');
+
+            $isFitoutApprovalsActive =
+                request()->routeIs('admin.fitout.approvals.*');
+
+            $isFitoutContractorsActive =
+                request()->routeIs('admin.fitout.contractors.*');
+
+            $isFitoutInspectionsActive =
+                request()->routeIs('admin.fitout.inspections.*');
+
+            $isFitoutSnagsActive =
+                request()->routeIs('admin.fitout.snags.*');
+
+            $isFitoutDocumentsActive =
+                request()->routeIs('admin.fitout.documents.*');
+
+            $isFitoutHandoversActive =
+                request()->routeIs('admin.fitout.handovers.*');
+
+            $isFitoutGroupActive =
+                request()->routeIs('admin.fitout.*');
+
+
+            /*
+            |--------------------------------------------------------------------------
+            | ADMINISTRATION
+            |--------------------------------------------------------------------------
+            */
+            $isUsersActive =
+                request()->routeIs('admin.users.*');
+
+            $isRolesActive =
+                request()->routeIs('admin.roles.*');
+
+            $isAuditActive =
+                request()->routeIs('admin.users.audits');
+
+            $isAdministrationActive =
+                $isUsersActive ||
+                $isRolesActive ||
+                $isAuditActive;
+
+
+            /*
+            |--------------------------------------------------------------------------
+            | PROFILE
+            |--------------------------------------------------------------------------
+            */
+            $isProfileActive =
+                request()->routeIs('profile.*');
+                $isActivityLogsActive = request()->routeIs('admin.activity-logs.*');
+
+        @endphp
+
+          {{-- =================================================
+                    DASHBOARD
+                ================================================== --}}
+
+                @can('dashboard.view')
+
+                    <a href="{{ route('admin.dashboard') }}"
+                    class="sidebar-link {{ $isDashboardActive ? 'active' : '' }}">
+
+                        <i class="ri-dashboard-line"></i>
+
+                        <span>Dashboard</span>
+
+                    </a>
+
+                @endcan
 
             {{-- =================================================
-                 DASHBOARD
-            ================================================== --}}
+     DEVELOPMENT MANAGEMENT
+================================================== --}}
 
-            @can('dashboard.view')
+<details
+    class="sidebar-group"
+    {{ $isDevelopmentActive ? 'open' : '' }}
+>
 
-                <a href="{{ route('admin.dashboard') }}"
-                   class="sidebar-link
-                   {{ request()->routeIs('admin.dashboard') ? 'active' : '' }}">
+    <summary class="sidebar-link {{ $isDevelopmentActive ? 'active' : '' }}">
 
-                    <i class="ri-dashboard-line"></i>
+        <i class="ri-building-2-line"></i>
 
-                    <span>Dashboard</span>
+        <span>Development Management</span>
+
+        <i class="ri-arrow-right-s-line sidebar-arrow"></i>
+
+    </summary>
+
+
+    <div class="sidebar-submenu">
+
+        {{-- Land Acquisition --}}
+        <a href="{{ route('admin.land.lands.index') }}"
+           class="sidebar-sublink {{ $isLandActive ? 'active' : '' }}">
+
+            <i class="ri-landscape-line"></i>
+
+            <span>Land Acquisition</span>
+
+        </a>
+
+
+        {{-- Feasibility --}}
+        <a href="{{ route('admin.feasibility-investment.index') }}"
+           class="sidebar-sublink {{ $isFeasibilityActive ? 'active' : '' }}">
+
+            <i class="ri-line-chart-line"></i>
+
+            <span>Feasibility & Investment</span>
+
+        </a>
+
+
+        {{-- Projects --}}
+        <a href="{{ route('admin.projects.index') }}"
+           class="sidebar-sublink {{ $isProjectsActive ? 'active' : '' }}">
+
+            <i class="ri-building-line"></i>
+
+            <span>Projects Management</span>
+
+        </a>
+
+
+        {{-- Procurement --}}
+        <a href="{{ route('admin.procurement.plans.index') }}"
+           class="sidebar-sublink {{ $isProcurementActive ? 'active' : '' }}">
+
+            <i class="ri-shopping-cart-line"></i>
+
+            <span>Procurement</span>
+
+        </a>
+
+
+        {{-- Construction --}}
+        <a href="{{ route('admin.construction.index') }}"
+           class="sidebar-sublink {{ $isConstructionActive ? 'active' : '' }}">
+
+            <i class="ri-building-4-line"></i>
+
+            <span>Construction Management</span>
+
+        </a>
+
+
+        {{-- Future Modules --}}
+        <a href="#"
+           class="sidebar-sublink">
+
+            <i class="ri-layout-4-line"></i>
+
+            <span>Development Planning</span>
+
+        </a>
+
+        <a href="#"
+           class="sidebar-sublink">
+
+            <i class="ri-draft-line"></i>
+
+            <span>Design Management</span>
+
+        </a>
+
+        <a href="#"
+           class="sidebar-sublink">
+
+            <i class="ri-checkbox-circle-line"></i>
+
+            <span>Handover & Closeout</span>
+
+        </a>
+
+    </div>
+
+</details>
+{{-- =================================================
+     CONTRACT MANAGEMENT
+================================================== --}}
+
+<a href="{{ route('admin.contract-management.index') }}"
+   class="sidebar-link {{ $isContractActive ? 'active' : '' }}">
+
+    <i class="ri-file-list-3-line"></i>
+
+    <span>Contract Management</span>
+
+</a>
+
+
+          {{-- =================================================
+     ASSET MANAGEMENT
+================================================== --}}
+
+@if(
+    auth()->user()->can('malls.view') ||
+    auth()->user()->can('buildings.view') ||
+    auth()->user()->can('floors.view') ||
+    auth()->user()->can('zones.view') ||
+    auth()->user()->can('unit_types.view') ||
+    auth()->user()->can('units.view') ||
+    auth()->user()->can('departments.view') ||
+    auth()->user()->can('unit_statuses.view') ||
+    auth()->user()->can('assets.view') ||
+    auth()->user()->can('asset_categories.view') ||
+  
+    auth()->user()->can('complaints.view')
+)
+
+    <details
+        class="sidebar-group"
+        {{ $isAssetManagementActive ? 'open' : '' }}
+    >
+
+        <summary class="sidebar-link {{ $isAssetManagementActive ? 'active' : '' }}">
+
+            <i class="ri-building-line"></i>
+
+            <span>Assets</span>
+
+            <i class="ri-arrow-right-s-line sidebar-arrow"></i>
+
+        </summary>
+
+
+        <div class="sidebar-submenu">
+
+
+            @can('malls.view')
+
+                <a href="{{ route('admin.assets.malls.index') }}"
+                   class="sidebar-sublink {{ $isMallsActive ? 'active' : '' }}">
+
+                    <i class="ri-building-4-line"></i>
+
+                    <span>Malls</span>
 
                 </a>
 
             @endcan
 
-            {{-- =========================================================
-                 DEVELOPMENT MANAGEMENT
-            ========================================================= --}}
 
-            <details
-                class="sidebar-group"
-                {{ request()->is('admin/land/*')
-                    || request()->is('admin/projects*')
-                    || request()->is('admin/procurement*')
-                    || request()->is('admin/feasibility-investment*')
-                    || request()->is('admin/construction*')
-                    ? 'open'
-                    : ''
-                }}
-            >
+            @can('buildings.view')
 
-                <summary class="sidebar-link">
+                <a href="{{ route('admin.assets.buildings.index') }}"
+                   class="sidebar-sublink {{ $isBuildingsActive ? 'active' : '' }}">
 
                     <i class="ri-building-2-line"></i>
 
-                    <span>Development Management</span>
+                    <span>Buildings</span>
 
-                    <i class="ri-arrow-right-s-line sidebar-arrow"></i>
+                </a>
 
-                </summary>
+            @endcan
 
 
-                <div class="sidebar-submenu">
+            @can('floors.view')
 
+                <a href="{{ route('admin.assets.floors.index') }}"
+                   class="sidebar-sublink {{ $isFloorsActive ? 'active' : '' }}">
 
-                    {{-- =====================================================
-                         LAND ACQUISITION
-                    ====================================================== --}}
+                    <i class="ri-stack-line"></i>
 
-                    <a
-                        href="{{ route('admin.land.lands.index') }}"
-                        class="sidebar-sublink"
-                    >
-                        <i class="ri-landscape-line"></i>
-                        <span>Land Acquisition</span>
-                    </a>
+                    <span>Floors</span>
 
+                </a>
 
-                    {{-- =====================================================
-                         FEASIBILITY & INVESTMENT
+            @endcan
 
-                         Feasibility requires a LAND, therefore it should
-                         be opened from Land Details rather than directly
-                         from this global sidebar.
-                    ====================================================== --}}
 
-                    <a
-                        href="{{ route('admin.feasibility-investment.index') }}"
-                        class="sidebar-sublink"
-                    >
-                        <i class="ri-line-chart-line"></i>
-                        <span>Feasibility & Investment</span>
-                    </a>
+            @can('zones.view')
 
+                <a href="{{ route('admin.assets.zones.index') }}"
+                   class="sidebar-sublink {{ $isZonesActive ? 'active' : '' }}">
 
-                    {{-- =====================================================
-                         PROJECTS MANAGEMENT
-                    ====================================================== --}}
+                    <i class="ri-map-pin-line"></i>
 
-                    <a
-                        href="{{ route('admin.projects.index') }}"
-                        class="sidebar-sublink"
-                    >
-                        <i class="ri-building-line"></i>
-                        <span>Projects Management</span>
-                    </a>
+                    <span>Zones</span>
 
+                </a>
 
-                    {{-- =====================================================
-                         PROCUREMENT
-                    ====================================================== --}}
+            @endcan
 
-                    <a
-                        href="{{ route('admin.procurement.plans.index') }}"
-                        class="sidebar-sublink"
-                    >
-                        <i class="ri-shopping-cart-line"></i>
-                        <span>Procurement</span>
-                    </a>
 
+            @can('unit_types.view')
 
-                    {{-- =====================================================
-                         CONSTRUCTION MANAGEMENT
+                <a href="{{ route('admin.assets.unit-types.index') }}"
+                   class="sidebar-sublink {{ $isUnitTypesActive ? 'active' : '' }}">
 
-                         Construction requires a PROJECT, so it should
-                         normally be accessed from Project Dashboard.
-                    ====================================================== --}}
+                    <i class="ri-grid-line"></i>
 
-                    <a
-                        href="{{ route('admin.construction.index') }}"
-                        class="sidebar-sublink"
-                    >
-                        <i class="ri-building-4-line"></i>
-                        <span>Construction Management</span>
-                    </a>
+                    <span>Unit Types</span>
 
+                </a>
 
-                    {{-- =====================================================
-                         FUTURE MODULES
-                    ====================================================== --}}
+            @endcan
 
-                    <a
-                        href="#"
-                        class="sidebar-sublink"
-                    >
-                        <i class="ri-layout-4-line"></i>
-                        <span>Development Planning</span>
-                    </a>
 
+            @can('units.view')
 
-                    <a
-                        href="#"
-                        class="sidebar-sublink"
-                    >
-                        <i class="ri-draft-line"></i>
-                        <span>Design Management</span>
-                    </a>
+                <a href="{{ route('admin.assets.units.index') }}"
+                   class="sidebar-sublink {{ $isUnitsActive ? 'active' : '' }}">
 
+                    <i class="ri-layout-grid-line"></i>
 
-                    <a
-                        href="#"
-                        class="sidebar-sublink"
-                    >
-                        <i class="ri-checkbox-circle-line"></i>
-                        <span>Handover & Closeout</span>
-                    </a>
+                    <span>Units</span>
 
+                </a>
 
-                </div>
+            @endcan
 
-            </details>
 
-            {{-- =================================================
-                 CONTRACT MANAGEMENT
-            ================================================== --}}
+            @can('asset_categories.view')
 
-            <a
-                href="{{ route('admin.contract-management.index') }}"
-                class="sidebar-link
-                {{ request()->routeIs('admin.contract-management.*')
-                    ? 'active'
-                    : '' }}"
-            >
+                <a href="{{ route('admin.assets.asset-categories.index') }}"
+                   class="sidebar-sublink {{ $isAssetCategoriesActive ? 'active' : '' }}">
 
-                <i class="ri-file-list-3-line"></i>
+                    <i class="ri-folder-line"></i>
 
-                <span>Contract Management</span>
+                    <span>Asset Categories</span>
 
-            </a>
+                </a>
 
+            @endcan
 
 
-            {{-- =================================================
-                 ASSET OPERATIONS
-            ================================================== --}}
+            @can('assets.view')
 
-            @if(
-                auth()->user()->can('malls.view') ||
-                auth()->user()->can('buildings.view') ||
-                auth()->user()->can('floors.view') ||
-                auth()->user()->can('zones.view') ||
-                auth()->user()->can('unit_types.view') ||
-                auth()->user()->can('units.view') ||            
-                auth()->user()->can('departments.view') ||  
-                auth()->user()->can('unit_statuses.view')||
-                auth()->user()->can('assets.view')||
-                auth()->user()->can('asset_categories.view')||
-                auth()->user()->can('complaints.view')
-            )
+                <a href="{{ route('admin.assets.assets.index') }}"
+                   class="sidebar-sublink {{ $isAssetsActive ? 'active' : '' }}">
 
-                <details class="sidebar-group"
-                    {{ request()->routeIs('admin.assets.*') ? 'open' : '' }}>
+                    <i class="ri-archive-line"></i>
 
-                    <summary class="sidebar-link">
+                    <span>Assets</span>
 
-                        <i class="ri-building-line"></i>
+                </a>
 
-                        <span>Assets</span>
+            @endcan
 
-                        <i class="ri-arrow-right-s-line sidebar-arrow"></i>
 
-                    </summary>
+            @can('departments.view')
 
+                <a href="{{ route('admin.assets.departments.index') }}"
+                   class="sidebar-sublink {{ $isDepartmentsActive ? 'active' : '' }}">
 
-                    <div class="sidebar-submenu">
+                    <i class="ri-organization-chart"></i>
 
-                        @can('malls.view')
+                    <span>Departments</span>
 
-                            <a href="{{ route('admin.assets.malls.index') }}"
-                               class="sidebar-sublink">
+                </a>
 
-                                Malls
+            @endcan
 
-                            </a>
 
-                        @endcan
+           
 
 
-                        @can('buildings.view')
+            @can('complaints.view')
 
-                            <a href="{{ route('admin.assets.buildings.index') }}"
-                               class="sidebar-sublink">
+                <a href="{{ route('admin.assets.complaints.index') }}"
+                   class="sidebar-sublink {{ $isComplaintsActive ? 'active' : '' }}">
 
-                                Buildings
+                    <i class="ri-error-warning-line"></i>
 
-                            </a>
+                    <span>Complaints</span>
 
-                        @endcan
+                </a>
 
+            @endcan
+              @can('performance.view')
 
-                        @can('floors.view')
+                <a href="{{ route('admin.assets.performance.index') }}"
+                   class="sidebar-sublink {{ $isPerformanceActive ? 'active' : '' }}">
 
-                            <a href="{{ route('admin.assets.floors.index') }}"
-                               class="sidebar-sublink">
+                    <i class="ri-bar-chart-line"></i>
 
-                                Floors
+                    <span>Performance</span>
 
-                            </a>
+                </a>
 
-                        @endcan
+            @endcan
 
+             
 
-                        @can('zones.view')
+        </div>
 
-                            <a href="{{ route('admin.assets.zones.index') }}"
-                               class="sidebar-sublink">
+    </details>
 
-                                Zones
+@endif
 
-                            </a>
 
-                        @endcan
 
+         {{-- =================================================
+     LEASING
+================================================== --}}
 
-                        @can('unit_types.view')
+<details
+    class="sidebar-group"
+    {{ $isLeasingGroupActive ? 'open' : '' }}
+>
 
-                            <a href="{{ route('admin.assets.unit-types.index') }}"
-                               class="sidebar-sublink">
+    <summary class="sidebar-link {{ $isLeasingGroupActive ? 'active' : '' }}">
 
-                                Unit Types
+        <i class="ri-file-text-line"></i>
 
-                            </a>
+        <span>Leasing</span>
 
-                        @endcan
+        <i class="ri-arrow-right-s-line sidebar-arrow"></i>
 
+    </summary>
 
-                        @can('units.view')
 
-                            <a href="{{ route('admin.assets.units.index') }}"
-                               class="sidebar-sublink">
+    <div class="sidebar-submenu">
 
-                                Units
 
-                            </a>
+        <a href="{{ route('admin.leasing.dashboard') }}"
+           class="sidebar-sublink {{ $isLeasingDashboardActive ? 'active' : '' }}">
 
-                        @endcan
-                        @can('asset_categories.view')
+            <i class="ri-dashboard-line"></i>
 
-                            <a href="{{ route('admin.assets.asset-categories.index') }}"
-                               class="sidebar-sublink">
+            <span>Dashboard</span>
 
-                                Asset Categories
+        </a>
 
 
-                            </a>
+        <a href="{{ route('admin.leasing.index') }}"
+           class="sidebar-sublink {{ $isLeasingActive ? 'active' : '' }}">
 
-                        @endcan
-                        @can('assets.view')
+            <i class="ri-list-check"></i>
 
-                            <a href="{{ route('admin.assets.assets.index') }}"
-                               class="sidebar-sublink">
+            <span>All Leasing</span>
 
-                                Assets
+        </a>
 
-                            </a>
 
-                        @endcan
-                        
-                        @can('departments.view')
+        <a href="{{ route('admin.leasing.proposals.index') }}"
+           class="sidebar-sublink {{ $isLeaseProposalsActive ? 'active' : '' }}">
 
-                            <a href="{{ route('admin.assets.departments.index') }}"
-                               class="sidebar-sublink">
+            <i class="ri-draft-line"></i>
 
-                                Departments
+            <span>Lease Proposals</span>
 
-                            </a>    
-                        @endcan
+        </a>
 
-                    </div>
 
-                </details>
+        <a href="{{ route('admin.leasing.agreements.index') }}"
+           class="sidebar-sublink {{ $isLeaseAgreementsActive ? 'active' : '' }}">
 
-            @endif
+            <i class="ri-file-check-line"></i>
 
+            <span>Lease Agreements</span>
 
+        </a>
 
-            {{-- =================================================
-                 LEASING
-            ================================================== --}}
 
-            <details class="sidebar-group"
-                {{ request()->routeIs('admin.leasing.*') ? 'open' : '' }}>
+        <a href="{{ route('admin.leasing.terms.index') }}"
+           class="sidebar-sublink {{ $isLeaseTermsActive ? 'active' : '' }}">
 
-                <summary class="sidebar-link">
+            <i class="ri-file-settings-line"></i>
 
-                    <i class="ri-file-text-line"></i>
+            <span>Lease Terms</span>
 
-                    <span>Leasing</span>
+        </a>
 
-                    <i class="ri-arrow-right-s-line sidebar-arrow"></i>
 
-                </summary>
+        <a href="{{ route('admin.leasing.documents.index') }}"
+           class="sidebar-sublink {{ $isLeaseDocumentsActive ? 'active' : '' }}">
 
+            <i class="ri-file-copy-line"></i>
 
-                <div class="sidebar-submenu">
+            <span>Documents</span>
 
+        </a>
 
-                    <a href="{{ route('admin.leasing.dashboard') }}"
-                       class="sidebar-sublink">
 
-                        Dashboard
+        <a href="{{ route('admin.leasing.escalations.index') }}"
+           class="sidebar-sublink {{ $isLeaseEscalationsActive ? 'active' : '' }}">
 
-                    </a>
+            <i class="ri-arrow-up-circle-line"></i>
 
+            <span>Escalations</span>
 
-                    <a href="{{ route('admin.leasing.index') }}"
-                       class="sidebar-sublink">
+        </a>
 
-                        All Leasing
 
-                    </a>
+        <a href="{{ route('admin.leasing.renewals.index') }}"
+           class="sidebar-sublink {{ $isLeaseRenewalsActive ? 'active' : '' }}">
 
+            <i class="ri-refresh-line"></i>
 
-                    <a href="{{ route('admin.leasing.proposals.index') }}"
-                       class="sidebar-sublink">
+            <span>Renewals</span>
 
-                        Lease Proposals
+        </a>
 
-                    </a>
 
+        <a href="{{ route('admin.leasing.terminations.index') }}"
+           class="sidebar-sublink {{ $isLeaseTerminationsActive ? 'active' : '' }}">
 
-                    <a href="{{ route('admin.leasing.agreements.index') }}"
-                       class="sidebar-sublink">
+            <i class="ri-close-circle-line"></i>
 
-                        Lease Agreements
+            <span>Terminations</span>
 
-                    </a>
+        </a>
 
 
-                    <a href="{{ route('admin.leasing.terms.index') }}"
-                       class="sidebar-sublink">
+        <a href="{{ route('admin.leasing.history.index') }}"
+           class="sidebar-sublink {{ $isLeaseHistoryActive ? 'active' : '' }}">
 
-                        Lease Terms
+            <i class="ri-history-line"></i>
 
-                    </a>
+            <span>History</span>
 
+        </a>
 
-                    <a href="{{ route('admin.leasing.documents.index') }}"
-                       class="sidebar-sublink">
 
-                        Documents
+    </div>
 
-                    </a>
+</details>
 
 
-                    <a href="{{ route('admin.leasing.escalations.index') }}"
-                       class="sidebar-sublink">
 
-                        Escalations
+           {{-- =================================================
+     TENANTS
+================================================== --}}
 
-                    </a>
+<details
+    class="sidebar-group"
+    {{ $isTenantsGroupActive ? 'open' : '' }}
+>
 
+    <summary class="sidebar-link {{ $isTenantsGroupActive ? 'active' : '' }}">
 
-                    <a href="{{ route('admin.leasing.renewals.index') }}"
-                       class="sidebar-sublink">
+        <i class="ri-group-line"></i>
 
-                        Renewals
+        <span>Tenants</span>
 
-                    </a>
+        <i class="ri-arrow-right-s-line sidebar-arrow"></i>
 
+    </summary>
 
-                    <a href="{{ route('admin.leasing.terminations.index') }}"
-                       class="sidebar-sublink">
 
-                        Terminations
+    <div class="sidebar-submenu">
 
-                    </a>
 
+        <a href="{{ url('/admin/tenants/dashboard') }}"
+           class="sidebar-sublink {{ $isTenantsDashboardActive ? 'active' : '' }}">
 
-                    <a href="{{ route('admin.leasing.history.index') }}"
-                       class="sidebar-sublink">
+            <i class="ri-dashboard-line"></i>
 
-                        History
+            <span>Dashboard</span>
 
-                    </a>
+        </a>
 
-                </div>
 
-            </details>
+        <a href="{{ url('/admin/tenants') }}"
+           class="sidebar-sublink {{ $isTenantsIndexActive ? 'active' : '' }}">
 
+            <i class="ri-group-line"></i>
 
+            <span>All Tenants</span>
 
-            {{-- =================================================
-                 TENANTS
-            ================================================== --}}
+        </a>
 
-            <details class="sidebar-group"
-                {{ request()->is('admin/tenants*') ? 'open' : '' }}>
 
-                <summary class="sidebar-link">
+        <a href="{{ url('/admin/tenants?status=Active') }}"
+           class="sidebar-sublink {{ $isActiveTenantsActive ? 'active' : '' }}">
 
-                    <i class="ri-group-line"></i>
+            <i class="ri-user-follow-line"></i>
 
-                    <span>Tenants</span>
+            <span>Active Tenants</span>
 
-                    <i class="ri-arrow-right-s-line sidebar-arrow"></i>
+        </a>
 
-                </summary>
 
+        <a href="{{ url('/admin/tenants?status=Inactive') }}"
+           class="sidebar-sublink {{ $isInactiveTenantsActive ? 'active' : '' }}">
 
-                <div class="sidebar-submenu">
+            <i class="ri-user-unfollow-line"></i>
 
-                    <a href="{{ url('/admin/tenants/dashboard') }}"
-                       class="sidebar-sublink">
+            <span>Inactive Tenants</span>
 
-                        Dashboard
+        </a>
 
-                    </a>
 
+        <a href="{{ url('/admin/tenants/leases') }}"
+           class="sidebar-sublink {{ $isTenantLeasesActive ? 'active' : '' }}">
 
-                    <a href="{{ url('/admin/tenants') }}"
-                       class="sidebar-sublink">
+            <i class="ri-file-text-line"></i>
 
-                        All Tenants
+            <span>Tenant Leases</span>
 
-                    </a>
+        </a>
 
 
-                    <a href="{{ url('/admin/tenants?status=Active') }}"
-                       class="sidebar-sublink">
+        <a href="{{ url('/admin/tenants/leases/expiry') }}"
+           class="sidebar-sublink {{ $isLeaseExpiryActive ? 'active' : '' }}">
 
-                        Active Tenants
+            <i class="ri-calendar-close-line"></i>
 
-                    </a>
+            <span>Lease Expiry</span>
 
+        </a>
 
-                    <a href="{{ url('/admin/tenants?status=Inactive') }}"
-                       class="sidebar-sublink">
 
-                        Inactive Tenants
+        <a href="{{ url('/admin/tenants/contacts') }}"
+           class="sidebar-sublink {{ $isTenantContactsActive ? 'active' : '' }}">
 
-                    </a>
+            <i class="ri-contacts-line"></i>
 
+            <span>Contacts</span>
 
-                    <a href="{{ url('/admin/tenants/leases') }}"
-                       class="sidebar-sublink">
+        </a>
 
-                        Tenant Leases
 
-                    </a>
+        <a href="{{ url('/admin/tenants/emergency-contacts') }}"
+           class="sidebar-sublink {{ $isEmergencyContactsActive ? 'active' : '' }}">
 
+            <i class="ri-phone-line"></i>
 
-                    <a href="{{ url('/admin/tenants/leases/expiry') }}"
-                       class="sidebar-sublink">
+            <span>Emergency Contacts</span>
 
-                        Lease Expiry
+        </a>
 
-                    </a>
 
+        <a href="{{ url('/admin/tenants/documents') }}"
+           class="sidebar-sublink {{ $isTenantDocumentsActive ? 'active' : '' }}">
 
-                    <a href="{{ url('/admin/tenants/contacts') }}"
-                       class="sidebar-sublink">
+            <i class="ri-file-copy-line"></i>
 
-                        Contacts
+            <span>Documents</span>
 
-                    </a>
+        </a>
 
 
-                    <a href="{{ url('/admin/tenants/emergency-contacts') }}"
-                       class="sidebar-sublink">
+    </div>
 
-                        Emergency Contacts
+</details>
 
-                    </a>
 
 
-                    <a href="{{ url('/admin/tenants/documents') }}"
-                       class="sidebar-sublink">
+        {{-- =================================================
+     REVENUE
+================================================== --}}
 
-                        Documents
+<details
+    class="sidebar-group"
+    {{ $isRevenueGroupActive ? 'open' : '' }}
+>
 
-                    </a>
+    <summary class="sidebar-link {{ $isRevenueGroupActive ? 'active' : '' }}">
 
-                </div>
+        <i class="ri-money-rupee-circle-line"></i>
 
-            </details>
+        <span>Revenue</span>
 
+        <i class="ri-arrow-right-s-line sidebar-arrow"></i>
 
+    </summary>
 
-            {{-- =================================================
-                 REVENUE
-            ================================================== --}}
 
-            <details class="sidebar-group"
-                {{ request()->is('admin/revenue*') ? 'open' : '' }}>
+    <div class="sidebar-submenu">
 
-                <summary class="sidebar-link">
 
-                    <i class="ri-money-rupee-circle-line"></i>
+        {{-- Dashboard --}}
+        <a href="{{ url('/admin/revenue/dashboard') }}"
+           class="sidebar-sublink {{ $isRevenueDashboardActive ? 'active' : '' }}">
 
-                    <span>Revenue</span>
+            <i class="ri-dashboard-line"></i>
 
-                    <i class="ri-arrow-right-s-line sidebar-arrow"></i>
+            <span>Dashboard</span>
 
-                </summary>
+        </a>
 
 
-                <div class="sidebar-submenu">
+        {{-- BILLING --}}
+        <div class="sidebar-section-label">
+            Billing
+        </div>
 
 
-                    <a href="{{ url('/admin/revenue/dashboard') }}"
-                       class="sidebar-sublink">
+        <a href="{{ url('/admin/revenue/rent-schedules') }}"
+           class="sidebar-sublink {{ $isRentSchedulesActive ? 'active' : '' }}">
 
-                        Dashboard
+            <i class="ri-calendar-schedule-line"></i>
 
-                    </a>
+            <span>Rent Schedules</span>
 
+        </a>
 
-                    <div class="sidebar-section-label">
-                        Billing
-                    </div>
 
+        <a href="{{ url('/admin/revenue/invoices') }}"
+           class="sidebar-sublink {{ $isInvoicesActive ? 'active' : '' }}">
 
-                    <a href="{{ url('/admin/revenue/rent-schedules') }}"
-                       class="sidebar-sublink">
+            <i class="ri-file-list-3-line"></i>
 
-                        Rent Schedules
+            <span>Invoices</span>
 
-                    </a>
+        </a>
 
 
-                    <a href="{{ url('/admin/revenue/invoices') }}"
-                       class="sidebar-sublink">
+        {{-- COLLECTIONS --}}
+        <div class="sidebar-section-label">
+            Collections
+        </div>
 
-                        Invoices
 
-                    </a>
+        <a href="{{ url('/admin/revenue/payments') }}"
+           class="sidebar-sublink {{ $isPaymentsActive ? 'active' : '' }}">
 
+            <i class="ri-bank-card-line"></i>
 
-                    <div class="sidebar-section-label">
-                        Collections
-                    </div>
+            <span>Payments</span>
 
+        </a>
 
-                    <a href="{{ url('/admin/revenue/payments') }}"
-                       class="sidebar-sublink">
 
-                        Payments
+        <a href="{{ url('/admin/revenue/reconciliation') }}"
+           class="sidebar-sublink {{ $isReconciliationActive ? 'active' : '' }}">
 
-                    </a>
+            <i class="ri-exchange-funds-line"></i>
 
+            <span>Reconciliation</span>
 
-                    <a href="{{ url('/admin/revenue/reconciliation') }}"
-                       class="sidebar-sublink">
+        </a>
 
-                        Reconciliation
 
-                    </a>
+        {{-- OUTSTANDING --}}
+        <div class="sidebar-section-label">
+            Outstanding
+        </div>
 
 
-                    <div class="sidebar-section-label">
-                        Outstanding
-                    </div>
+        <a href="{{ url('/admin/revenue/outstanding') }}"
+           class="sidebar-sublink {{ $isOutstandingActive ? 'active' : '' }}">
 
+            <i class="ri-money-dollar-circle-line"></i>
 
-                    <a href="{{ url('/admin/revenue/outstanding') }}"
-                       class="sidebar-sublink">
+            <span>Outstanding</span>
 
-                        Outstanding
+        </a>
 
-                    </a>
 
+        <a href="{{ url('/admin/revenue/outstanding/overdue') }}"
+           class="sidebar-sublink {{ $isOverdueActive ? 'active' : '' }}">
 
-                    <a href="{{ url('/admin/revenue/outstanding/overdue') }}"
-                       class="sidebar-sublink">
+            <i class="ri-alarm-warning-line"></i>
 
-                        Overdue
+            <span>Overdue</span>
 
-                    </a>
+        </a>
 
 
-                    <a href="{{ url('/admin/revenue/outstanding/tenants') }}"
-                       class="sidebar-sublink">
+        <a href="{{ url('/admin/revenue/outstanding/tenants') }}"
+           class="sidebar-sublink {{ $isTenantOutstandingActive ? 'active' : '' }}">
 
-                        Tenant Outstanding
+            <i class="ri-user-search-line"></i>
 
-                    </a>
+            <span>Tenant Outstanding</span>
 
+        </a>
 
-                    <div class="sidebar-section-label">
-                        Reports
-                    </div>
 
+        {{-- REPORTS --}}
+        <div class="sidebar-section-label">
+            Reports
+        </div>
 
-                    <a href="{{ url('/admin/revenue/reports/revenue') }}"
-                       class="sidebar-sublink">
 
-                        Revenue Report
+        <a href="{{ url('/admin/revenue/reports/revenue') }}"
+           class="sidebar-sublink {{ $isRevenueReportActive ? 'active' : '' }}">
 
-                    </a>
+            <i class="ri-bar-chart-line"></i>
 
+            <span>Revenue Report</span>
 
-                    <a href="{{ url('/admin/revenue/reports/collections') }}"
-                       class="sidebar-sublink">
+        </a>
 
-                        Collection Report
 
-                    </a>
+        <a href="{{ url('/admin/revenue/reports/collections') }}"
+           class="sidebar-sublink {{ $isCollectionReportActive ? 'active' : '' }}">
 
+            <i class="ri-file-chart-line"></i>
 
-                    <a href="{{ url('/admin/revenue/reports/tenant-wise') }}"
-                       class="sidebar-sublink">
+            <span>Collection Report</span>
 
-                        Tenant-wise Revenue
+        </a>
 
-                    </a>
 
+        <a href="{{ url('/admin/revenue/reports/tenant-wise') }}"
+           class="sidebar-sublink {{ $isTenantWiseRevenueActive ? 'active' : '' }}">
 
-                    <a href="{{ url('/admin/revenue/reports/aging') }}"
-                       class="sidebar-sublink">
+            <i class="ri-user-chart-line"></i>
 
-                        Aging Report
+            <span>Tenant-wise Revenue</span>
 
-                    </a>
+        </a>
 
-                </div>
 
-            </details>
+        <a href="{{ url('/admin/revenue/reports/aging') }}"
+           class="sidebar-sublink {{ $isAgingReportActive ? 'active' : '' }}">
 
+            <i class="ri-time-line"></i>
 
+            <span>Aging Report</span>
 
-            {{-- =================================================
-                 FIT-OUT
-            ================================================== --}}
+        </a>
 
-            <details class="sidebar-group"
-                {{ request()->routeIs('admin.fitout.*') ? 'open' : '' }}>
 
-                <summary class="sidebar-link">
+    </div>
 
-                    <i class="ri-hammer-line"></i>
+</details>
 
-                    <span>Fit-Out</span>
 
-                    <i class="ri-arrow-right-s-line sidebar-arrow"></i>
+{{-- =================================================
+     FIT-OUT
+================================================== --}}
 
-                </summary>
+<details
+    class="sidebar-group"
+    {{ $isFitoutGroupActive ? 'open' : '' }}
+>
 
+    <summary class="sidebar-link {{ $isFitoutGroupActive ? 'active' : '' }}">
 
-                <div class="sidebar-submenu">
+        <i class="ri-hammer-line"></i>
 
+        <span>Fit-Out</span>
 
-                    <a href="{{ route('admin.fitout.dashboard') }}"
-                       class="sidebar-sublink">
+        <i class="ri-arrow-right-s-line sidebar-arrow"></i>
 
-                        Dashboard
+    </summary>
 
-                    </a>
 
+    <div class="sidebar-submenu">
 
-                    <a href="{{ route('admin.fitout.requests.index') }}"
-                       class="sidebar-sublink">
 
-                        Fit-Out Requests
+        <a href="{{ route('admin.fitout.dashboard') }}"
+           class="sidebar-sublink {{ $isFitoutDashboardActive ? 'active' : '' }}">
 
-                    </a>
+            <i class="ri-dashboard-line"></i>
 
+            <span>Dashboard</span>
 
-                    <a href="{{ route('admin.fitout.approvals.index') }}"
-                       class="sidebar-sublink">
+        </a>
 
-                        Approvals
 
-                    </a>
+        <a href="{{ route('admin.fitout.requests.index') }}"
+           class="sidebar-sublink {{ $isFitoutRequestsActive ? 'active' : '' }}">
 
+            <i class="ri-file-edit-line"></i>
 
-                    <a href="{{ route('admin.fitout.contractors.index') }}"
-                       class="sidebar-sublink">
+            <span>Fit-Out Requests</span>
 
-                        Contractors
+        </a>
 
-                    </a>
 
+        <a href="{{ route('admin.fitout.approvals.index') }}"
+           class="sidebar-sublink {{ $isFitoutApprovalsActive ? 'active' : '' }}">
 
-                    <a href="{{ route('admin.fitout.inspections.index') }}"
-                       class="sidebar-sublink">
+            <i class="ri-checkbox-circle-line"></i>
 
-                        Inspections
+            <span>Approvals</span>
 
-                    </a>
+        </a>
 
 
-                    <a href="{{ route('admin.fitout.snags.index') }}"
-                       class="sidebar-sublink">
+        <a href="{{ route('admin.fitout.contractors.index') }}"
+           class="sidebar-sublink {{ $isFitoutContractorsActive ? 'active' : '' }}">
 
-                        Snags
+            <i class="ri-team-line"></i>
 
-                    </a>
+            <span>Contractors</span>
 
+        </a>
 
-                    <a href="{{ route('admin.fitout.documents.index') }}"
-                       class="sidebar-sublink">
 
-                        Documents
+        <a href="{{ route('admin.fitout.inspections.index') }}"
+           class="sidebar-sublink {{ $isFitoutInspectionsActive ? 'active' : '' }}">
 
-                    </a>
+            <i class="ri-search-eye-line"></i>
 
+            <span>Inspections</span>
 
-                    <a href="{{ route('admin.fitout.handovers.index') }}"
-                       class="sidebar-sublink">
+        </a>
 
-                        Handovers
 
-                    </a>
+        <a href="{{ route('admin.fitout.snags.index') }}"
+           class="sidebar-sublink {{ $isFitoutSnagsActive ? 'active' : '' }}">
 
-                </div>
+            <i class="ri-error-warning-line"></i>
 
-            </details>
+            <span>Snags</span>
 
+        </a>
 
 
-            {{-- =================================================
-                 PERFORMANCE
-            ================================================== --}}
+        <a href="{{ route('admin.fitout.documents.index') }}"
+           class="sidebar-sublink {{ $isFitoutDocumentsActive ? 'active' : '' }}">
 
-            <a href="#"
-               class="sidebar-link">
+            <i class="ri-file-copy-line"></i>
 
-                <i class="ri-bar-chart-box-line"></i>
+            <span>Documents</span>
 
-                <span>Performance</span>
+        </a>
 
-            </a>
 
+        <a href="{{ route('admin.fitout.handovers.index') }}"
+           class="sidebar-sublink {{ $isFitoutHandoversActive ? 'active' : '' }}">
 
+            <i class="ri-hand-coin-line"></i>
 
-            {{-- =================================================
-                 ADMINISTRATION
-            ================================================== --}}
+            <span>Handovers</span>
 
-            @if(
-                auth()->user()->can('users.view') ||
-                auth()->user()->can('roles.view') ||
-                auth()->user()->can('audit.view')
-            )
+        </a>
 
-                <details class="sidebar-group">
 
-                    <summary class="sidebar-link">
+    </div>
 
-                        <i class="ri-settings-3-line"></i>
+</details>
 
-                        <span>Administration</span>
 
-                        <i class="ri-arrow-right-s-line sidebar-arrow"></i>
 
-                    </summary>
+           {{-- =================================================
+     PERFORMANCE
+================================================== --}}
 
+<a href="#"
+   class="sidebar-link">
 
-                    <div class="sidebar-submenu">
+    <i class="ri-bar-chart-box-line"></i>
 
+    <span>Performance</span>
 
-                        @can('users.view')
+</a>
 
-                            <a href="{{ route('admin.users.index') }}"
-                               class="sidebar-sublink">
 
-                                Users
+{{-- =================================================
+     ADMINISTRATION
+================================================== --}}
 
-                            </a>
+@if(
+    auth()->user()->can('users.view') ||
+    auth()->user()->can('roles.view') ||
+    auth()->user()->can('audit.view')
+)
 
-                        @endcan
+    <details
+        class="sidebar-group"
+        {{ $isAdministrationActive ? 'open' : '' }}
+    >
 
+        <summary class="sidebar-link {{ $isAdministrationActive ? 'active' : '' }}">
 
-                        @can('roles.view')
+            <i class="ri-settings-3-line"></i>
 
-                            <a href="{{ route('admin.roles.index') }}"
-                               class="sidebar-sublink">
+            <span>Administration</span>
 
-                                Roles & Permissions
+            <i class="ri-arrow-right-s-line sidebar-arrow"></i>
 
-                            </a>
+        </summary>
 
-                        @endcan
 
+        <div class="sidebar-submenu">
 
-                        @can('audit.view')
 
-                            <a href="{{ route(
-                                'admin.users.audits',
-                                auth()->id()
-                            ) }}"
-                               class="sidebar-sublink">
+            @can('users.view')
 
-                                Audit Trail
+                <a href="{{ route('admin.users.index') }}"
+                   class="sidebar-sublink {{ $isUsersActive ? 'active' : '' }}">
 
-                            </a>
+                    <i class="ri-user-line"></i>
 
-                        @endcan
+                    <span>Users</span>
 
-                    </div>
+                </a>
 
-                </details>
+            @endcan
 
-            @endif
 
+            @can('roles.view')
 
+                <a href="{{ route('admin.roles.index') }}"
+                   class="sidebar-sublink {{ $isRolesActive ? 'active' : '' }}">
 
-            {{-- =================================================
-                 PROFILE
-            ================================================== --}}
+                    <i class="ri-shield-user-line"></i>
 
-            <a href="{{ route('profile.show') }}"
-               class="sidebar-link">
+                    <span>Roles & Permissions</span>
 
-                <i class="ri-user-line"></i>
+                </a>
 
-                <span>Profile</span>
+            @endcan
 
-            </a>
 
+            @can('audit.view')
 
-            {{-- =================================================
-                 LOGOUT
-            ================================================== --}}
+                <a href="{{ route('admin.users.audits', auth()->id()) }}"
+                   class="sidebar-sublink {{ $isAuditActive ? 'active' : '' }}">
 
-            <form action="{{ route('logout') }}"
-                  method="POST">
+                    <i class="ri-file-list-3-line"></i>
 
-                @csrf
+                    <span>Audit Trail</span>
 
-                <button type="submit"
-                        class="sidebar-link sidebar-logout">
+                </a>
 
-                    <i class="ri-logout-box-line"></i>
+            @endcan
 
-                    <span>Logout</span>
 
-                </button>
+        </div>
 
-            </form>
+    </details>
 
+@endif
+
+
+        {{-- =================================================
+     PROFILE
+================================================== --}}
+
+<!--a href="{{ route('profile.show') }}"
+   class="sidebar-link {{ $isProfileActive ? 'active' : '' }}">
+
+    <i class="ri-user-line"></i>
+
+    <span>Profile</span>
+
+</a-->
+
+        {{-- =================================================
+     PROFILE
+================================================== --}}
+ @can('audit.view')
+<a href="{{ route('admin.activity-logs.index') }}"
+   class="sidebar-link {{ $isActivityLogsActive ? 'active' : '' }}">
+
+    <i class="ri-user-line"></i>
+
+    <span>Activity Logs</span>
+
+</a>
+
+ @endcan
 
         @endauth
 

@@ -190,18 +190,30 @@ class Asset extends Model
             'unit_id'
         );
     }
-     public function incomes(): HasMany
-    {
-        return $this->hasMany(
-            AssetIncome::class,
-            'asset_id'
-        );
-    }
+  /*
+    |--------------------------------------------------------------------------
+    | Asset Expenses
+    |--------------------------------------------------------------------------
+    */
 
     public function expenses(): HasMany
     {
         return $this->hasMany(
             AssetExpense::class,
+            'asset_id'
+        );
+    }
+
+    /*
+    |--------------------------------------------------------------------------
+    | Asset Income
+    |--------------------------------------------------------------------------
+    */
+
+    public function incomes(): HasMany
+    {
+        return $this->hasMany(
+            AssetIncome::class,
             'asset_id'
         );
     }

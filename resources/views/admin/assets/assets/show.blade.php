@@ -34,12 +34,135 @@
                     Edit
                 </a>
             @endcan
+          
+   
+
+
+    <a href="{{ route('admin.assets.expenses.index', ['asset' => $asset->id]) }}"
+       class="btn btn-danger">
+
+        <i class="fas fa-file-invoice-dollar me-1"></i>
+
+        Expense History
+
+    </a>
+    <a href="{{ route(
+        'admin.assets.incomes.index',
+      ['asset' => $asset->id]
+    ) }}"
+       class="btn btn-success">
+
+        <i class="fas fa-arrow-circle-down me-1"></i>
+
+        Income History
+
+    </a>
+
+
+    <a href="{{ route('admin.assets.economic-dashboard', [
+            'asset' => $asset->id
+        ]) }}"
+    class="btn btn-primary">
+
+        <i class="fas fa-chart-line me-1"></i>
+        Economic Dashboard
+
+    </a>
+      <a href="{{ route('admin.assets.performance.show', [
+            'asset' => $asset->id
+        ]) }}"
+    class="btn btn-primary">
+
+        <i class="fas fa-chart-line me-1"></i>
+        Asset Performance
+
+    </a>
+
 
         </div>
 
     </div>
 
+{{-- Economic Summary --}}
 
+    <div class="row g-3 mb-4">
+
+        <div class="col-md-3">
+
+            <div class="card border-0 shadow-sm">
+
+                <div class="card-body">
+
+                    <div class="text-muted small">
+                        Rental / Total Income
+                    </div>
+
+                    <h4 class="mb-0 mt-2">
+
+                        ${{ number_format(
+                            $summary['income'],
+                            2
+                        ) }}
+
+                    </h4>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <div class="col-md-3">
+
+            <div class="card border-0 shadow-sm">
+
+                <div class="card-body">
+
+                    <div class="text-muted small">
+                        Operating Expenses
+                    </div>
+
+                    <h4 class="mb-0 mt-2">
+
+                        ${{ number_format(
+                            $summary['operating_expenses'],
+                            2
+                        ) }}
+
+                    </h4>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <div class="col-md-3">
+
+            <div class="card border-0 shadow-sm">
+
+                <div class="card-body">
+
+                    <div class="text-muted small">
+                        Net Operating Income
+                    </div>
+
+                    <h4 class="mb-0 mt-2">
+
+                        ${{ number_format(
+                            $summary['noi'],
+                            2
+                        ) }}
+
+                    </h4>
+
+                </div>
+
+            </div>
+
+        </div>
     {{-- Asset Information --}}
     <div class="card border-0 shadow-sm">
 
@@ -347,7 +470,7 @@
 
                             @if($asset->purchase_cost !== null)
 
-                                ₹{{ number_format((float) $asset->purchase_cost, 2) }}
+                                ${{ number_format((float) $asset->purchase_cost, 2) }}
 
                             @else
                                 -

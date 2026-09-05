@@ -624,7 +624,7 @@
 
                                     <option
                                         value="1"
-                                        {{ old('status', $mall->status) === '1' ? 'selected' : '' }}
+                                        {{ old('status', $mall->status) === 1 ? 'selected' : '' }}
                                         
                                     >
                                         Active

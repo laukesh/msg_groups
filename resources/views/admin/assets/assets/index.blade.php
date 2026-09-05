@@ -293,7 +293,7 @@
 
 
                             {{-- Status --}}
-                            <td>
+                            <td> 
 
                                 @if((int) $item->status === 1)
 

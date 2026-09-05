@@ -34,7 +34,7 @@
         @if($asset)
 
             <a href="{{ route(
-                'admin.assets.show',
+                'admin.assets.assets.show',
                 $asset->id
             ) }}"
                class="btn btn-secondary">
@@ -240,7 +240,7 @@
 
                             <span class="fw-semibold text-success">
 
-                                ₹{{ number_format(
+                                ${{ number_format(
                                     $income->amount,
                                     2
                                 ) }}
