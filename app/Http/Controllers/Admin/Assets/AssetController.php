@@ -117,10 +117,11 @@ class AssetController extends Controller
     public function show(int $id)
     {
         $asset = $this->assetRepository->find($id);
-
+       $summary = $this->assetRepository
+            ->getEconomicSummary($id);
         return view(
             'admin.assets.assets.show',
-            compact('asset')
+            compact('asset', 'summary')
         );
     }
 

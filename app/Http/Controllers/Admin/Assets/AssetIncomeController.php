@@ -6,76 +6,53 @@ use App\Http\Controllers\Controller;
 use App\Models\Asset;
 use App\Repositories\AssetIncomeRepositoryInterface;
 use Illuminate\Http\Request;
-use App\Models\AssetIncome;
+
 class AssetIncomeController extends Controller
 {
     public function __construct(
         protected AssetIncomeRepositoryInterface $incomes
     ) {
-        $this->middleware('permission:incomes.view')
-            ->only(['index']);
-
-        $this->middleware('permission:incomes.create')
-            ->only(['create', 'store']);
-
-        $this->middleware('permission:incomes.edit')
-            ->only(['edit', 'update']);
-
-        $this->middleware('permission:incomes.delete')
-            ->only(['destroy']);
+       
     }
 
-    /**
-     * Display asset incomes.
-     */
-    public function index(Request $request, ?int $asset = null)
-    {
-        if ($asset) {
-            $assetModel = Asset::findOrFail($asset);
+    public function index(
+        Request $request,
+        int $assetId
+    ) {
+        $asset = Asset::findOrFail($assetId);
 
-            $incomes = $this->incomes->paginateByAsset(
-                $asset,
-                [
-                    'search' => $request->input('search'),
-                    'status' => $request->input('status'),
-                ]
-            );
-        } else {
-            $assetModel = null;
+        $incomes = $this->incomes->paginateByAsset(
+            $assetId,
+            [
+                'search' => $request->search,
+                'status' => $request->status,
+            ]
+        );
 
-            $incomes = $this->incomes->paginate(
-                10,
-                [
-                    'search' => $request->input('search'),
-                    'status' => $request->input('status'),
-                ]
-            );
-        }
-
-        return view('admin.assets.incomes.index', [
-            'asset'   => $assetModel,
-            'incomes' => $incomes,
-        ]);
+        return view(
+            'admin.assets.incomes.index',
+            compact(
+                'asset',
+                'incomes'
+            )
+        );
     }
 
-    /**
-     * Show create income form.
-     */
-    public function create(int $asset)
+    public function create(int $assetId)
     {
-        $assetModel = Asset::findOrFail($asset);
+        $asset = Asset::findOrFail($assetId);
 
-        return view('admin.assets.incomes.create', [
-            'asset' => $assetModel,
-        ]);
+        return view(
+            'admin.assets.incomes.create',
+            compact('asset')
+        );
     }
 
-    /**
-     * Store asset income.
-     */
-    public function store(Request $request, int $asset)
-    {
-        Asset::findOrFail($asset);
+    public function store(
+        Request $request,
+        int $assetId
+    ) {
+        Asset::findOrFail($assetId);
 
         $data = $request->validate([
             'income_type' => [
@@ -118,52 +95,53 @@ class AssetIncomeController extends Controller
             ],
         ]);
 
-        $data['asset_id'] = $asset;
+        $data['asset_id'] = $assetId;
         $data['created_by'] = auth()->id();
 
         $this->incomes->create($data);
 
         return redirect()
-            ->route('admin.assets.incomes.index', [
-                'asset' => $asset,
-            ])
-            ->with('success', 'Asset income added successfully.');
+            ->route(
+                'admin.assets.incomes.index',
+                $assetId
+            )
+            ->with(
+                'success',
+                'Asset income added successfully.'
+            );
     }
 
-    /**
-     * Show edit income form.
-     */
-    public function edit(int $asset, int $income)
-    {
-        $assetModel = Asset::findOrFail($asset);
+    public function edit(
+        int $assetId,
+        int $id
+    ) {
+        $asset = Asset::findOrFail($assetId);
 
-        $incomeModel = $this->incomes->find($income);
+        $income = $this->incomes->find($id);
 
         abort_unless(
-            $incomeModel &&
-            (int) $incomeModel->asset_id === (int) $asset,
+            $income->asset_id == $assetId,
             404
         );
 
-        return view('admin.assets.incomes.edit', [
-            'asset'  => $assetModel,
-            'income' => $incomeModel,
-        ]);
+        return view(
+            'admin.assets.incomes.edit',
+            compact(
+                'asset',
+                'income'
+            )
+        );
     }
 
-    /**
-     * Update asset income.
-     */
     public function update(
         Request $request,
-        int $asset,
-        int $income
+        int $assetId,
+        int $id
     ) {
-        $incomeModel = $this->incomes->find($income);
+        $income = $this->incomes->find($id);
 
         abort_unless(
-            $incomeModel &&
-            (int) $incomeModel->asset_id === (int) $asset,
+            $income->asset_id == $assetId,
             404
         );
 
@@ -210,34 +188,43 @@ class AssetIncomeController extends Controller
 
         $data['updated_by'] = auth()->id();
 
-        $this->incomes->update($income, $data);
+        $this->incomes->update(
+            $id,
+            $data
+        );
 
         return redirect()
-            ->route('admin.assets.incomes.index', [
-                'asset' => $asset,
-            ])
-            ->with('success', 'Asset income updated successfully.');
+            ->route(
+                'admin.assets.incomes.index',
+                $assetId
+            )
+            ->with(
+                'success',
+                'Asset income updated successfully.'
+            );
     }
 
-    /**
-     * Delete asset income.
-     */
-    public function destroy(int $asset, int $income)
-    {
-        $incomeModel = $this->incomes->find($income);
+    public function destroy(
+        int $assetId,
+        int $id
+    ) {
+        $income = $this->incomes->find($id);
 
         abort_unless(
-            $incomeModel &&
-            (int) $incomeModel->asset_id === (int) $asset,
+            $income->asset_id == $assetId,
             404
         );
 
-        $this->incomes->delete($income);
+        $this->incomes->delete($id);
 
         return redirect()
-            ->route('admin.assets.incomes.index', [
-                'asset' => $asset,
-            ])
-            ->with('success', 'Asset income deleted successfully.');
+            ->route(
+                'admin.assets.incomes.index',
+                $assetId
+            )
+            ->with(
+                'success',
+                'Asset income deleted successfully.'
+            );
     }
 }

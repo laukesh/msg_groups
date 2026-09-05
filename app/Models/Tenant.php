@@ -116,4 +116,5 @@ class Tenant extends Model
             'tenant_id'
         );
     }
+    
 }

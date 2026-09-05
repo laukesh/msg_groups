@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Spatie\Permission\Traits\HasRoles;
 use Tymon\JWTAuth\Contracts\JWTSubject;
-
+use App\Models\UserStatusAudit;
 class User extends Authenticatable implements JWTSubject
 {
     use HasFactory, Notifiable, HasRoles, SoftDeletes;
@@ -99,5 +99,29 @@ class User extends Authenticatable implements JWTSubject
             FitoutContractor::class,
             'user_id'
         );
+    }
+     protected static function booted(): void
+    {
+        static::updated(function (User $user) {
+
+            $watchedFields = [
+                'is_active',
+                'status',
+            ];
+
+            foreach ($watchedFields as $field) {
+
+                if ($user->wasChanged($field)) {
+
+                    UserStatusAudit::create([
+                        'user_id'    => $user->id,
+                        'field'      => $field,
+                        'old_value'  => (string) $user->getOriginal($field),
+                        'new_value'  => (string) $user->{$field},
+                        'changed_by'  => auth()->id(),
+                    ]);
+                }
+            }
+        });
     }
 }

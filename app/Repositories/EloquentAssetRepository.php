@@ -273,15 +273,30 @@ class EloquentAssetRepository implements AssetRepositoryInterface
 
         return (bool) $asset->delete();
     }
-      public function getEconomicSummary(int $id)
+    public function getEconomicSummary(int $id)
     {
         $asset = $this->find($id);
 
+        $income = $asset->incomes()
+            ->sum('amount');
+
+        $operatingExpenses = $asset->expenses()
+            ->where('is_operating_expense', true)
+            ->sum('amount');
+
+        $noi = $income - $operatingExpenses;
+
+        $purchaseCost = (float) $asset->purchase_cost;
+
+        $roi = $purchaseCost > 0
+            ? ($noi / $purchaseCost) * 100
+            : 0;
+
         return [
-            'income' => $asset->total_income,
-            'operating_expenses' => $asset->operating_expenses,
-            'noi' => $asset->noi,
-            'roi' => $asset->roi,
+            'income' => $income,
+            'operating_expenses' => $operatingExpenses,
+            'noi' => $noi,
+            'roi' => $roi,
         ];
     }
 }

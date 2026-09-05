@@ -1,79 +1,92 @@
 <?php
 
-namespace App\Http\Controllers\Admin;
+namespace App\Http\Controllers\Admin\Assets;
 
 use App\Http\Controllers\Controller;
 use App\Models\Asset;
+use App\Models\User;
+use App\Models\AssetExpense;
 use App\Repositories\AssetExpenseRepositoryInterface;
 use Illuminate\Http\Request;
 
 class AssetExpenseController extends Controller
 {
+    protected AssetExpenseRepositoryInterface $repository;
+
     public function __construct(
-        protected AssetExpenseRepositoryInterface $expenses
+        AssetExpenseRepositoryInterface $repository
     ) {
-        $this->middleware('permission:expense.view')
-            ->only(['index']);
-
-        $this->middleware('permission:expense.create')
-            ->only(['create', 'store']);
-
-        $this->middleware('permission:expense.edit')
-            ->only(['edit', 'update']);
-
-        $this->middleware('permission:expense.delete')
-            ->only(['destroy']);
+        $this->repository = $repository;
     }
 
+    /**
+     * Display expenses for an asset.
+     */
     public function index(
         Request $request,
-        int $assetId
+        int $asset
     ) {
-        $asset = Asset::findOrFail($assetId);
+        $asset = Asset::findOrFail($asset);
 
-        $expenses = $this->expenses->paginateByAsset(
-            $assetId,
-            [
-                'search' => $request->search,
-                'status' => $request->status,
-            ]
+        $filters = [
+            'asset_id' => $asset->id,
+            'search' => $request->input('search'),
+            'status' => $request->input('status'),
+            'is_operating_expense' =>
+                $request->input('is_operating_expense'),
+            'date_from' => $request->input('date_from'),
+            'date_to' => $request->input('date_to'),
+        ];
+
+        $expenses = $this->repository->getByAsset(
+            $asset->id,
+            $filters,
+            15
         );
+        $vendors = User::select('id', 'name')->get();
+
 
         return view(
             'admin.assets.expenses.index',
             compact(
                 'asset',
-                'expenses'
+                'expenses','vendors'
             )
         );
     }
 
-    public function create(int $assetId)
+    /**
+     * Show create form.
+     */
+    public function create(int $asset)
     {
-        $asset = Asset::findOrFail($assetId);
-
+        $asset = Asset::findOrFail($asset);
+        $vendors = User::select('id', 'name')->get();
         return view(
             'admin.assets.expenses.create',
-            compact('asset')
+            compact('asset', 'vendors')
         );
     }
 
+    /**
+     * Store expense.
+     */
     public function store(
         Request $request,
-        int $assetId
+        int $asset
     ) {
-        Asset::findOrFail($assetId);
+        $asset = Asset::findOrFail($asset);
 
-        $data = $request->validate([
+        $validated = $request->validate([
+            'expense_date' => [
+                'required',
+                'date',
+            ],
+
             'expense_type' => [
                 'required',
                 'string',
                 'max:100',
-            ],
-
-            'expense_date' => [
-                'required',
-                'date',
             ],
 
             'vendor_name' => [
@@ -88,6 +101,11 @@ class AssetExpenseController extends Controller
                 'min:0',
             ],
 
+            'description' => [
+                'nullable',
+                'string',
+            ],
+
             'is_operating_expense' => [
                 'nullable',
                 'boolean',
@@ -96,78 +114,134 @@ class AssetExpenseController extends Controller
             'status' => [
                 'required',
                 'string',
-                'max:30',
-            ],
-
-            'remarks' => [
-                'nullable',
-                'string',
+                'max:50',
             ],
         ]);
 
-        $data['asset_id'] = $assetId;
-        $data['is_operating_expense'] =
-            $request->boolean('is_operating_expense');
+        $validated['asset_id'] = $asset->id;
 
-        $data['created_by'] = auth()->id();
+        $validated['is_operating_expense'] =
+            $request->boolean(
+                'is_operating_expense'
+            );
 
-        $this->expenses->create($data);
+        $this->repository->create($validated);
 
         return redirect()
             ->route(
                 'admin.assets.expenses.index',
-                $assetId
+                $asset->id
             )
             ->with(
                 'success',
-                'Asset expense added successfully.'
+                'Asset expense created successfully.'
             );
     }
 
-    public function edit(
-        int $assetId,
-        int $id
+    /**
+     * Display expense.
+     */
+    public function show(
+        int $asset,
+        int $expense
     ) {
-        $asset = Asset::findOrFail($assetId);
+        $asset = Asset::findOrFail($asset);
 
-        $expense = $this->expenses->find($id);
+        $expenseModel = $this->repository->find(
+            $expense
+        );
 
-        abort_unless(
-            $expense->asset_id == $assetId,
+        abort_if(
+            !$expenseModel,
+            404
+        );
+
+        /*
+        | Make sure expense belongs to this asset.
+        */
+        abort_if(
+            (int) $expenseModel->asset_id !==
+            (int) $asset->id,
+            404
+        );
+
+        return view(
+            'admin.assets.expenses.show',
+            [
+                'asset' => $asset,
+                'expense' => $expenseModel,
+            ]
+        );
+    }
+
+    /**
+     * Show edit form.
+     */
+    public function edit(
+        int $asset,
+        int $expense
+    ) {
+        $asset = Asset::findOrFail($asset);
+
+        $expenseModel = $this->repository->find(
+            $expense
+        );
+
+        abort_if(
+            !$expenseModel,
+            404
+        );
+
+        abort_if(
+            (int) $expenseModel->asset_id !==
+            (int) $asset->id,
             404
         );
 
         return view(
             'admin.assets.expenses.edit',
-            compact(
-                'asset',
-                'expense'
-            )
+            [
+                'asset' => $asset,
+                'expense' => $expenseModel,
+            ]
         );
     }
 
+    /**
+     * Update expense.
+     */
     public function update(
         Request $request,
-        int $assetId,
-        int $id
+        int $asset,
+        int $expense
     ) {
-        $expense = $this->expenses->find($id);
+        $asset = Asset::findOrFail($asset);
 
-        abort_unless(
-            $expense->asset_id == $assetId,
+        $expenseModel = $this->repository->find(
+            $expense
+        );
+
+        abort_if(
+            !$expenseModel,
             404
         );
 
-        $data = $request->validate([
+        abort_if(
+            (int) $expenseModel->asset_id !==
+            (int) $asset->id,
+            404
+        );
+
+        $validated = $request->validate([
+            'expense_date' => [
+                'required',
+                'date',
+            ],
+
             'expense_type' => [
                 'required',
                 'string',
                 'max:100',
-            ],
-
-            'expense_date' => [
-                'required',
-                'date',
             ],
 
             'vendor_name' => [
@@ -182,6 +256,11 @@ class AssetExpenseController extends Controller
                 'min:0',
             ],
 
+            'description' => [
+                'nullable',
+                'string',
+            ],
+
             'is_operating_expense' => [
                 'nullable',
                 'boolean',
@@ -190,29 +269,26 @@ class AssetExpenseController extends Controller
             'status' => [
                 'required',
                 'string',
-                'max:30',
-            ],
-
-            'remarks' => [
-                'nullable',
-                'string',
+                'max:50',
             ],
         ]);
 
-        $data['is_operating_expense'] =
-            $request->boolean('is_operating_expense');
+        $validated['asset_id'] = $asset->id;
 
-        $data['updated_by'] = auth()->id();
+        $validated['is_operating_expense'] =
+            $request->boolean(
+                'is_operating_expense'
+            );
 
-        $this->expenses->update(
-            $id,
-            $data
+        $this->repository->update(
+            $expense,
+            $validated
         );
 
         return redirect()
             ->route(
                 'admin.assets.expenses.index',
-                $assetId
+                $asset->id
             )
             ->with(
                 'success',
@@ -220,23 +296,38 @@ class AssetExpenseController extends Controller
             );
     }
 
+    /**
+     * Delete expense.
+     */
     public function destroy(
-        int $assetId,
-        int $id
+        int $asset,
+        int $expense
     ) {
-        $expense = $this->expenses->find($id);
+        $asset = Asset::findOrFail($asset);
 
-        abort_unless(
-            $expense->asset_id == $assetId,
+        $expenseModel = $this->repository->find(
+            $expense
+        );
+
+        abort_if(
+            !$expenseModel,
             404
         );
 
-        $this->expenses->delete($id);
+        abort_if(
+            (int) $expenseModel->asset_id !==
+            (int) $asset->id,
+            404
+        );
+
+        $this->repository->delete(
+            $expense
+        );
 
         return redirect()
             ->route(
                 'admin.assets.expenses.index',
-                $assetId
+                $asset->id
             )
             ->with(
                 'success',

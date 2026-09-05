@@ -15,6 +15,7 @@ class AssetExpense extends Model
         'expense_date',
         'vendor_name',
         'amount',
+        'description',
         'is_operating_expense',
         'status',
         'remarks',
@@ -28,11 +29,28 @@ class AssetExpense extends Model
         'is_operating_expense' => 'boolean',
     ];
 
+    /*
+    |--------------------------------------------------------------------------
+    | Relationships
+    |--------------------------------------------------------------------------
+    */
+
     public function asset(): BelongsTo
     {
-        return $this->belongsTo(
-            Asset::class,
-            'asset_id'
-        );
+        return $this->belongsTo(Asset::class, 'asset_id');
+    }
+
+    public function creator(): BelongsTo
+    {
+        return $this->belongsTo(User::class, 'created_by');
+    }
+
+    public function updater(): BelongsTo
+    {
+        return $this->belongsTo(User::class, 'updated_by');
+    }
+     public function vendor()
+    {
+        return $this->belongsTo(User::class, 'vendor_id', 'id');
     }
 }

@@ -1,99 +1,796 @@
 @extends('layouts.auth')
 
-@section('title','Register')
+@section('title', 'Register User')
 
 @section('content')
-  <div class="portal-card">
-    <div class="portal-info">
-      <div>
-        <div class="top-bar">
-          <div class="brand-logo">
-            <img alt="Company logo" src="{{ asset('public/assets/img/logo-color.png') }}" class="header-logo" />
-          </div>
 
-          <div class="status-badge">
-            <span class="status-dot"></span>
-            SECURE CLOUD v4.8
-          </div>
-        </div>
+<div class="container-fluid py-4">
 
-        <div class="suite-tag">Infrastructure Management Suite</div>
-        <h1 class="auth-bigt">Engineering the Future of <span>Commercial Infrastructure.</span></h1>
-        <p class="description">
-          An integrated executive portal designed for real-time project governance, financial ledgers, and site compliance.
-        </p>
+    <div class="row justify-content-center">
 
-        <div class="features-list">
-          <div class="feature-item">
-            <div class="feature-icon">
-              <!-- Shield Icon -->
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
-              </svg>
-            </div>
-            <div class="feature-content">
-              <h4>Real-Time Financial Ledgers</h4>
-              <p>Live accounts integration across 88 active infrastructure contractors.</p>
-            </div>
-          </div>
+        <div class="col-md-8 col-lg-7">
 
-          <div class="feature-item">
-            <div class="feature-icon">
-              <!-- Dollar Icon -->
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <line x1="12" y1="1" x2="12" y2="23"/>
-                <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/>
-              </svg>
-            </div>
-            <div class="feature-content">
-              <h4>12-Department Progress Funnels</h4>
-              <p>Track Civil Works, MEP, HVAC, and facade glazing milestones simultaneously.</p>
-            </div>
-          </div>
-        </div>
-      </div>
+            <div class="card shadow-sm border-0">
 
-      <div class="info-footer">
-        <span>ISO 27001 Certified Architecture</span>
-        <span>&copy; {{ date('Y') }} Hargeisa Inc.</span>
-      </div>
+                <div class="card-header bg-white py-3">
+                    <h5 class="mb-0">
+                        <i class="bi bi-person-plus me-2"></i>
+                        Register User
+                    </h5>
+                </div>
+
+                <div class="card-body">
+
+                    <form method="POST"
+                          action="{{ route('register') }}">
+
+                        @csrf
+
+                        {{-- Name --}}
+                        <div class="mb-3">
+
+                            <label class="form-label">
+                                Name
+                            </label>
+
+                            <input type="text"
+                                   name="name"
+                                   value="{{ old('name') }}"
+                                   class="form-control @error('name') is-invalid @enderror"
+                                   placeholder="Enter full name"
+                                   required>
+
+                            @error('name')
+                                <div class="invalid-feedback">
+                                    {{ $message }}
+                                </div>
+                            @enderror
+
+                        </div>
+
+                        {{-- Email --}}
+                        <div class="mb-3">
+
+                            <label class="form-label">
+                                Email
+                            </label>
+
+                            <input type="email"
+                                   name="email"
+                                   value="{{ old('email') }}"
+                                   class="form-control @error('email') is-invalid @enderror"
+                                   placeholder="Enter email address"
+                                   required>
+
+                            @error('email')
+                                <div class="invalid-feedback">
+                                    {{ $message }}
+                                </div>
+                            @enderror
+
+                        </div>
+
+                    {{-- =========================================================
+     PASSWORD
+========================================================= --}}
+<div class="mb-3">
+
+    <label for="password" class="form-label">
+        Password
+    </label>
+
+    <div class="input-group">
+
+        <input type="password"
+               id="password"
+               name="password"
+               value="{{ old('password') }}"
+               class="form-control @error('password') is-invalid @enderror"
+               placeholder="Enter password"
+               autocomplete="new-password"
+               required>
+
+        <button type="button"
+                class="btn btn-outline-secondary toggle-password"
+                data-target="password"
+                aria-label="Show password">
+
+          <i class="fas fa-eye"></i>
+
+        </button>
+
+        <button type="button"
+                id="generatePassword"
+                class="btn btn-outline-primary">
+
+            <i class="bi bi-shield-lock me-1"></i>
+            Generate
+
+        </button>
+
     </div>
-    <div class="portal-form-wrap">
-    <h1>Register</h1>
-    @if($errors->any())
-        <ul>
-            @foreach($errors->all() as $e)
-                <li>{{ $e }}</li>
-            @endforeach
-        </ul>
-    @endif
-    <form method="POST" action="{{ route('register') }}">
-        @csrf
-         <div class="form-group">
-          <div class="input-wrapper">
-            Full Name
-          </div>
-       <input type="text" class="form-control"name="name" required value="{{ old('name') }}"></div>
-        <div class="form-group">
-          <div class="input-wrapper">
-       Email
-          </div> 
-          <input type="email" class="form-control" name="email" required value="{{ old('email') }}">
+
+    {{-- Laravel Password Error --}}
+    @error('password')
+        <div class="invalid-feedback d-block">
+            {{ $message }}
         </div>
-        <div class="form-group">
-          <div class="input-wrapper">
-            Password
-          </div>
-          <input type="password" name="password" required>
+    @enderror
+
+    {{-- Password Strength --}}
+    <div id="passwordStrengthContainer" class="mt-2">
+
+        <div class="progress"
+             style="height: 6px;">
+
+            <div id="passwordStrengthBar"
+                 class="progress-bar"
+                 style="width: 0%;">
+            </div>
+
         </div>
-        <div class="form-group">
-          <div class="input-wrapper">
-            Confirm Password
-          </div>
-          <input type="password" name="password_confirmation" required>
+
+        <small id="passwordStrengthText"
+               class="text-muted">
+            Enter a strong password
+        </small>
+
+    </div>
+
+    {{-- Password Requirements --}}
+    <div id="passwordRequirements"
+         class="mt-2 small">
+
+        <div id="lengthCheck" class="text-muted">
+            <i class="bi bi-circle me-1"></i>
+            At least 8 characters
         </div>
-        <button type="submit">Register</button>
-    </form>
+
+        <div id="uppercaseCheck" class="text-muted">
+            <i class="bi bi-circle me-1"></i>
+            One uppercase letter
+        </div>
+
+        <div id="lowercaseCheck" class="text-muted">
+            <i class="bi bi-circle me-1"></i>
+            One lowercase letter
+        </div>
+
+        <div id="numberCheck" class="text-muted">
+            <i class="bi bi-circle me-1"></i>
+            One number
+        </div>
+
+        <div id="specialCheck" class="text-muted">
+            <i class="bi bi-circle me-1"></i>
+            One special character
+        </div>
+
+    </div>
+
 </div>
+
+
+{{-- =========================================================
+     CONFIRM PASSWORD
+========================================================= --}}
+<div class="mb-3">
+
+    <label for="password_confirmation"
+           class="form-label">
+
+        Confirm Password
+
+    </label>
+
+    <div class="input-group">
+
+        <input type="password"
+               id="password_confirmation"
+               name="password_confirmation"
+               class="form-control"
+               placeholder="Confirm password"
+               autocomplete="new-password"
+               required>
+
+        <button type="button"
+                class="btn btn-outline-secondary toggle-password"
+                data-target="password_confirmation"
+                aria-label="Show password">
+
+           <i class="fas fa-eye"></i>
+        </button>
+
+    </div>
+
+    {{-- Password Match Message --}}
+    <small id="passwordMatch"
+           class="d-block mt-1">
+    </small>
+
 </div>
+
+                        <div class="d-flex gap-2">
+
+                            <button type="submit"
+                                    class="btn btn-primary">
+
+                                <i class="bi bi-check-circle me-1"></i>
+                                Register User
+
+                            </button>
+
+                            <a href="{{ route('admin.users.index') }}"
+                               class="btn btn-secondary">
+
+                                Cancel
+
+                            </a>
+
+                        </div>
+
+                    </form>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+
+    const form = document.querySelector('form');
+
+    const password = document.getElementById('password');
+    const confirmation =
+        document.getElementById('password_confirmation');
+
+    const strengthBar =
+        document.getElementById('passwordStrengthBar');
+
+    const strengthText =
+        document.getElementById('passwordStrengthText');
+
+    const passwordMatch =
+        document.getElementById('passwordMatch');
+
+    const generateButton =
+        document.getElementById('generatePassword');
+
+
+    /* =========================================================
+       SHOW / HIDE PASSWORD
+    ========================================================= */
+
+    document.querySelectorAll('.toggle-password').forEach(function (button) {
+
+        button.addEventListener('click', function () {
+
+            const target =
+                document.getElementById(
+                    this.dataset.target
+                );
+
+            const icon =
+                this.querySelector('i');
+
+            if (target.type === 'password') {
+
+                target.type = 'text';
+
+                icon.classList.remove('bi-eye');
+                icon.classList.add('bi-eye-slash');
+
+                this.setAttribute(
+                    'aria-label',
+                    'Hide password'
+                );
+
+            } else {
+
+                target.type = 'password';
+
+                icon.classList.remove('bi-eye-slash');
+                icon.classList.add('bi-eye');
+
+                this.setAttribute(
+                    'aria-label',
+                    'Show password'
+                );
+
+            }
+
+        });
+
+    });
+
+
+    /* =========================================================
+       PASSWORD STRENGTH
+    ========================================================= */
+
+    function checkPasswordStrength(value) {
+
+        let score = 0;
+
+        const checks = {
+
+            length:
+                value.length >= 8,
+
+            uppercase:
+                /[A-Z]/.test(value),
+
+            lowercase:
+                /[a-z]/.test(value),
+
+            number:
+                /[0-9]/.test(value),
+
+            special:
+                /[^A-Za-z0-9]/.test(value)
+
+        };
+
+
+        /* Count score */
+
+        Object.values(checks).forEach(function (valid) {
+
+            if (valid) {
+                score++;
+            }
+
+        });
+
+
+        /* Update requirement UI */
+
+        updateRequirement(
+            'lengthCheck',
+            checks.length
+        );
+
+        updateRequirement(
+            'uppercaseCheck',
+            checks.uppercase
+        );
+
+        updateRequirement(
+            'lowercaseCheck',
+            checks.lowercase
+        );
+
+        updateRequirement(
+            'numberCheck',
+            checks.number
+        );
+
+        updateRequirement(
+            'specialCheck',
+            checks.special
+        );
+
+
+        /* Reset bar */
+
+        strengthBar.className =
+            'progress-bar';
+
+        if (value.length === 0) {
+
+            strengthBar.style.width = '0%';
+
+            strengthText.textContent =
+                'Enter a strong password';
+
+            strengthText.className =
+                'text-muted';
+
+            return;
+
+        }
+
+
+        /* Strength */
+
+        const percentage = score * 20;
+
+        strengthBar.style.width =
+            percentage + '%';
+
+
+        if (score <= 2) {
+
+            strengthBar.classList.add(
+                'bg-danger'
+            );
+
+            strengthText.textContent =
+                'Weak password';
+
+            strengthText.className =
+                'text-danger';
+
+        }
+
+        else if (score <= 4) {
+
+            strengthBar.classList.add(
+                'bg-warning'
+            );
+
+            strengthText.textContent =
+                'Medium password';
+
+            strengthText.className =
+                'text-warning';
+
+        }
+
+        else {
+
+            strengthBar.classList.add(
+                'bg-success'
+            );
+
+            strengthText.textContent =
+                'Strong password';
+
+            strengthText.className =
+                'text-success';
+
+        }
+
+    }
+
+
+    /* =========================================================
+       REQUIREMENT UI
+    ========================================================= */
+
+    function updateRequirement(id, valid) {
+
+        const element =
+            document.getElementById(id);
+
+        const icon =
+            element.querySelector('i');
+
+        if (valid) {
+
+            element.classList.remove(
+                'text-muted'
+            );
+
+            element.classList.add(
+                'text-success'
+            );
+
+            icon.classList.remove(
+                'bi-circle'
+            );
+
+            icon.classList.add(
+                'bi-check-circle-fill'
+            );
+
+        } else {
+
+            element.classList.remove(
+                'text-success'
+            );
+
+            element.classList.add(
+                'text-muted'
+            );
+
+            icon.classList.remove(
+                'bi-check-circle-fill'
+            );
+
+            icon.classList.add(
+                'bi-circle'
+            );
+
+        }
+
+    }
+
+
+    /* =========================================================
+       PASSWORD MATCH
+    ========================================================= */
+
+    function checkPasswordMatch() {
+
+        const passwordValue =
+            password.value;
+
+        const confirmationValue =
+            confirmation.value;
+
+
+        /* Don't show anything initially */
+
+        if (!confirmationValue) {
+
+            passwordMatch.textContent = '';
+
+            passwordMatch.className =
+                'd-block mt-1';
+
+            return true;
+        }
+
+
+        if (passwordValue === confirmationValue) {
+
+            passwordMatch.innerHTML =
+                '<i class="bi bi-check-circle-fill me-1"></i>' +
+                'Passwords match';
+
+            passwordMatch.className =
+                'text-success d-block mt-1';
+
+            return true;
+
+        }
+
+
+        passwordMatch.innerHTML =
+            '<i class="bi bi-x-circle-fill me-1"></i>' +
+            'Passwords do not match';
+
+        passwordMatch.className =
+            'text-danger d-block mt-1';
+
+        return false;
+
+    }
+
+
+    /* =========================================================
+       GENERATE STRONG PASSWORD
+    ========================================================= */
+
+    function generateStrongPassword(length = 16) {
+
+        const uppercase =
+            'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+
+        const lowercase =
+            'abcdefghijklmnopqrstuvwxyz';
+
+        const numbers =
+            '0123456789';
+
+        const special =
+            '!@#$%^&*()-_=+';
+
+
+        const all =
+            uppercase +
+            lowercase +
+            numbers +
+            special;
+
+
+        let password = '';
+
+
+        /* Guarantee required characters */
+
+        password += randomCharacter(
+            uppercase
+        );
+
+        password += randomCharacter(
+            lowercase
+        );
+
+        password += randomCharacter(
+            numbers
+        );
+
+        password += randomCharacter(
+            special
+        );
+
+
+        /* Remaining characters */
+
+        while (password.length < length) {
+
+            password += randomCharacter(all);
+
+        }
+
+
+        /* Secure-ish shuffle */
+
+        password =
+            password
+                .split('')
+                .sort(function () {
+                    return Math.random() - 0.5;
+                })
+                .join('');
+
+
+        return password;
+
+    }
+
+
+    function randomCharacter(characters) {
+
+        return characters.charAt(
+            Math.floor(
+                Math.random() *
+                characters.length
+            )
+        );
+
+    }
+
+
+    /* =========================================================
+       GENERATE PASSWORD BUTTON
+    ========================================================= */
+
+    generateButton.addEventListener(
+        'click',
+        function () {
+
+            const generated =
+                generateStrongPassword(16);
+
+
+            password.value =
+                generated;
+
+            confirmation.value =
+                generated;
+
+
+            /* Show generated password */
+
+            password.type = 'text';
+
+            confirmation.type = 'text';
+
+
+            /* Update icons */
+
+            document
+                .querySelectorAll('.toggle-password i')
+                .forEach(function (icon) {
+
+                    icon.classList.remove(
+                        'bi-eye'
+                    );
+
+                    icon.classList.add(
+                        'bi-eye-slash'
+                    );
+
+                });
+
+
+            /* Update validation */
+
+            checkPasswordStrength(
+                generated
+            );
+
+            checkPasswordMatch();
+
+        }
+    );
+
+
+    /* =========================================================
+       PASSWORD INPUT
+    ========================================================= */
+
+    password.addEventListener(
+        'input',
+        function () {
+
+            checkPasswordStrength(
+                this.value
+            );
+
+            checkPasswordMatch();
+
+        }
+    );
+
+
+    /* =========================================================
+       CONFIRM PASSWORD INPUT
+    ========================================================= */
+
+    confirmation.addEventListener(
+        'input',
+        function () {
+
+            checkPasswordMatch();
+
+        }
+    );
+
+
+    /* =========================================================
+       FORM SUBMIT VALIDATION
+    ========================================================= */
+
+    form.addEventListener(
+        'submit',
+        function (event) {
+
+            const passwordValue =
+                password.value;
+
+            const confirmationValue =
+                confirmation.value;
+
+
+            /* Password mismatch */
+
+            if (
+                passwordValue !==
+                confirmationValue
+            ) {
+
+                event.preventDefault();
+
+                checkPasswordMatch();
+
+                confirmation.focus();
+
+                return false;
+
+            }
+
+
+            /* Minimum password validation */
+
+            if (passwordValue.length < 8) {
+
+                event.preventDefault();
+
+                checkPasswordStrength(
+                    passwordValue
+                );
+
+                password.focus();
+
+                return false;
+
+            }
+
+        }
+    );
+
+
+    /* =========================================================
+       INITIAL STATE
+    ========================================================= */
+
+    if (password.value) {
+
+        checkPasswordStrength(
+            password.value
+        );
+
+    }
+
+});
+</script>
 @endsection
