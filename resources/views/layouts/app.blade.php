@@ -293,35 +293,55 @@
             $isDashboardActive = request()->routeIs('admin.dashboard');
 
 
-            /*
-            |--------------------------------------------------------------------------
-            | DEVELOPMENT MANAGEMENT
-            |--------------------------------------------------------------------------
-            */
-            $isLandActive = request()->routeIs('admin.land.*');
+          /*
+                |--------------------------------------------------------------------------
+                | DEVELOPMENT MANAGEMENT
+                |--------------------------------------------------------------------------
+                */
 
-            $isFeasibilityActive = request()->routeIs(
-                'admin.feasibility-investment.*'
-            );
+                $isLandActive = request()->routeIs('admin.land.*');
 
-            $isProjectsActive = request()->routeIs(
-                'admin.projects.*'
-            );
+                $isFeasibilityActive = request()->routeIs(
+                    'admin.feasibility-investment.*'
+                );
 
-            $isProcurementActive = request()->routeIs(
-                'admin.procurement.*'
-            );
+                $isProjectsActive = request()->routeIs(
+                    'admin.projects.*'
+                );
 
-            $isConstructionActive = request()->routeIs(
-                'admin.construction.*'
-            );
+                $isProcurementActive = request()->routeIs(
+                    'admin.procurement.*'
+                );
 
-            $isDevelopmentActive =
-                $isLandActive ||
-                $isFeasibilityActive ||
-                $isProjectsActive ||
-                $isProcurementActive ||
-                $isConstructionActive;
+                $isConstructionActive = request()->routeIs(
+                    'admin.construction.*'
+                );
+
+
+                /*
+                |--------------------------------------------------------------------------
+                | DESIGN MANAGEMENT
+                |--------------------------------------------------------------------------
+                */
+
+                $isDesignActive = request()->routeIs(
+                    'admin.design-management.*'
+                );
+
+
+                /*
+                |--------------------------------------------------------------------------
+                | DEVELOPMENT MANAGEMENT - MAIN ACTIVE STATE
+                |--------------------------------------------------------------------------
+                */
+
+                $isDevelopmentActive =
+                    $isLandActive ||
+                    $isFeasibilityActive ||
+                    $isProjectsActive ||
+                    $isProcurementActive ||
+                    $isConstructionActive ||
+                    $isDesignActive;
 
 
             /*
@@ -332,6 +352,8 @@
             $isContractActive = request()->routeIs(
                 'admin.contract-management.*'
             );
+            
+          
 
 
             /*
@@ -709,7 +731,7 @@
         </a> -->
 
         <a href="{{ route('admin.design-management.index') }}"
-           class="sidebar-sublink">
+           class="sidebar-sublink {{ $isDesignActive ? 'active' : '' }}">
 
             <i class="ri-draft-line"></i>
 
@@ -718,7 +740,7 @@
         </a>
 
         <a href="#"
-           class="sidebar-sublink">
+           class="sidebar-sublink ">
 
             <i class="ri-checkbox-circle-line"></i>
 
@@ -948,7 +970,7 @@
          {{-- =================================================
      LEASING
 ================================================== --}}
-
+ @can('performance.view')
 <details
     class="sidebar-group"
     {{ $isLeasingGroupActive ? 'open' : '' }}
@@ -1071,7 +1093,7 @@
     </div>
 
 </details>
-
+  @endcan
 
 
            {{-- =================================================
