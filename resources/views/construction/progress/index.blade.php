@@ -75,21 +75,6 @@
 
 
         <div class="d-flex gap-2">
-
-            <a
-                href="{{ route(
-                    'admin.projects.construction.progress.create',
-                    [
-                        'project' => $project,
-                    ]
-                ) }}"
-                class="btn btn-primary"
-            >
-                <i class="bi bi-plus-lg me-1"></i>
-                Add Progress
-            </a>
-
-
             <a
                 href="{{ route(
                     'admin.projects.construction.dashboard',
@@ -101,6 +86,18 @@
             >
                 <i class="bi bi-arrow-left me-1"></i>
                 Construction Dashboard
+            </a>
+            <a
+                href="{{ route(
+                    'admin.projects.construction.progress.create',
+                    [
+                        'project' => $project,
+                    ]
+                ) }}"
+                class="btn btn-primary"
+            >
+                <i class="bi bi-plus-lg me-1"></i>
+                Add Progress
             </a>
 
         </div>

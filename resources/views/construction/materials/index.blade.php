@@ -18,10 +18,15 @@
             </p>
         </div>
 
-        <div>
-            <a href="{{ route('admin.projects.construction.dashboard', $project) }}"
-               class="btn btn-secondary">
-                ← Back to Construction
+        <div class="d-flex gap-2">
+            <a
+                href="{{ route(
+                    'admin.projects.construction.dashboard',
+                    $project
+                ) }}"
+                class="btn btn-outline-secondary"
+            >
+                Construction Dashboard
             </a>
         </div>
 

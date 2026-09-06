@@ -476,39 +476,40 @@
 
 
                                 <td class="text-end">
+                                    <div class="d-flex gap-2">
+                                        <a
+                                            href="{{ route(
+                                                'admin.procurement.tenders.technical-evaluations.show',
+                                                [
+                                                    'procurementTender' =>
+                                                        $procurementTender,
 
-                                    <a
-                                        href="{{ route(
-                                            'admin.procurement.tenders.technical-evaluations.show',
-                                            [
-                                                'procurementTender' =>
-                                                    $procurementTender,
-
-                                                'evaluation' =>
-                                                    $evaluation,
-                                            ]
-                                        ) }}"
-                                        class="btn btn-sm btn-outline-primary"
-                                    >
-                                        View
-                                    </a>
+                                                    'evaluation' =>
+                                                        $evaluation,
+                                                ]
+                                            ) }}"
+                                            class="btn btn-sm btn-outline-primary"
+                                        >
+                                            View
+                                        </a>
 
 
-                                    <a
-                                        href="{{ route(
-                                            'admin.procurement.tenders.technical-evaluations.edit',
-                                            [
-                                                'procurementTender' =>
-                                                    $procurementTender,
+                                        <a
+                                            href="{{ route(
+                                                'admin.procurement.tenders.technical-evaluations.edit',
+                                                [
+                                                    'procurementTender' =>
+                                                        $procurementTender,
 
-                                                'evaluation' =>
-                                                    $evaluation,
-                                            ]
-                                        ) }}"
-                                        class="btn btn-sm btn-outline-secondary"
-                                    >
-                                        Edit
-                                    </a>
+                                                    'evaluation' =>
+                                                        $evaluation,
+                                                ]
+                                            ) }}"
+                                            class="btn btn-sm btn-outline-secondary"
+                                        >
+                                            Edit
+                                        </a>
+                                    </div>
 
                                 </td>
 

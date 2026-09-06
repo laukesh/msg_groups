@@ -395,42 +395,43 @@
                                 ================================================== --}}
 
                                 <td class="text-end">
+                                    <div class="d-flex gap-2">
+                                        {{-- View is always available --}}
+                                        <a
+                                            href="{{ route(
+                                                'admin.procurement.tenders.awards.show',
+                                                [
+                                                    'procurementTender' =>
+                                                        $procurementTender,
 
-                                    {{-- View is always available --}}
-                                    <a
-                                        href="{{ route(
-                                            'admin.procurement.tenders.awards.show',
-                                            [
-                                                'procurementTender' =>
-                                                    $procurementTender,
-
-                                                'award' =>
-                                                    $award,
-                                            ]
-                                        ) }}"
-                                        class="btn btn-sm btn-outline-primary"
-                                    >
-
-                                        View
-
-                                    </a>
-
-
-                                    {{-- Locked indicator --}}
-                                    @if($loaIssued)
-
-                                        <span
-                                            class="badge bg-secondary ms-1"
-                                            title="Tender LOA has been issued"
+                                                    'award' =>
+                                                        $award,
+                                                ]
+                                            ) }}"
+                                            class="btn btn-sm btn-outline-primary"
                                         >
 
-                                            <i class="ri-lock-line"></i>
+                                            View
 
-                                            Locked
+                                        </a>
 
-                                        </span>
 
-                                    @endif
+                                        {{-- Locked indicator --}}
+                                        @if($loaIssued)
+
+                                            <span
+                                                class="badge bg-secondary ms-1"
+                                                title="Tender LOA has been issued"
+                                            >
+
+                                                <i class="ri-lock-line"></i>
+
+                                                Locked
+
+                                            </span>
+
+                                        @endif
+                                    </div>
 
                                 </td>
 

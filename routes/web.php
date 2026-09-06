@@ -246,6 +246,20 @@ use App\Http\Controllers\Admin\DesignManagement\DesignCommentController;
 use App\Http\Controllers\Admin\DesignManagement\DesignRfiController;
 use App\Http\Controllers\Admin\DesignManagement\DesignChangeController;
 use App\Http\Controllers\Admin\DesignManagement\DesignApprovalController;
+use App\Http\Controllers\Admin\Construction\ConstructionClaimController;
+use App\Http\Controllers\Admin\Construction\ConstructionClaimDocumentController;
+use App\Http\Controllers\Admin\Construction\ConstructionDelayController;
+use App\Http\Controllers\Admin\Construction\ConstructionDelayDocumentController;
+
+use App\Http\Controllers\Admin\Construction\ConstructionRiskController;
+use App\Http\Controllers\Admin\Construction\ConstructionRiskActionController;
+use App\Http\Controllers\Admin\Construction\ConstructionRiskDocumentController;
+
+use App\Http\Controllers\Admin\Construction\ConstructionCorrespondenceController;
+use App\Http\Controllers\Admin\Construction\ConstructionCorrespondenceDocumentController;
+
+
+
 
 /*
 |--------------------------------------------------------------------------
@@ -2381,6 +2395,41 @@ Route::middleware('auth')->group(function () {
                         ProjectController::class,
                         'destroy'
                     ])->name('destroy');
+
+                    /* Project Status Workflow */
+					Route::post('/{project}/submit', [ProjectController::class, 'submit'])
+					    ->name('submit');
+
+					Route::post('/{project}/approve', [ProjectController::class, 'approve'])
+					    ->name('approve');
+
+					Route::post('/{project}/reject', [ProjectController::class, 'reject'])
+					    ->name('reject');
+
+					Route::post('/{project}/start', [ProjectController::class, 'start'])
+					    ->name('start');
+
+					Route::post('/{project}/hold', [ProjectController::class, 'hold'])
+					    ->name('hold');
+
+					Route::post('/{project}/resume', [ProjectController::class, 'resume'])
+					    ->name('resume');
+
+					Route::post('/{project}/delay', [ProjectController::class, 'delay'])
+					    ->name('delay');
+
+					Route::post('/{project}/resolve-delay', [ProjectController::class, 'resolveDelay'])
+					    ->name('resolve_delay');
+
+					Route::post('/{project}/complete', [ProjectController::class, 'complete'])
+					    ->name('complete');
+
+					Route::post('/{project}/cancel', [ProjectController::class, 'cancel'])
+					    ->name('cancel');
+
+					Route::post('/{project}/close', [ProjectController::class, 'close'])
+					    ->name('close');
+
 
 
                     /*
@@ -9214,6 +9263,686 @@ Route::middleware('auth')->group(function () {
                     Route::get('approvals', [DesignApprovalController::class, 'index'])
                         ->name('approvals.index');
                 });
+
+                Route::prefix('projects/{project}/construction/claims')
+                ->name('projects.construction.claims.')
+                ->group(function () {
+
+                    Route::get(
+                        '/',
+                        [ConstructionClaimController::class, 'index']
+                    )->name('index');
+
+                    Route::get(
+                        '/create',
+                        [ConstructionClaimController::class, 'create']
+                    )->name('create');
+
+                    Route::post(
+                        '/',
+                        [ConstructionClaimController::class, 'store']
+                    )->name('store');
+
+                    Route::post(
+                        '/{claim}/submit',
+                        [ConstructionClaimController::class, 'submit']
+                    )
+                    ->whereNumber('claim')
+                    ->name('submit');
+
+                    Route::post(
+                        '/{claim}/review',
+                        [ConstructionClaimController::class, 'review']
+                    )
+                    ->whereNumber('claim')
+                    ->name('review');
+
+                    /*Route::post(
+                        '/{claim}/assess',
+                        [ConstructionClaimController::class, 'assess']
+                    )
+                    ->whereNumber('claim')
+                    ->name('assess');*/
+
+                    Route::get('/{claim}/assess', [ConstructionClaimController::class, 'assessment'])
+                        ->name('assessment')
+                        ->whereNumber('claim');
+
+                    Route::post('/{claim}/assess', [ConstructionClaimController::class, 'assess'])
+                        ->name('assess')
+                        ->whereNumber('claim');
+
+                    Route::get(
+                        '/{claim}/approve',
+                        [ConstructionClaimController::class, 'approval']
+                    )
+                        ->whereNumber('claim')
+                        ->name('approval');
+                    Route::post(
+                        '/{claim}/approve',
+                        [ConstructionClaimController::class, 'approve']
+                    )
+                        ->whereNumber('claim')
+                        ->name('approve');
+
+                    Route::get(
+                        '/{claim}/reject',
+                        [ConstructionClaimController::class, 'rejection']
+                    )
+                        ->whereNumber('claim')
+                        ->name('rejection');
+
+                    Route::post(
+                        '/{claim}/reject',
+                        [ConstructionClaimController::class, 'reject']
+                    )
+                        ->whereNumber('claim')
+                        ->name('reject');
+
+                    Route::post(
+                        '/{claim}/close',
+                        [ConstructionClaimController::class, 'close']
+                    )
+                    ->whereNumber('claim')
+                    ->name('close');
+
+                    Route::get(
+                        '/{claim}/edit',
+                        [ConstructionClaimController::class, 'edit']
+                    )
+                    ->whereNumber('claim')
+                    ->name('edit');
+
+                    Route::put(
+                        '/{claim}',
+                        [ConstructionClaimController::class, 'update']
+                    )
+                    ->whereNumber('claim')
+                    ->name('update');
+
+                    Route::delete(
+                        '/{claim}',
+                        [ConstructionClaimController::class, 'destroy']
+                    )
+                    ->whereNumber('claim')
+                    ->name('destroy');
+
+                    Route::get(
+                        '/{claim}',
+                        [ConstructionClaimController::class, 'show']
+                    )
+                    ->whereNumber('claim')
+                    ->name('show');
+
+                    /*
+                    |--------------------------------------------------------------------------
+                    | Claim Documents
+                    |--------------------------------------------------------------------------
+                    */
+
+                    Route::prefix('{claim}/documents')
+                        ->name('documents.')
+                        ->whereNumber('claim')
+                        ->group(function () {
+
+                            Route::get(
+                                '/',
+                                [ConstructionClaimDocumentController::class, 'index']
+                            )
+                                ->name('index');
+
+                            Route::get(
+                                '/create',
+                                [ConstructionClaimDocumentController::class, 'create']
+                            )
+                                ->name('create');
+
+                            Route::post(
+                                '/',
+                                [ConstructionClaimDocumentController::class, 'store']
+                            )
+                                ->name('store');
+
+                            Route::get(
+                                '/{document}/view',
+                                [ConstructionClaimDocumentController::class, 'view']
+                            )
+                                ->whereNumber('document')
+                                ->name('view');
+
+                            Route::get(
+                                '/{document}/download',
+                                [ConstructionClaimDocumentController::class, 'download']
+                            )
+                                ->whereNumber('document')
+                                ->name('download');
+
+                            Route::delete(
+                                '/{document}',
+                                [ConstructionClaimDocumentController::class, 'destroy']
+                            )
+                                ->whereNumber('document')
+                                ->name('destroy');
+                    });
+
+
+                });
+
+                /*
+                |--------------------------------------------------------------------------
+                | Construction Delays
+                |--------------------------------------------------------------------------
+                */
+
+                Route::prefix('projects/{project}/construction/delays')
+                    ->name('projects.construction.delays.')
+                    ->group(function () {
+
+                        Route::get(
+                            '/',
+                            [ConstructionDelayController::class, 'index']
+                        )->name('index');
+
+                        Route::get(
+                            '/create',
+                            [ConstructionDelayController::class, 'create']
+                        )->name('create');
+
+                        Route::post(
+                            '/',
+                            [ConstructionDelayController::class, 'store']
+                        )->name('store');
+
+
+                        /*
+                        |--------------------------------------------------------------------------
+                        | Workflow
+                        |--------------------------------------------------------------------------
+                        */
+
+                        Route::post(
+                            '/{delay}/submit',
+                            [ConstructionDelayController::class, 'submit']
+                        )
+                            ->whereNumber('delay')
+                            ->name('submit');
+
+                        Route::post(
+                            '/{delay}/review',
+                            [ConstructionDelayController::class, 'review']
+                        )
+                            ->whereNumber('delay')
+                            ->name('review');
+
+
+                        /*
+                        |--------------------------------------------------------------------------
+                        | Assessment
+                        |--------------------------------------------------------------------------
+                        */
+
+                        Route::get(
+                            '/{delay}/assess',
+                            [ConstructionDelayController::class, 'assessment']
+                        )
+                            ->whereNumber('delay')
+                            ->name('assessment');
+
+                        Route::post(
+                            '/{delay}/assess',
+                            [ConstructionDelayController::class, 'assess']
+                        )
+                            ->whereNumber('delay')
+                            ->name('assess');
+
+
+                        /*
+                        |--------------------------------------------------------------------------
+                        | Approval
+                        |--------------------------------------------------------------------------
+                        */
+
+                        Route::get(
+                            '/{delay}/approve',
+                            [ConstructionDelayController::class, 'approval']
+                        )
+                            ->whereNumber('delay')
+                            ->name('approval');
+
+                        Route::post(
+                            '/{delay}/approve',
+                            [ConstructionDelayController::class, 'approve']
+                        )
+                            ->whereNumber('delay')
+                            ->name('approve');
+
+
+                        /*
+                        |--------------------------------------------------------------------------
+                        | Rejection
+                        |--------------------------------------------------------------------------
+                        */
+
+                        Route::get(
+                            '/{delay}/reject',
+                            [ConstructionDelayController::class, 'rejection']
+                        )
+                            ->whereNumber('delay')
+                            ->name('rejection');
+
+                        Route::post(
+                            '/{delay}/reject',
+                            [ConstructionDelayController::class, 'reject']
+                        )
+                            ->whereNumber('delay')
+                            ->name('reject');
+
+
+                        /*
+                        |--------------------------------------------------------------------------
+                        | Close
+                        |--------------------------------------------------------------------------
+                        */
+
+                        Route::post(
+                            '/{delay}/close',
+                            [ConstructionDelayController::class, 'close']
+                        )
+                            ->whereNumber('delay')
+                            ->name('close');
+
+
+                        /*
+                        |--------------------------------------------------------------------------
+                        | CRUD
+                        |--------------------------------------------------------------------------
+                        */
+
+                        Route::get(
+                            '/{delay}/edit',
+                            [ConstructionDelayController::class, 'edit']
+                        )
+                            ->whereNumber('delay')
+                            ->name('edit');
+
+                        Route::put(
+                            '/{delay}',
+                            [ConstructionDelayController::class, 'update']
+                        )
+                            ->whereNumber('delay')
+                            ->name('update');
+
+                        Route::delete(
+                            '/{delay}',
+                            [ConstructionDelayController::class, 'destroy']
+                        )
+                            ->whereNumber('delay')
+                            ->name('destroy');
+
+                        Route::get(
+                            '/{delay}',
+                            [ConstructionDelayController::class, 'show']
+                        )
+                            ->whereNumber('delay')
+                            ->name('show');
+
+
+                        /*
+                        |--------------------------------------------------------------------------
+                        | Delay Documents
+                        |--------------------------------------------------------------------------
+                        */
+
+                        Route::prefix('{delay}/documents')
+                            ->name('documents.')
+                            ->whereNumber('delay')
+                            ->group(function () {
+
+                                Route::get(
+                                    '/',
+                                    [ConstructionDelayDocumentController::class, 'index']
+                                )->name('index');
+
+                                Route::get(
+                                    '/create',
+                                    [ConstructionDelayDocumentController::class, 'create']
+                                )->name('create');
+
+                                Route::post(
+                                    '/',
+                                    [ConstructionDelayDocumentController::class, 'store']
+                                )->name('store');
+
+                                Route::get(
+                                    '/{document}/view',
+                                    [ConstructionDelayDocumentController::class, 'view']
+                                )
+                                    ->whereNumber('document')
+                                    ->name('view');
+
+                                Route::get(
+                                    '/{document}/download',
+                                    [ConstructionDelayDocumentController::class, 'download']
+                                )
+                                    ->whereNumber('document')
+                                    ->name('download');
+
+                                Route::delete(
+                                    '/{document}',
+                                    [ConstructionDelayDocumentController::class, 'destroy']
+                                )
+                                    ->whereNumber('document')
+                                    ->name('destroy');
+                            });
+                    });
+
+                    Route::prefix('projects/{project}/construction/risks')
+                    ->name('projects.construction.risks.')
+                    ->group(function () {
+
+                        /*
+                        |--------------------------------------------------------------------------
+                        | Risk Management
+                        |--------------------------------------------------------------------------
+                        */
+
+                        Route::get('/', [ConstructionRiskController::class, 'index'])
+                            ->name('index');
+
+                        Route::get('/create', [ConstructionRiskController::class, 'create'])
+                            ->name('create');
+
+                        Route::post('/', [ConstructionRiskController::class, 'store'])
+                            ->name('store');
+
+                        Route::get('/{risk}', [ConstructionRiskController::class, 'show'])
+                            ->whereNumber('risk')
+                            ->name('show');
+
+                        Route::get('/{risk}/edit', [ConstructionRiskController::class, 'edit'])
+                            ->whereNumber('risk')
+                            ->name('edit');
+
+                        Route::put('/{risk}', [ConstructionRiskController::class, 'update'])
+                            ->whereNumber('risk')
+                            ->name('update');
+
+                        Route::patch('/{risk}', [ConstructionRiskController::class, 'update'])
+                            ->whereNumber('risk');
+
+                        /*
+                        |--------------------------------------------------------------------------
+                        | Risk Workflow
+                        |--------------------------------------------------------------------------
+                        */
+
+                        Route::post('/{risk}/submit', [ConstructionRiskController::class, 'submit'])
+                            ->whereNumber('risk')
+                            ->name('submit');
+
+                        Route::post('/{risk}/assess', [ConstructionRiskController::class, 'assess'])
+                            ->whereNumber('risk')
+                            ->name('assess');
+
+                        Route::post('/{risk}/mitigation', [ConstructionRiskController::class, 'mitigation'])
+                            ->whereNumber('risk')
+                            ->name('mitigation');
+
+                        Route::post('/{risk}/monitor', [ConstructionRiskController::class, 'monitor'])
+                            ->whereNumber('risk')
+                            ->name('monitor');
+
+                        Route::post('/{risk}/escalate', [ConstructionRiskController::class, 'escalate'])
+                            ->whereNumber('risk')
+                            ->name('escalate');
+
+                        Route::post('/{risk}/accept', [ConstructionRiskController::class, 'accept'])
+                            ->whereNumber('risk')
+                            ->name('accept');
+
+                        Route::post('/{risk}/close', [ConstructionRiskController::class, 'close'])
+                            ->whereNumber('risk')
+                            ->name('close');
+
+                        Route::delete('/{risk}', [ConstructionRiskController::class, 'destroy'])
+                            ->whereNumber('risk')
+                            ->name('destroy');
+
+
+                        /*
+                        |--------------------------------------------------------------------------
+                        | Risk Actions
+                        |--------------------------------------------------------------------------
+                        */
+
+                        Route::prefix('/{risk}/actions')
+                            ->whereNumber('risk')
+                            ->name('actions.')
+                            ->group(function () {
+
+                                Route::get('/', [ConstructionRiskActionController::class, 'index'])
+                                    ->name('index');
+
+                                Route::get('/create', [ConstructionRiskActionController::class, 'create'])
+                                    ->name('create');
+
+                                Route::post('/', [ConstructionRiskActionController::class, 'store'])
+                                    ->name('store');
+
+                                Route::get('/{action}/edit', [ConstructionRiskActionController::class, 'edit'])
+                                    ->whereNumber('action')
+                                    ->name('edit');
+
+                                Route::put('/{action}', [ConstructionRiskActionController::class, 'update'])
+                                    ->whereNumber('action')
+                                    ->name('update');
+
+                                Route::delete('/{action}', [ConstructionRiskActionController::class, 'destroy'])
+                                    ->whereNumber('action')
+                                    ->name('destroy');
+                            });
+
+
+                        /*
+                        |--------------------------------------------------------------------------
+                        | Risk Documents
+                        |--------------------------------------------------------------------------
+                        */
+
+                        Route::prefix('/{risk}/documents')
+                            ->whereNumber('risk')
+                            ->name('documents.')
+                            ->group(function () {
+
+                                Route::get('/', [ConstructionRiskDocumentController::class, 'index'])
+                                    ->name('index');
+
+                                Route::get('/create', [ConstructionRiskDocumentController::class, 'create'])
+                                    ->name('create');
+
+                                Route::post('/', [ConstructionRiskDocumentController::class, 'store'])
+                                    ->name('store');
+
+                                Route::get('/{document}/view', [ConstructionRiskDocumentController::class, 'view'])
+                                    ->whereNumber('document')
+                                    ->name('view');
+
+                                Route::get('/{document}/download', [ConstructionRiskDocumentController::class, 'download'])
+                                    ->whereNumber('document')
+                                    ->name('download');
+
+                                Route::delete('/{document}', [ConstructionRiskDocumentController::class, 'destroy'])
+                                    ->whereNumber('document')
+                                    ->name('destroy');
+                            });
+                    });
+
+                    Route::prefix('projects/{project}/construction/correspondence')
+                    ->name('projects.construction.correspondence.')
+                    ->group(function () {
+
+                        /*
+                        |--------------------------------------------------------------------------
+                        | Correspondence
+                        |--------------------------------------------------------------------------
+                        */
+
+                        Route::get('/', [
+                            ConstructionCorrespondenceController::class,
+                            'index'
+                        ])->name('index');
+
+
+                        Route::get('/create', [
+                            ConstructionCorrespondenceController::class,
+                            'create'
+                        ])->name('create');
+
+
+                        Route::post('/', [
+                            ConstructionCorrespondenceController::class,
+                            'store'
+                        ])->name('store');
+
+
+                        /*
+                        |--------------------------------------------------------------------------
+                        | Workflow Actions
+                        |--------------------------------------------------------------------------
+                        */
+
+                        Route::post('/{correspondence}/register', [
+                            ConstructionCorrespondenceController::class,
+                            'register'
+                        ])->whereNumber('correspondence')
+                          ->name('register');
+
+
+                        Route::post('/{correspondence}/review', [
+                            ConstructionCorrespondenceController::class,
+                            'review'
+                        ])->whereNumber('correspondence')
+                          ->name('review');
+
+
+                        Route::post('/{correspondence}/action-required', [
+                            ConstructionCorrespondenceController::class,
+                            'actionRequired'
+                        ])->whereNumber('correspondence')
+                          ->name('action_required');
+
+
+                        Route::post('/{correspondence}/respond', [
+                            ConstructionCorrespondenceController::class,
+                            'respond'
+                        ])->whereNumber('correspondence')
+                          ->name('respond');
+
+
+                        Route::post('/{correspondence}/close', [
+                            ConstructionCorrespondenceController::class,
+                            'close'
+                        ])->whereNumber('correspondence')
+                          ->name('close');
+
+
+                        Route::post('/{correspondence}/archive', [
+                            ConstructionCorrespondenceController::class,
+                            'archive'
+                        ])->whereNumber('correspondence')
+                          ->name('archive');
+
+
+                        /*
+                        |--------------------------------------------------------------------------
+                        | Show / Edit / Update / Delete
+                        |--------------------------------------------------------------------------
+                        */
+
+                        Route::get('/{correspondence}', [
+                            ConstructionCorrespondenceController::class,
+                            'show'
+                        ])->whereNumber('correspondence')
+                          ->name('show');
+
+
+                        Route::get('/{correspondence}/edit', [
+                            ConstructionCorrespondenceController::class,
+                            'edit'
+                        ])->whereNumber('correspondence')
+                          ->name('edit');
+
+
+                        Route::put('/{correspondence}', [
+                            ConstructionCorrespondenceController::class,
+                            'update'
+                        ])->whereNumber('correspondence')
+                          ->name('update');
+
+
+                        Route::patch('/{correspondence}', [
+                            ConstructionCorrespondenceController::class,
+                            'update'
+                        ])->whereNumber('correspondence');
+
+
+                        Route::delete('/{correspondence}', [
+                            ConstructionCorrespondenceController::class,
+                            'destroy'
+                        ])->whereNumber('correspondence')
+                          ->name('destroy');
+
+
+                        /*
+                        |--------------------------------------------------------------------------
+                        | Correspondence Documents
+                        |--------------------------------------------------------------------------
+                        */
+
+                        Route::prefix('/{correspondence}/documents')
+                            ->whereNumber('correspondence')
+                            ->name('documents.')
+                            ->group(function () {
+
+                                Route::get('/', [
+                                    ConstructionCorrespondenceDocumentController::class,
+                                    'index'
+                                ])->name('index');
+
+
+                                Route::get('/create', [
+                                    ConstructionCorrespondenceDocumentController::class,
+                                    'create'
+                                ])->name('create');
+
+
+                                Route::post('/', [
+                                    ConstructionCorrespondenceDocumentController::class,
+                                    'store'
+                                ])->name('store');
+
+
+                                Route::get('/{document}/view', [
+                                    ConstructionCorrespondenceDocumentController::class,
+                                    'view'
+                                ])->whereNumber('document')
+                                  ->name('view');
+
+
+                                Route::get('/{document}/download', [
+                                    ConstructionCorrespondenceDocumentController::class,
+                                    'download'
+                                ])->whereNumber('document')
+                                  ->name('download');
+
+
+                                Route::delete('/{document}', [
+                                    ConstructionCorrespondenceDocumentController::class,
+                                    'destroy'
+                                ])->whereNumber('document')
+                                  ->name('destroy');
+                            });
+                    });
 
 
 

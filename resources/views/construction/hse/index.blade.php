@@ -27,16 +27,17 @@
             </div>
 
         </div>
-
-        <a
-            href="{{ route(
-                'admin.projects.construction.dashboard',
-                $project
-            ) }}"
-            class="btn btn-sm btn-outline-primary"
-        >
-            Back to Construction Dashboard
-        </a>
+        <div class="d-flex gap-2">
+            <a
+                href="{{ route(
+                    'admin.projects.construction.dashboard',
+                    $project
+                ) }}"
+                class="btn btn-outline-secondary"
+            >
+                Construction Dashboard
+            </a>
+        </div>
 
     </div>
 

@@ -12,13 +12,15 @@
                 Manage procurement packages across procurement plans.
             </div>
         </div>
-
-        <a
-            href="{{ route('admin.procurement.packages.create') }}"
-            class="btn btn-primary"
-        >
-            + New Package
-        </a>
+        <div class="d-flex gap-2">
+            <a href="{{ route('admin.procurement.plans.index') }}" class="btn btn-outline-secondary">Procurement Plans</a>
+            <a
+                href="{{ route('admin.procurement.packages.create') }}"
+                class="btn btn-primary"
+            >
+                + New Package
+            </a>
+        </div>
 
     </div>
 

@@ -35,9 +35,9 @@
                     'admin.projects.construction.dashboard',
                     $project
                 ) }}"
-                class="btn btn-light border"
+                class="btn btn-outline-secondary"
             >
-                ← Back to Construction
+                Construction Dashboard
             </a>
 
             <a
