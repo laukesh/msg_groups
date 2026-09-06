@@ -28,7 +28,7 @@
             <a href="{{ route(
                 'admin.projects.construction.dashboard',
                 $project
-            ) }}" class="btn btn-outline-primary">
+            ) }}" class="btn btn-outline-secondary">
 
                 <i class="bi bi-speedometer2"></i>
                 Construction Dashboard

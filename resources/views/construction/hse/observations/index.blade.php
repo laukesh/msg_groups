@@ -31,6 +31,18 @@
 
             <a
                 href="{{ route(
+                    'admin.projects.construction.hse.index',
+                    [
+                        'project' => $project
+                    ]
+                ) }}"
+                class="btn btn-outline-secondary"
+            >
+                Back to HSE
+
+            </a>
+            <a
+                href="{{ route(
                     'admin.projects.construction.hse.observations.create',
                     [
                         'project' => $project
@@ -44,6 +56,7 @@
                 New Observation
 
             </a>
+            
 
         </div>
 

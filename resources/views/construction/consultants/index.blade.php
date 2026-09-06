@@ -34,19 +34,24 @@
             </div>
 
         </div>
+        <div class="d-flex gap-2">
+            <a href="{{ route('admin.projects.construction.dashboard', $project) }}"
+                   class="btn btn-outline-secondary">
+                    <i class="bi bi-arrow-left"></i>
+                    Construction Dashboard
+            </a>
+            <a href="{{ route(
+                'admin.projects.construction.consultants.create',
+                $project
+            ) }}"
+               class="btn btn-primary">
 
+                <i class="fa fas-plus-lg me-1"></i>
 
-        <a href="{{ route(
-            'admin.projects.construction.consultants.create',
-            $project
-        ) }}"
-           class="btn btn-primary">
+                Add Consultant
 
-            <i class="fa fas-plus-lg me-1"></i>
-
-            Add Consultant
-
-        </a>
+            </a>
+        </div>
 
     </div>
 

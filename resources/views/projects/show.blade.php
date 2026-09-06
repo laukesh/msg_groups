@@ -35,6 +35,15 @@
 
         <div class="d-flex gap-2">
 
+            
+
+
+            <a
+                href="{{ route('admin.projects.index') }}"
+                class="btn btn-outline-secondary"
+            >
+                ← Projects
+            </a>
             <a
                 href="{{ route(
                     'admin.projects.edit',
@@ -43,14 +52,6 @@
                 class="btn btn-outline-primary"
             >
                 Edit Project
-            </a>
-
-
-            <a
-                href="{{ route('admin.projects.index') }}"
-                class="btn btn-outline-secondary"
-            >
-                ← Projects
             </a>
 
         </div>
@@ -123,55 +124,24 @@
 
                     <div class="mt-2">
 
-                        @switch($project->project_status)
+                        @php
+                            $statusClass = match($project->project_status) {
+                                'Draft' => 'bg-secondary',
+                                'Pending Approval' => 'bg-warning text-dark',
+                                'Approved' => 'bg-info text-dark',
+                                'Active' => 'bg-success',
+                                'On Hold' => 'bg-warning text-dark',
+                                'Delayed' => 'bg-danger',
+                                'Completed' => 'bg-success',
+                                'Cancelled' => 'bg-danger',
+                                'Closed' => 'bg-dark',
+                                default => 'bg-secondary',
+                            };
+                        @endphp
 
-                            @case('Active')
-
-                                <span class="badge bg-success fs-6">
-                                    Active
-                                </span>
-
-                                @break
-
-                            @case('Delayed')
-
-                                <span class="badge bg-danger fs-6">
-                                    Delayed
-                                </span>
-
-                                @break
-
-                            @case('On Hold')
-
-                                <span class="badge bg-warning text-dark fs-6">
-                                    On Hold
-                                </span>
-
-                                @break
-
-                            @case('Completed')
-
-                                <span class="badge bg-success fs-6">
-                                    Completed
-                                </span>
-
-                                @break
-
-                            @case('Cancelled')
-
-                                <span class="badge bg-danger fs-6">
-                                    Cancelled
-                                </span>
-
-                                @break
-
-                            @default
-
-                                <span class="badge bg-secondary fs-6">
-                                    {{ $project->project_status }}
-                                </span>
-
-                        @endswitch
+                        <span class="badge {{ $statusClass }} fs-6">
+                            {{ $project->project_status }}
+                        </span>
 
                     </div>
 
@@ -225,6 +195,100 @@
 
     </div>
 
+
+    {{-- ========================================================= --}}
+    {{-- Project Status Workflow --}}
+    {{-- ========================================================= --}}
+
+    <div class="card mb-4">
+        <div class="card-header d-flex justify-content-between align-items-center">
+            <strong>Project Status Workflow</strong>
+            <span class="text-muted small">Status changes are controlled by workflow actions</span>
+        </div>
+        <div class="card-body">
+            <div class="d-flex flex-wrap gap-2 mb-3">
+                @if($project->project_status === 'Draft')
+                    <form method="POST" action="{{ route('admin.projects.submit', $project) }}">@csrf<button class="btn btn-primary">Submit for Approval</button></form>
+                @elseif($project->project_status === 'Pending Approval')
+                    <form method="POST" action="{{ route('admin.projects.approve', $project) }}">@csrf<button class="btn btn-success">Approve</button></form>
+                    <button class="btn btn-outline-danger" data-bs-toggle="modal" data-bs-target="#projectRejectModal">Reject</button>
+                @elseif($project->project_status === 'Approved')
+                    <form method="POST" action="{{ route('admin.projects.start', $project) }}">@csrf<button class="btn btn-success">Start Project</button></form>
+                    <button class="btn btn-outline-danger" data-bs-toggle="modal" data-bs-target="#projectCancelModal">Cancel</button>
+                @elseif($project->project_status === 'Active')
+                    <button class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#projectHoldModal">Put On Hold</button>
+                    <button class="btn btn-outline-danger" data-bs-toggle="modal" data-bs-target="#projectDelayModal">Mark Delayed</button>
+                    <form method="POST" action="{{ route('admin.projects.complete', $project) }}">@csrf<button class="btn btn-success">Mark Completed</button></form>
+                    <button class="btn btn-outline-danger" data-bs-toggle="modal" data-bs-target="#projectCancelModal">Cancel</button>
+                @elseif($project->project_status === 'On Hold')
+                    <form method="POST" action="{{ route('admin.projects.resume', $project) }}">@csrf<button class="btn btn-success">Resume</button></form>
+                    <button class="btn btn-outline-danger" data-bs-toggle="modal" data-bs-target="#projectCancelModal">Cancel</button>
+                @elseif($project->project_status === 'Delayed')
+                    <form method="POST" action="{{ route('admin.projects.resolve_delay', $project) }}">@csrf<button class="btn btn-success">Resolve Delay</button></form>
+                    <form method="POST" action="{{ route('admin.projects.complete', $project) }}">@csrf<button class="btn btn-success">Mark Completed</button></form>
+                    <button class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#projectHoldModal">Put On Hold</button>
+                @elseif($project->project_status === 'Completed')
+                    <form method="POST" action="{{ route('admin.projects.close', $project) }}">@csrf<button class="btn btn-dark">Close Project</button></form>
+                @endif
+            </div>
+
+            <div class="small text-muted mb-3">Lifecycle: Draft → Pending Approval → Approved → Active → Completed → Closed. On Hold / Delayed are controlled exception states.</div>
+
+            @if($project->statusHistories->count())
+                <div class="table-responsive">
+                    <table class="table table-sm table-bordered align-middle mb-0">
+                        <thead class="table-light"><tr><th>Date</th><th>From</th><th>To</th><th>Action</th><th>Remarks</th><th>By</th></tr></thead>
+                        <tbody>
+                        @foreach($project->statusHistories as $history)
+                            <tr>
+                                <td>{{ optional($history->performed_at)->format('d M Y H:i') }}</td>
+                                <td>{{ $history->from_status ?? '-' }}</td>
+                                <td><span class="badge bg-light text-dark border">{{ $history->to_status }}</span></td>
+                                <td>{{ $history->action }}</td>
+                                <td>{{ $history->remarks ?? '-' }}</td>
+                                <td>{{ optional($history->performedBy)->name ?? 'System' }}</td>
+                            </tr>
+                        @endforeach
+                        </tbody>
+                    </table>
+                </div>
+            @else
+                <div class="text-muted">No status workflow history available.</div>
+            @endif
+        </div>
+    </div>
+
+    <div class="modal fade" id="projectRejectModal" tabindex="-1" aria-hidden="true"><div class="modal-dialog"><div class="modal-content">
+        <form method="POST" action="{{ route('admin.projects.reject', $project) }}">@csrf
+            <div class="modal-header"><h5 class="modal-title">Reject Project</h5><button type="button" class="btn-close" data-bs-dismiss="modal"></button></div>
+            <div class="modal-body"><label class="form-label">Reason <span class="text-danger">*</span></label><textarea name="remarks" class="form-control" rows="4" required></textarea></div>
+            <div class="modal-footer"><button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button><button class="btn btn-danger">Reject</button></div>
+        </form>
+    </div></div></div>
+
+    <div class="modal fade" id="projectHoldModal" tabindex="-1" aria-hidden="true"><div class="modal-dialog"><div class="modal-content">
+        <form method="POST" action="{{ route('admin.projects.hold', $project) }}">@csrf
+            <div class="modal-header"><h5 class="modal-title">Put Project On Hold</h5><button type="button" class="btn-close" data-bs-dismiss="modal"></button></div>
+            <div class="modal-body"><label class="form-label">Remarks</label><textarea name="remarks" class="form-control" rows="4"></textarea></div>
+            <div class="modal-footer"><button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button><button class="btn btn-warning">Put On Hold</button></div>
+        </form>
+    </div></div></div>
+
+    <div class="modal fade" id="projectDelayModal" tabindex="-1" aria-hidden="true"><div class="modal-dialog"><div class="modal-content">
+        <form method="POST" action="{{ route('admin.projects.delay', $project) }}">@csrf
+            <div class="modal-header"><h5 class="modal-title">Mark Project Delayed</h5><button type="button" class="btn-close" data-bs-dismiss="modal"></button></div>
+            <div class="modal-body"><label class="form-label">Reason <span class="text-danger">*</span></label><textarea name="remarks" class="form-control" rows="4" required></textarea></div>
+            <div class="modal-footer"><button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button><button class="btn btn-danger">Mark Delayed</button></div>
+        </form>
+    </div></div></div>
+
+    <div class="modal fade" id="projectCancelModal" tabindex="-1" aria-hidden="true"><div class="modal-dialog"><div class="modal-content">
+        <form method="POST" action="{{ route('admin.projects.cancel', $project) }}">@csrf
+            <div class="modal-header"><h5 class="modal-title">Cancel Project</h5><button type="button" class="btn-close" data-bs-dismiss="modal"></button></div>
+            <div class="modal-body"><label class="form-label">Reason <span class="text-danger">*</span></label><textarea name="remarks" class="form-control" rows="4" required></textarea></div>
+            <div class="modal-footer"><button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Back</button><button class="btn btn-danger">Cancel Project</button></div>
+        </form>
+    </div></div></div>
 
     {{-- ========================================================= --}}
     {{-- Lifecycle Traceability --}}

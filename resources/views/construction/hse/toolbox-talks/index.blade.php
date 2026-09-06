@@ -24,20 +24,31 @@
             </div>
 
         </div>
-
-
-        <a
-            href="{{ route(
-                'admin.projects.construction.hse.toolbox-talks.create',
-                [
-                    'project' => $project,
-                ]
-            ) }}"
-            class="btn btn-primary"
-        >
-            <i class="bi bi-plus-lg me-1"></i>
-            New Toolbox Talk
-        </a>
+        <div class="d-flex gap-2">
+            <a
+                href="{{ route(
+                    'admin.projects.construction.hse.index',
+                    [
+                        'project' => $project,
+                    ]
+                ) }}"
+                class="btn btn-outline-secondary"
+            >
+                Back to HSE
+            </a>
+            <a
+                href="{{ route(
+                    'admin.projects.construction.hse.toolbox-talks.create',
+                    [
+                        'project' => $project,
+                    ]
+                ) }}"
+                class="btn btn-primary"
+            >
+                <i class="bi bi-plus-lg me-1"></i>
+                New Toolbox Talk
+            </a>
+        </div>
 
     </div>
 

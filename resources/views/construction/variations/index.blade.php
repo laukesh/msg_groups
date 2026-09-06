@@ -24,7 +24,15 @@
 
 
         <div class="d-flex gap-2">
-
+            <a
+                href="{{ route(
+                    'admin.projects.construction.dashboard',
+                    $project
+                ) }}"
+                class="btn btn-outline-secondary"
+            >
+                Construction Dashboard
+            </a>
             <a
                 href="{{ route(
                     'admin.projects.construction.cost-control.index',

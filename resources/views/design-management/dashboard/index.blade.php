@@ -11,7 +11,7 @@
                 <div class="text-muted">{{ $project->project_code }}</div>
             @endif
         </div>
-        <a href="{{ route('admin.design-management.index') }}" class="btn btn-outline-secondary">All Projects</a>
+        <a href="{{ route('admin.design-management.index') }}" class="btn btn-outline-secondary">Back</a>
     </div>
 
     @include('design-management.partials.alerts')

@@ -365,31 +365,12 @@
                                 ================================================== --}}
 
                                 <td class="text-end">
+                                    <div class="d-flex gap-2">
 
-                                    {{-- View is ALWAYS available --}}
-                                    <a
-                                        href="{{ route(
-                                            'admin.procurement.tenders.bid-comparisons.show',
-                                            [
-                                                'procurementTender' =>
-                                                    $procurementTender,
-
-                                                'comparison' =>
-                                                    $comparison,
-                                            ]
-                                        ) }}"
-                                        class="btn btn-sm btn-outline-primary"
-                                    >
-                                        View
-                                    </a>
-
-
-                                    {{-- Edit only before LOA Issued --}}
-                                    @if(!$tenderAwarded)
-
+                                        {{-- View is ALWAYS available --}}
                                         <a
                                             href="{{ route(
-                                                'admin.procurement.tenders.bid-comparisons.edit',
+                                                'admin.procurement.tenders.bid-comparisons.show',
                                                 [
                                                     'procurementTender' =>
                                                         $procurementTender,
@@ -398,22 +379,44 @@
                                                         $comparison,
                                                 ]
                                             ) }}"
-                                            class="btn btn-sm btn-outline-secondary"
+                                            class="btn btn-sm btn-outline-primary"
                                         >
-                                            Edit
+                                            View
                                         </a>
 
-                                    @else
 
-                                        <span
-                                            class="badge bg-secondary ms-1"
-                                            title="Tender LOA has been issued"
-                                        >
-                                            <i class="ri-lock-line"></i>
-                                            Locked
-                                        </span>
+                                        {{-- Edit only before LOA Issued --}}
+                                        @if(!$tenderAwarded)
 
-                                    @endif
+                                            <a
+                                                href="{{ route(
+                                                    'admin.procurement.tenders.bid-comparisons.edit',
+                                                    [
+                                                        'procurementTender' =>
+                                                            $procurementTender,
+
+                                                        'comparison' =>
+                                                            $comparison,
+                                                    ]
+                                                ) }}"
+                                                class="btn btn-sm btn-outline-secondary"
+                                            >
+                                                Edit
+                                            </a>
+
+                                        @else
+
+                                            <span
+                                                class="badge bg-secondary ms-1"
+                                                title="Tender LOA has been issued"
+                                            >
+                                                <i class="ri-lock-line"></i>
+                                                Locked
+                                            </span>
+
+                                        @endif
+
+                                    </div>
 
                                 </td>
 

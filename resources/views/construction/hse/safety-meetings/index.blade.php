@@ -30,7 +30,17 @@
 
 
         <div class="d-flex gap-2">
-
+            <a
+                href="{{ route(
+                    'admin.projects.construction.hse.index',
+                    [
+                        'project' => $project,
+                    ]
+                ) }}"
+                class="btn btn-outline-secondary"
+            >
+                Back to HSE
+            </a>
             <a
                 href="{{ route(
                     'admin.projects.construction.hse.safety-meetings.create',

@@ -11,11 +11,13 @@
                 Manage tenders issued against procurement packages.
             </div>
         </div>
-
-        <a href="{{ route('admin.procurement.tenders.create') }}"
-           class="btn btn-primary">
-            + New Tender
-        </a>
+        <div class="d-flex gap-2">
+            <a href="{{ route('admin.procurement.packages.index') }}" class="btn btn-outline-secondary">Packages</a>
+            <a href="{{ route('admin.procurement.tenders.create') }}"
+               class="btn btn-primary">
+                + New Tender
+            </a>
+        </div>
     </div>
 
     @if(session('success'))

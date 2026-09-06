@@ -19,6 +19,15 @@
         </div>
 
          <div class="d-flex gap-2">
+            <a
+                href="{{ route(
+                    'admin.projects.construction.dashboard',
+                    $project
+                ) }}"
+                class="btn btn-outline-secondary"
+            >
+                Construction Dashboard
+            </a>
 
             <a href="{{ route(
                 'admin.projects.construction.manpower.assignments.index',
@@ -42,15 +51,7 @@
 
             </a>
 
-            <a href="{{ url(
-                '/admin/projects/' . $project->id . '/construction'
-            ) }}"
-               class="btn btn-outline-secondary">
-
-                <i class="bi bi-arrow-left"></i>
-                Construction Dashboard
-
-            </a>
+            
 
         </div>
 

@@ -397,6 +397,18 @@ class Project extends Model
         );
     }
 
+
+    /**
+     * Project status workflow history.
+     */
+    public function statusHistories(): HasMany
+    {
+        return $this->hasMany(
+            ProjectStatusHistory::class,
+            'project_id'
+        )->orderByDesc('performed_at');
+    }
+
     public function constructionWorkOrders(): HasMany
     {
         return $this->hasMany(
@@ -417,6 +429,17 @@ class Project extends Model
     {
         return $this->hasMany(
             ConstructionScheduleActivity::class,
+            'project_id'
+        );
+    }
+
+    /**
+     * Construction Progress Updates
+     */
+    public function constructionProgressUpdates(): HasMany
+    {
+        return $this->hasMany(
+            ConstructionProgressUpdate::class,
             'project_id'
         );
     }
@@ -447,115 +470,9 @@ class Project extends Model
 
     /*
     |--------------------------------------------------------------------------
-    | HSE Safety Observations
+    | Design Management
     |--------------------------------------------------------------------------
     */
-
-    public function projectConsultants(): HasMany
-    {
-        return $this->hasMany(
-            ProjectConsultant::class,
-            'project_id'
-        );
-    }
-
-    public function hseObservations(): HasMany
-    {
-        return $this->hasMany(
-            ConstructionHseObservation::class,
-            'project_id'
-        );
-    }
-
-
-    public function constructionProgressUpdates()
-    {
-        return $this->hasMany(
-            ConstructionProgressUpdate::class,
-            'project_id'
-        );
-    }
-
-    public function materialStocks(): HasMany
-    {
-        return $this->hasMany(
-            ConstructionMaterialStock::class,
-            'project_id'
-        );
-    }
-    public function materialRequirements(): HasMany
-    {
-        return $this->hasMany(
-            ConstructionMaterialRequirement::class,
-            'project_id'
-        );
-    }
-
-    public function materialRequests(): HasMany
-    {
-        return $this->hasMany(
-            ConstructionMaterialRequest::class,
-            'project_id'
-        );
-    }
-
-    public function materialDeliveries(): HasMany
-    {
-        return $this->hasMany(
-            ConstructionMaterialDelivery::class,
-            'project_id'
-        );
-    }
-
-    public function materialReceipts(): HasMany
-    {
-        return $this->hasMany(
-            ConstructionMaterialReceipt::class,
-            'project_id'
-        );
-    }
-
-    public function materialTransactions(): HasMany
-    {
-        return $this->hasMany(
-            ConstructionMaterialTransaction::class,
-            'project_id'
-        );
-    }
-
-    public function constructionEquipmentDeployments()
-    {
-        return $this->hasMany(
-            ConstructionEquipmentDeployment::class,
-            'project_id'
-        );
-    }
-
-    public function constructionEquipmentUsageLogs()
-    {
-        return $this->hasMany(
-            ConstructionEquipmentUsageLog::class,
-            'project_id'
-        );
-    }
-
-    public function constructionManpowerAssignments()
-    {
-        return $this->hasMany(
-            ConstructionManpowerAssignment::class,
-            'project_id'
-        );
-    }
-
-    public function constructionManpowerEntries()
-    {
-        return $this->hasMany(
-            ConstructionManpowerEntry::class,
-            'project_id'
-        );
-    }
-
-    /*Sudhir Function */
 
     public function designProjectBriefs(): HasMany
     {

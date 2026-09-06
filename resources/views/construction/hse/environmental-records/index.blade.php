@@ -25,19 +25,31 @@
 
         </div>
 
-
-        <a
-            href="{{ route(
-                'admin.projects.construction.hse.environmental.records.create',
-                [
-                    'project' => $project,
-                ]
-            ) }}"
-            class="btn btn-primary"
-        >
-            <i class="bi bi-plus-lg me-1"></i>
-            Add Environmental Record
-        </a>
+        <div class="d-flex gap-2">
+            <a
+                href="{{ route(
+                    'admin.projects.construction.hse.index',
+                    [
+                        'project' => $project,
+                    ]
+                ) }}"
+                class="btn btn-outline-secondary"
+            >
+                Back to HSE
+            </a>
+            <a
+                href="{{ route(
+                    'admin.projects.construction.hse.environmental.records.create',
+                    [
+                        'project' => $project,
+                    ]
+                ) }}"
+                class="btn btn-primary"
+            >
+                <i class="bi bi-plus-lg me-1"></i>
+                Add Environmental Record
+            </a>
+        </div>
 
     </div>
 

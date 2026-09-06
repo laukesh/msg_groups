@@ -80,6 +80,15 @@
 
         <div class="d-flex flex-wrap gap-2">
 
+            {{-- Back --}}
+            <a
+                href="{{ route(
+                    'admin.procurement.tenders.index'
+                ) }}"
+                class="btn btn-outline-secondary"
+            >
+                Back
+            </a>
             {{-- Edit --}}
             <a
                 href="{{ route(
@@ -89,17 +98,6 @@
                 class="btn btn-primary"
             >
                 Edit Tender
-            </a>
-
-
-            {{-- Back --}}
-            <a
-                href="{{ route(
-                    'admin.procurement.tenders.index'
-                ) }}"
-                class="btn btn-outline-secondary"
-            >
-                Back
             </a>
 
         </div>

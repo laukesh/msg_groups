@@ -31,17 +31,7 @@
         </div>
 
 
-        <div class="d-flex gap-2">
-
-            <a
-                href="{{ route(
-                    'admin.projects.construction.other-costs.index',
-                    $project
-                ) }}"
-                class="btn btn-outline-primary"
-            >
-                Other Costs
-            </a>
+        <div class="d-flex gap-2">           
 
             <a
                 href="{{ route(
@@ -51,6 +41,15 @@
                 class="btn btn-outline-secondary"
             >
                 Construction Dashboard
+            </a>
+            <a
+                href="{{ route(
+                    'admin.projects.construction.other-costs.index',
+                    $project
+                ) }}"
+                class="btn btn-outline-primary"
+            >
+                Other Costs
             </a>
 
             <a

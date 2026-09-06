@@ -23,16 +23,29 @@
 
         </div>
 
-
-        <a
-            href="{{ route(
-                'admin.projects.construction.quality.itps.create',
-                $project
-            ) }}"
-            class="btn btn-primary"
-        >
-            + Create ITP
-        </a>
+        <div class="d-flex gap-2">
+            <a
+                href="{{ route(
+                    'admin.projects.construction.dashboard',
+                    [
+                        'project' => $project,
+                    ]
+                ) }}"
+                class="btn btn-outline-secondary"
+            >
+                <i class="bi bi-arrow-left me-1"></i>
+                Construction Dashboard
+            </a>
+            <a
+                href="{{ route(
+                    'admin.projects.construction.quality.itps.create',
+                    $project
+                ) }}"
+                class="btn btn-primary"
+            >
+                + Create ITP
+            </a>
+        </div>
 
     </div>
 

@@ -17,16 +17,29 @@
                 {{ $project->name ?? $project->project_name ?? 'Project' }}
             </div>
         </div>
-
-        <a
-            href="{{ route(
-                'admin.projects.construction.inspections.create',
-                $project
-            ) }}"
-            class="btn btn-primary"
-        >
-            + New Inspection
-        </a>
+        <div class="d-flex gap-2">
+            <a
+                href="{{ route(
+                    'admin.projects.construction.dashboard',
+                    [
+                        'project' => $project,
+                    ]
+                ) }}"
+                class="btn btn-outline-secondary"
+            >
+                <i class="bi bi-arrow-left me-1"></i>
+                Construction Dashboard
+            </a>
+            <a
+                href="{{ route(
+                    'admin.projects.construction.inspections.create',
+                    $project
+                ) }}"
+                class="btn btn-primary"
+            >
+                + New Inspection
+            </a>
+        </div>
 
     </div>
 

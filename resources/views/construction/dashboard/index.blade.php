@@ -30,13 +30,14 @@
 
         </div>
 
-
-        <a
-            href="{{ url()->previous() }}"
-            class="btn btn-outline-secondary"
-        >
-            Back
-        </a>
+        <div class="d-flex gap-2">
+            <a
+                href="{{ route('admin.construction.index') }}"
+                class="btn btn-outline-secondary"
+            >
+                Back
+            </a>
+        </div>
 
     </div>
 
@@ -500,7 +501,7 @@
                                 'Contractor claims and resolutions.',
 
                             'active' =>
-                                false,
+                                true,
                         ],
 
                         [
@@ -522,7 +523,7 @@
                                 'Delay events and impact tracking.',
 
                             'active' =>
-                                false,
+                                true,
                         ],
 
                         [
@@ -533,7 +534,7 @@
                                 'Construction risk management.',
 
                             'active' =>
-                                false,
+                                true,
                         ],                        
 
                         [
@@ -544,7 +545,7 @@
                                 'Project communication and correspondence.',
 
                             'active' =>
-                                false,
+                                true,
                         ],
 
                         [
@@ -827,6 +828,67 @@
                                     <a
                                         href="{{ route(
                                             'admin.projects.construction.payment-certificates.index',
+                                            [
+                                                'project' => $project,
+                                            ]
+                                        ) }}"
+                                        class="btn btn-sm btn-outline-primary"
+                                    >
+                                        Open Module
+                                </a>
+                                @elseif(
+                                    $module['title'] === 'Claims'
+                                )
+
+                                    <a
+                                        href="{{ route(
+                                            'admin.projects.construction.claims.index',
+                                            [
+                                                'project' => $project,
+                                            ]
+                                        ) }}"
+                                        class="btn btn-sm btn-outline-primary"
+                                    >
+                                        Open Module
+                                </a>
+                                @elseif(
+                                    $module['title'] === 'Delays'
+                                )
+
+                                    <a
+                                        href="{{ route(
+                                            'admin.projects.construction.delays.index',
+                                            [
+                                                'project' => $project,
+                                            ]
+                                        ) }}"
+                                        class="btn btn-sm btn-outline-primary"
+                                    >
+                                        Open Module
+                                </a>
+                                @elseif(
+                                    $module['title'] === 'Risks'
+                                )
+
+                                    <a
+                                        href="{{ route(
+                                            'admin.projects.construction.risks.index',
+                                            [
+                                                'project' => $project,
+                                            ]
+                                        ) }}"
+                                        class="btn btn-sm btn-outline-primary"
+                                    >
+                                        Open Module
+                                </a>
+
+                                @elseif(
+                                    $module['title'] === 'Correspondence'
+                                )
+
+                                    <a
+                                        href="{{ route(
+                                            'admin.projects.construction.correspondence.index',
                                             [
                                                 'project' => $project,
                                             ]
