@@ -230,7 +230,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    background: #fff
+    background: #fff;
 }
 
 .sidebar-logo img {
@@ -239,6 +239,9 @@
     object-fit: contain;
     display: block;
 }
+
+
+
 </style>
 
 {{-- ============================================================
