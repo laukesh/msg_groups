@@ -213,6 +213,34 @@
 
 </header>
 
+<style type="text/css">
+    .sidebar-brand {
+    height: 66px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 10px 15px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+    background: #fff;
+}
+
+.sidebar-logo {
+    width: 100%;
+    height: 62px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #fff
+}
+
+.sidebar-logo img {
+    width: 78px;
+    height: 62px;
+    object-fit: contain;
+    display: block;
+}
+</style>
+
 {{-- ============================================================
      LEFT SIDEBAR
 ============================================================ --}}
@@ -220,7 +248,7 @@
 <aside class="app-sidebar">
 
     {{-- BRAND --}}
-    <div class="sidebar-brand">
+    <!-- <div class="sidebar-brand">
 
         <div class="sidebar-logo">
 
@@ -236,7 +264,15 @@
 
         </div>
 
+    </div> -->
+    <div class="sidebar-brand">
+    <div class="sidebar-logo">
+        <img
+            src="{{ asset('public/assets/img/logo-color.png') }}"
+            alt="Hargeisa Mall"
+        >
     </div>
+</div>
 
 
     {{-- SIDEBAR MENU --}}

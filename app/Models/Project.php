@@ -433,6 +433,17 @@ class Project extends Model
         );
     }
 
+    /**
+     * Construction Progress Updates
+     */
+    public function constructionProgressUpdates(): HasMany
+    {
+        return $this->hasMany(
+            ConstructionProgressUpdate::class,
+            'project_id'
+        );
+    }
+
     public function constructionProgressEntries(): HasMany
     {
         return $this->hasMany(
