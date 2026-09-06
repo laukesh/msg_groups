@@ -699,16 +699,16 @@
 
 
         {{-- Future Modules --}}
-        <a href="#"
+       <!--  <a href="#"
            class="sidebar-sublink">
 
             <i class="ri-layout-4-line"></i>
 
             <span>Development Planning</span>
 
-        </a>
+        </a> -->
 
-        <a href="#"
+        <a href="{{ route('admin.design-management.index') }}"
            class="sidebar-sublink">
 
             <i class="ri-draft-line"></i>

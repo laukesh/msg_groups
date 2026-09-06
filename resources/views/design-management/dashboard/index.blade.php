@@ -11,9 +11,7 @@
                 <div class="text-muted">{{ $project->project_code }}</div>
             @endif
         </div>
-        <div class="d-flex gap-2">
-            <a href="{{ route('admin.design-management.index') }}" class="btn btn-outline-secondary">Back</a>
-        <div class="d-flex gap-2">
+        <a href="{{ route('admin.design-management.index') }}" class="btn btn-outline-secondary">Back</a>
     </div>
 
     @include('design-management.partials.alerts')

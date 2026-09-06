@@ -468,4 +468,58 @@ class Project extends Model
         );
     }
 
+    /*
+    |--------------------------------------------------------------------------
+    | Design Management
+    |--------------------------------------------------------------------------
+    */
+
+    public function designProjectBriefs(): HasMany
+    {
+        return $this->hasMany(
+            DesignProjectBrief::class,
+            'project_id'
+        );
+    }
+
+    public function designPackages(): HasMany
+    {
+        return $this->hasMany(
+            DesignPackage::class,
+            'project_id'
+        );
+    }
+
+    public function designDrawings(): HasMany
+    {
+        return $this->hasMany(
+            DesignDrawing::class,
+            'project_id'
+        );
+    }
+
+    public function designSubmittals(): HasMany
+    {
+        return $this->hasMany(
+            DesignSubmittal::class,
+            'project_id'
+        );
+    }
+
+    public function designRfis(): HasMany
+    {
+        return $this->hasMany(
+            DesignRfi::class,
+            'project_id'
+        );
+    }
+
+    public function designChanges(): HasMany
+    {
+        return $this->hasMany(
+            DesignChange::class,
+            'project_id'
+        );
+    }
+
 }
