@@ -351,7 +351,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
             quotedAmount.value = '0.00';
 
-            currency.value = 'INR';
+            currency.value = 'USD';
 
             return;
         }
@@ -364,7 +364,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
         currency.value =
             selectedOption.dataset.currency
-            || 'INR';
+            || 'USD';
     }
 
 

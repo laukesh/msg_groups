@@ -118,7 +118,7 @@
 
                     <div class="fs-4 fw-semibold">
 
-                        ₹{{
+                        ${{
                             number_format(
                                 $dashboard['total_contract_value'],
                                 2
@@ -191,7 +191,7 @@
 
                     <div class="fs-4 fw-semibold">
 
-                        ₹{{
+                        ${{
                             number_format(
                                 $dashboard['total_invoice_amount'],
                                 2
@@ -219,7 +219,7 @@
 
                     <div class="fs-4 fw-semibold">
 
-                        ₹{{
+                        ${{
                             number_format(
                                 $dashboard['total_paid_amount'],
                                 2
@@ -247,7 +247,7 @@
 
                     <div class="fs-4 fw-semibold">
 
-                        ₹{{
+                        ${{
                             number_format(
                                 $dashboard['outstanding_amount'],
                                 2
@@ -456,7 +456,7 @@
                                 'Material planning, receipts and consumption.',
 
                             'active' =>
-                                false,
+                                true,
                         ],
 
                         [
@@ -467,7 +467,7 @@
                                 'Construction equipment tracking.',
 
                             'active' =>
-                                false,
+                                true,
                         ],
 
                         [
@@ -478,7 +478,7 @@
                                 'Site manpower tracking.',
 
                             'active' =>
-                                false,
+                                true,
                         ],
 
                         [
@@ -511,7 +511,7 @@
                                 'Construction payment certification.',
 
                             'active' =>
-                                false,
+                                true,
                         ],
 
                         [
@@ -772,6 +772,69 @@
                                     >
                                         Open Module
                                 </a>
+                                @elseif(
+                                    $module['title'] === 'Materials'
+                                )
+
+                                    <a
+                                        href="{{ route(
+                                            'admin.projects.construction.materials.index',
+                                            [
+                                                'project' => $project,
+                                            ]
+                                        ) }}"
+                                        class="btn btn-sm btn-outline-primary"
+                                    >
+                                        Open Module
+                                </a>
+
+                                @elseif(
+                                    $module['title'] === 'Equipment'
+                                )
+
+                                    <a
+                                        href="{{ route(
+                                            'admin.projects.construction.equipment.index',
+                                            [
+                                                'project' => $project,
+                                            ]
+                                        ) }}"
+                                        class="btn btn-sm btn-outline-primary"
+                                    >
+                                        Open Module
+                                </a>
+
+                                @elseif(
+                                    $module['title'] === 'Manpower'
+                                )
+
+                                    <a
+                                        href="{{ route(
+                                            'admin.projects.construction.manpower.index',
+                                            [
+                                                'project' => $project,
+                                            ]
+                                        ) }}"
+                                        class="btn btn-sm btn-outline-primary"
+                                    >
+                                        Open Module
+                                </a>
+                                
+                                @elseif(
+                                    $module['title'] === 'Payment Certificates'
+                                )
+
+                                    <a
+                                        href="{{ route(
+                                            'admin.projects.construction.payment-certificates.index',
+                                            [
+                                                'project' => $project,
+                                            ]
+                                        ) }}"
+                                        class="btn btn-sm btn-outline-primary"
+                                    >
+                                        Open Module
+                                </a>
 
                                 @elseif(
                                     $module['title'] === 'Quality'
@@ -943,7 +1006,7 @@
 
                                     <td>
 
-                                        ₹{{
+                                        ${{
                                             number_format(
                                                 (float)
                                                 $contract

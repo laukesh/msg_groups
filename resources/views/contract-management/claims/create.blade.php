@@ -358,7 +358,7 @@
                         <div class="input-group">
 
                             <span class="input-group-text">
-                                {{ $contract->currency ?? 'INR' }}
+                                {{ $contract->currency ?? 'USD' }}
                             </span>
 
                             <input type="number"
@@ -397,7 +397,7 @@
                                name="currency"
                                value="{{ old(
                                    'currency',
-                                   $contract->currency ?? 'INR'
+                                   $contract->currency ?? 'USD'
                                ) }}"
                                class="form-control @error('currency') is-invalid @enderror"
                                maxlength="10">

@@ -139,7 +139,7 @@
 
                     <div class="fs-4 fw-semibold">
 
-                        ₹{{
+                        ${{
                             number_format(
                                 $summary['total_value'],
                                 2
@@ -313,7 +313,7 @@
 
                                     <td>
 
-                                        ₹{{
+                                        ${{
                                             number_format(
                                                 (float)
                                                 $workOrder

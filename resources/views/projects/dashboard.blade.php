@@ -177,7 +177,7 @@
                     </h4>
 
                     <small class="text-muted">
-                        {{ $budget?->currency ?? 'INR' }}
+                        {{ $budget?->currency ?? 'USD' }}
                     </small>
 
                 </div>

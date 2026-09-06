@@ -442,7 +442,7 @@
 
                     <div>
 
-                        ₹{{ number_format(
+                        ${{ number_format(
                             $termination->agreement?->monthly_rent ?? 0,
                             2
                         ) }}
@@ -602,7 +602,7 @@
 
                     <div class="fs-5">
 
-                        ₹{{ number_format(
+                        ${{ number_format(
                             $termination->outstanding_amount ?? 0,
                             2
                         ) }}
@@ -620,7 +620,7 @@
 
                     <div class="fs-5">
 
-                        ₹{{ number_format(
+                        ${{ number_format(
                             $termination->penalty_amount ?? 0,
                             2
                         ) }}
@@ -638,7 +638,7 @@
 
                     <div class="fs-5">
 
-                        ₹{{ number_format(
+                        ${{ number_format(
                             $termination->damage_charges ?? 0,
                             2
                         ) }}
@@ -656,7 +656,7 @@
 
                     <div class="fs-5 text-success">
 
-                        ₹{{ number_format(
+                        ${{ number_format(
                             $termination->refundable_deposit ?? 0,
                             2
                         ) }}
@@ -682,7 +682,7 @@
                             ? 'text-danger'
                             : 'text-success' }}">
 
-                        ₹{{ number_format(
+                        ${{ number_format(
                             abs($settlement),
                             2
                         ) }}

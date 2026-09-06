@@ -143,7 +143,7 @@
 
                     <div class="fs-5 fw-semibold">
 
-                        {{ $contract->currency ?? 'INR' }}
+                        {{ $contract->currency ?? 'USD' }}
 
                     </div>
 
@@ -374,7 +374,7 @@
                                name="currency"
                                value="{{ old(
                                    'currency',
-                                   $contract->currency ?? 'INR'
+                                   $contract->currency ?? 'USD'
                                ) }}"
                                maxlength="10"
                                class="form-control">

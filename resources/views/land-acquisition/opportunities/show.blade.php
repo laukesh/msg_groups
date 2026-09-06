@@ -180,7 +180,7 @@
 
                                 @if($opportunity->estimated_acquisition_cost)
 
-                                    {{ $opportunity->currency ?? 'INR' }}
+                                    {{ $opportunity->currency ?? 'USD' }}
 
                                     {{ number_format(
                                         $opportunity->estimated_acquisition_cost,

@@ -293,14 +293,14 @@
 
                                 <td>
 
-                                    ₹{{ number_format($item->rate, 2) }}
+                                    ${{ number_format($item->rate, 2) }}
 
                                 </td>
 
 
                                 <td>
 
-                                    ₹{{ number_format(
+                                    ${{ number_format(
                                         $item->taxable_amount,
                                         2
                                     ) }}
@@ -319,7 +319,7 @@
 
                                     <small>
 
-                                        ₹{{ number_format(
+                                        ${{ number_format(
                                             $item->tax_amount,
                                             2
                                         ) }}
@@ -333,7 +333,7 @@
 
                                     <strong>
 
-                                        ₹{{ number_format(
+                                        ${{ number_format(
                                             $item->total_amount,
                                             2
                                         ) }}
@@ -388,7 +388,7 @@
                         </span>
 
                         <strong>
-                            ₹{{ number_format(
+                            ${{ number_format(
                                 $invoice->subtotal,
                                 2
                             ) }}
@@ -404,7 +404,7 @@
                         </span>
 
                         <strong>
-                            ₹{{ number_format(
+                            ${{ number_format(
                                 $invoice->discount_amount,
                                 2
                             ) }}
@@ -420,7 +420,7 @@
                         </span>
 
                         <strong>
-                            ₹{{ number_format(
+                            ${{ number_format(
                                 $invoice->taxable_amount,
                                 2
                             ) }}
@@ -436,7 +436,7 @@
                         </span>
 
                         <strong>
-                            ₹{{ number_format(
+                            ${{ number_format(
                                 $invoice->tax_amount,
                                 2
                             ) }}
@@ -456,7 +456,7 @@
 
                         <strong class="fs-5">
 
-                            ₹{{ number_format(
+                            ${{ number_format(
                                 $invoice->total_amount,
                                 2
                             ) }}
@@ -474,7 +474,7 @@
 
                         <strong class="text-success">
 
-                            ₹{{ number_format(
+                            ${{ number_format(
                                 $invoice->paid_amount,
                                 2
                             ) }}
@@ -492,7 +492,7 @@
 
                         <strong class="text-danger">
 
-                            ₹{{ number_format(
+                            ${{ number_format(
                                 $invoice->balance_amount,
                                 2
                             ) }}

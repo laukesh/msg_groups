@@ -45,7 +45,7 @@
 
                     <h5 class="mb-1">
 
-                        ₹{{ number_format(
+                        ${{ number_format(
                             (float) $aging['current']['amount'],
                             2
                         ) }}
@@ -80,7 +80,7 @@
 
                     <h5 class="mb-1 text-warning">
 
-                        ₹{{ number_format(
+                        ${{ number_format(
                             (float) $aging['1_30']['amount'],
                             2
                         ) }}
@@ -115,7 +115,7 @@
 
                     <h5 class="mb-1 text-warning">
 
-                        ₹{{ number_format(
+                        ${{ number_format(
                             (float) $aging['31_60']['amount'],
                             2
                         ) }}
@@ -150,7 +150,7 @@
 
                     <h5 class="mb-1 text-danger">
 
-                        ₹{{ number_format(
+                        ${{ number_format(
                             (float) $aging['61_90']['amount'],
                             2
                         ) }}
@@ -185,7 +185,7 @@
 
                     <h5 class="mb-1 text-danger">
 
-                        ₹{{ number_format(
+                        ${{ number_format(
                             (float) $aging['90_plus']['amount'],
                             2
                         ) }}
@@ -226,7 +226,7 @@
 
                     <h4 class="mb-0 text-danger">
 
-                        ₹{{ number_format(
+                        ${{ number_format(
                             (float) $totalOutstanding,
                             2
                         ) }}
@@ -574,7 +574,7 @@
 
                                     <span class="text-danger fw-semibold">
 
-                                        ₹{{ number_format(
+                                        ${{ number_format(
                                             (float) $invoice->balance_amount,
                                             2
                                         ) }}

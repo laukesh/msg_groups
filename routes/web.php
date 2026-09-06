@@ -225,6 +225,33 @@ use App\Http\Controllers\Admin\Construction\ConstructionMaterialRequestControlle
 
 use App\Http\Controllers\Admin\Construction\ConstructionMaterialDeliveryController;
 
+use App\Http\Controllers\Admin\Construction\ConstructionMaterialReceiptController;
+use App\Http\Controllers\Admin\Construction\ConstructionMaterialStockController;
+use App\Http\Controllers\Admin\Construction\ConstructionMaterialRequirementController;
+use App\Http\Controllers\Admin\Construction\ConstructionEquipmentController;
+use App\Http\Controllers\Admin\Construction\ConstructionEquipmentDeploymentController;
+use App\Http\Controllers\Admin\Construction\ConstructionEquipmentUsageLogController;
+use App\Http\Controllers\Admin\Construction\ConstructionEquipmentMaintenanceController;
+use App\Http\Controllers\Admin\Construction\ConstructionManpowerController;
+use App\Http\Controllers\Admin\Construction\ConstructionManpowerAssignmentController;
+use App\Http\Controllers\Admin\Construction\ConstructionManpowerEntryController;
+use App\Http\Controllers\Admin\Construction\ConstructionPaymentCertificateController;
+
+
+
+use App\Http\Controllers\Admin\DesignManagement\DesignManagementController;
+use App\Http\Controllers\Admin\DesignManagement\DesignDashboardController;
+use App\Http\Controllers\Admin\DesignManagement\DesignProjectBriefController;
+use App\Http\Controllers\Admin\DesignManagement\DesignConsultantController;
+use App\Http\Controllers\Admin\DesignManagement\DesignPackageController;
+use App\Http\Controllers\Admin\DesignManagement\DesignDrawingController;
+use App\Http\Controllers\Admin\DesignManagement\DesignSubmittalController;
+use App\Http\Controllers\Admin\DesignManagement\DesignReviewController;
+use App\Http\Controllers\Admin\DesignManagement\DesignCommentController;
+use App\Http\Controllers\Admin\DesignManagement\DesignRfiController;
+use App\Http\Controllers\Admin\DesignManagement\DesignChangeController;
+use App\Http\Controllers\Admin\DesignManagement\DesignApprovalController;
+
 /*
 |--------------------------------------------------------------------------
 | Public Routes
@@ -8226,63 +8253,104 @@ Route::middleware('auth')->group(function () {
                 });
 
                 Route::prefix('projects/{project}/construction/materials/requests')
-                    ->name('projects.construction.materials.requests.')
-                    ->group(function () {
+                ->name('projects.construction.materials.requests.')
+                ->group(function () {
 
-                        Route::get(
-                            '/',
-                            [ConstructionMaterialRequestController::class, 'index']
-                        )->name('index');
+                    Route::get(
+                        '/',
+                        [
+                            ConstructionMaterialRequestController::class,
+                            'index'
+                        ]
+                    )->name('index');
 
-                        Route::get(
-                            '/create',
-                            [ConstructionMaterialRequestController::class, 'create']
-                        )->name('create');
+                    Route::get(
+                        '/create',
+                        [
+                            ConstructionMaterialRequestController::class,
+                            'create'
+                        ]
+                    )->name('create');
 
-                        Route::post(
-                            '/',
-                            [ConstructionMaterialRequestController::class, 'store']
-                        )->name('store');
+                    Route::post(
+                        '/',
+                        [
+                            ConstructionMaterialRequestController::class,
+                            'store'
+                        ]
+                    )->name('store');
 
-                        Route::get(
-                            '/{materialRequest}',
-                            [ConstructionMaterialRequestController::class, 'show']
-                        )->name('show');
+                    Route::get(
+                        '/{materialRequest}',
+                        [
+                            ConstructionMaterialRequestController::class,
+                            'show'
+                        ]
+                    )->name('show');
 
-                        Route::get(
-                            '/{materialRequest}/edit',
-                            [ConstructionMaterialRequestController::class, 'edit']
-                        )->name('edit');
+                    Route::get(
+                        '/{materialRequest}/edit',
+                        [
+                            ConstructionMaterialRequestController::class,
+                            'edit'
+                        ]
+                    )->name('edit');
 
-                        Route::put(
-                            '/{materialRequest}',
-                            [ConstructionMaterialRequestController::class, 'update']
-                        )->name('update');
+                    Route::put(
+                        '/{materialRequest}',
+                        [
+                            ConstructionMaterialRequestController::class,
+                            'update'
+                        ]
+                    )->name('update');
 
-                        Route::post(
-                            '/{materialRequest}/submit',
-                            [ConstructionMaterialRequestController::class, 'submit']
-                        )->name('submit');
+                    Route::post(
+                        '/{materialRequest}/submit',
+                        [
+                            ConstructionMaterialRequestController::class,
+                            'submit'
+                        ]
+                    )->name('submit');
 
-                        Route::post(
-                            '/{materialRequest}/review',
-                            [ConstructionMaterialRequestController::class, 'review']
-                        )->name('review');
+                    Route::post(
+                        '/{materialRequest}/review',
+                        [
+                            ConstructionMaterialRequestController::class,
+                            'review'
+                        ]
+                    )->name('review');
 
-                        Route::post(
-                            '/{materialRequest}/approve',
-                            [ConstructionMaterialRequestController::class, 'approve']
-                        )->name('approve');
+                    Route::post(
+                        '/{materialRequest}/approve',
+                        [
+                            ConstructionMaterialRequestController::class,
+                            'approve'
+                        ]
+                    )->name('approve');
 
-                        Route::post(
-                            '/{materialRequest}/reject',
-                            [ConstructionMaterialRequestController::class, 'reject']
-                        )->name('reject');
+                    Route::post(
+                        '/{materialRequest}/request-changes',
+                        [
+                            ConstructionMaterialRequestController::class,
+                            'requestChanges'
+                        ]
+                    )->name('request-changes');
 
-                        Route::post(
-                            '/{materialRequest}/cancel',
-                            [ConstructionMaterialRequestController::class, 'cancel']
-                        )->name('cancel');
+                    Route::post(
+                        '/{materialRequest}/reject',
+                        [
+                            ConstructionMaterialRequestController::class,
+                            'reject'
+                        ]
+                    )->name('reject');
+
+                    Route::post(
+                        '/{materialRequest}/cancel',
+                        [
+                            ConstructionMaterialRequestController::class,
+                            'cancel'
+                        ]
+                    )->name('cancel');
                 });
 
                 Route::prefix('projects/{project}/construction/materials/deliveries')
@@ -8334,6 +8402,921 @@ Route::middleware('auth')->group(function () {
                         '/{materialDelivery}/cancel',
                         [ConstructionMaterialDeliveryController::class, 'cancel']
                     )->name('cancel');
+                });
+
+                Route::prefix('projects/{project}/construction/materials/receipts')
+                ->name('projects.construction.materials.receipts.')
+                ->group(function () {
+
+                    Route::get(
+                        '/',
+                        [ConstructionMaterialReceiptController::class, 'index']
+                    )->name('index');
+
+                    /*
+                    |--------------------------------------------------------------------------
+                    | Create from Delivery
+                    |--------------------------------------------------------------------------
+                    */
+
+                    Route::get(
+                        '/create/{materialDelivery}',
+                        [ConstructionMaterialReceiptController::class, 'create']
+                    )->name('create');
+
+                    Route::post(
+                        '/',
+                        [ConstructionMaterialReceiptController::class, 'store']
+                    )->name('store');
+
+                    Route::get(
+                        '/{materialReceipt}',
+                        [ConstructionMaterialReceiptController::class, 'show']
+                    )->name('show');
+
+                    Route::post(
+                        '/{materialReceipt}/inspect',
+                        [ConstructionMaterialReceiptController::class, 'inspect']
+                    )->name('inspect');
+
+                    Route::post(
+                        '/{materialReceipt}/cancel',
+                        [ConstructionMaterialReceiptController::class, 'cancel']
+                    )->name('cancel');
+                });
+
+                Route::prefix('projects/{project}/construction/materials/stock')
+                ->name('projects.construction.materials.stock.')
+                ->group(function () {
+
+                    Route::get(
+                        '/',
+                        [ConstructionMaterialStockController::class, 'index']
+                    )->name('index');
+
+                    Route::get(
+                        '/transactions',
+                        [ConstructionMaterialStockController::class, 'transactions']
+                    )->name('transactions');
+
+                    Route::get(
+                        '/transactions/{transaction}',
+                        [ConstructionMaterialStockController::class, 'transactionShow']
+                    )->name('transactions.show');
+
+                    Route::get(
+                        '/{stock}',
+                        [ConstructionMaterialStockController::class, 'show']
+                    )->name('show');
+                });
+
+                Route::prefix('projects/{project}/construction/materials/requirements')
+                ->name('projects.construction.materials.requirements.')
+                ->group(function () {
+
+                    Route::get(
+                        '/',
+                        [
+                            ConstructionMaterialRequirementController::class,
+                            'index'
+                        ]
+                    )->name('index');
+
+                    Route::get(
+                        '/create',
+                        [
+                            ConstructionMaterialRequirementController::class,
+                            'create'
+                        ]
+                    )->name('create');
+
+                    Route::post(
+                        '/',
+                        [
+                            ConstructionMaterialRequirementController::class,
+                            'store'
+                        ]
+                    )->name('store');
+
+                    Route::get(
+                        '/{requirement}',
+                        [
+                            ConstructionMaterialRequirementController::class,
+                            'show'
+                        ]
+                    )->name('show');
+
+                    Route::get(
+                        '/{requirement}/edit',
+                        [
+                            ConstructionMaterialRequirementController::class,
+                            'edit'
+                        ]
+                    )->name('edit');
+
+                    Route::put(
+                        '/{requirement}',
+                        [
+                            ConstructionMaterialRequirementController::class,
+                            'update'
+                        ]
+                    )->name('update');
+
+                    Route::post(
+                        '/{requirement}/request',
+                        [
+                            ConstructionMaterialRequirementController::class,
+                            'request'
+                        ]
+                    )->name('request');
+
+                    Route::post(
+                        '/{requirement}/cancel',
+                        [
+                            ConstructionMaterialRequirementController::class,
+                            'cancel'
+                        ]
+                    )->name('cancel');
+                });
+
+                Route::prefix(
+                    'projects/{project}/construction/equipment'
+                )
+                ->name(
+                    'projects.construction.equipment.'
+                )
+                ->group(function () {
+
+                    /*
+                    |--------------------------------------------------------------------------
+                    | Equipment List
+                    |--------------------------------------------------------------------------
+                    */
+
+                    Route::get(
+                        '/',
+                        [ConstructionEquipmentController::class, 'index']
+                    )->name('index');
+
+
+                    /*
+                    |--------------------------------------------------------------------------
+                    | Create Equipment
+                    |--------------------------------------------------------------------------
+                    */
+
+                    Route::get(
+                        '/create',
+                        [ConstructionEquipmentController::class, 'create']
+                    )->name('create');
+
+
+                    /*
+                    |--------------------------------------------------------------------------
+                    | Store Equipment
+                    |--------------------------------------------------------------------------
+                    */
+
+                    Route::post(
+                        '/',
+                        [ConstructionEquipmentController::class, 'store']
+                    )->name('store');
+
+
+                    /*
+                    |--------------------------------------------------------------------------
+                    | Equipment Detail
+                    |--------------------------------------------------------------------------
+                    */
+
+                    Route::get(
+                        '/{equipment}',
+                        [ConstructionEquipmentController::class, 'show']
+                    )
+                    ->whereNumber('equipment')
+                    ->name('show');
+
+
+                    /*
+                    |--------------------------------------------------------------------------
+                    | Equipment Edit
+                    |--------------------------------------------------------------------------
+                    */
+
+                    Route::get(
+                        '/{equipment}/edit',
+                        [ConstructionEquipmentController::class, 'edit']
+                    )
+                    ->whereNumber('equipment')
+                    ->name('edit');
+
+
+                    /*
+                    |--------------------------------------------------------------------------
+                    | Equipment Update
+                    |--------------------------------------------------------------------------
+                    */
+
+                    Route::put(
+                        '/{equipment}',
+                        [ConstructionEquipmentController::class, 'update']
+                    )
+                    ->whereNumber('equipment')
+                    ->name('update');
+
+
+                    /*
+                    |--------------------------------------------------------------------------
+                    | Equipment Delete
+                    |--------------------------------------------------------------------------
+                    */
+
+                    Route::delete(
+                        '/{equipment}',
+                        [ConstructionEquipmentController::class, 'destroy']
+                    )
+                    ->whereNumber('equipment')
+                    ->name('destroy');
+                });
+
+                Route::prefix(
+                    'projects/{project}/construction/equipment/deployments'
+                )
+                ->name(
+                    'projects.construction.equipment.deployments.'
+                )
+                ->group(function () {
+
+                    Route::get(
+                        '/',
+                        [
+                            ConstructionEquipmentDeploymentController::class,
+                            'index'
+                        ]
+                    )->name('index');
+
+                    Route::get(
+                        '/create',
+                        [
+                            ConstructionEquipmentDeploymentController::class,
+                            'create'
+                        ]
+                    )->name('create');
+
+                    Route::post(
+                        '/',
+                        [
+                            ConstructionEquipmentDeploymentController::class,
+                            'store'
+                        ]
+                    )->name('store');
+
+                    Route::get(
+                        '/{deployment}',
+                        [
+                            ConstructionEquipmentDeploymentController::class,
+                            'show'
+                        ]
+                    )->name('show');
+
+                    Route::post(
+                        '/{deployment}/deploy',
+                        [
+                            ConstructionEquipmentDeploymentController::class,
+                            'deploy'
+                        ]
+                    )->name('deploy');
+
+                    Route::post(
+                        '/{deployment}/return',
+                        [
+                            ConstructionEquipmentDeploymentController::class,
+                            'returnEquipment'
+                        ]
+                    )->name('return');
+
+                    Route::post(
+                        '/{deployment}/cancel',
+                        [
+                            ConstructionEquipmentDeploymentController::class,
+                            'cancel'
+                        ]
+                    )->name('cancel');
+                });
+
+                Route::prefix(
+                    'projects/{project}/construction/equipment/usage'
+                )
+                ->name(
+                    'projects.construction.equipment.usage.'
+                )
+                ->group(function () {
+                    Route::get(
+                        '/',
+                        [
+                            ConstructionEquipmentUsageLogController::class,
+                            'index'
+                        ]
+                    )->name('index');
+
+                    Route::get(
+                        '/create',
+                        [
+                            ConstructionEquipmentUsageLogController::class,
+                            'create'
+                        ]
+                    )->name('create');
+
+                    Route::post(
+                        '/',
+                        [
+                            ConstructionEquipmentUsageLogController::class,
+                            'store'
+                        ]
+                    )->name('store');
+
+                    Route::get(
+                        '/{usageLog}',
+                        [
+                            ConstructionEquipmentUsageLogController::class,
+                            'show'
+                        ]
+                    )
+                    ->whereNumber('usageLog')
+                    ->name('show');
+
+                    Route::delete(
+                        '/{usageLog}',
+                        [
+                            ConstructionEquipmentUsageLogController::class,
+                            'destroy'
+                        ]
+                    )
+                    ->whereNumber('usageLog')
+                    ->name('destroy');
+                });
+
+                Route::prefix(
+                    'projects/{project}/construction/equipment/maintenance'
+                )
+                ->name(
+                    'projects.construction.equipment.maintenance.'
+                )
+                ->group(function () {
+
+                    Route::get(
+                        '/',
+                        [
+                            ConstructionEquipmentMaintenanceController::class,
+                            'index'
+                        ]
+                    )->name('index');
+
+
+                    Route::get(
+                        '/create',
+                        [
+                            ConstructionEquipmentMaintenanceController::class,
+                            'create'
+                        ]
+                    )->name('create');
+
+
+                    Route::post(
+                        '/',
+                        [
+                            ConstructionEquipmentMaintenanceController::class,
+                            'store'
+                        ]
+                    )->name('store');
+
+
+                    Route::get(
+                        '/{maintenance}',
+                        [
+                            ConstructionEquipmentMaintenanceController::class,
+                            'show'
+                        ]
+                    )
+                    ->whereNumber('maintenance')
+                    ->name('show');
+
+
+                    Route::post(
+                        '/{maintenance}/start',
+                        [
+                            ConstructionEquipmentMaintenanceController::class,
+                            'start'
+                        ]
+                    )
+                    ->whereNumber('maintenance')
+                    ->name('start');
+
+
+                    Route::post(
+                        '/{maintenance}/complete',
+                        [
+                            ConstructionEquipmentMaintenanceController::class,
+                            'complete'
+                        ]
+                    )
+                    ->whereNumber('maintenance')
+                    ->name('complete');
+
+
+                    Route::post(
+                        '/{maintenance}/cancel',
+                        [
+                            ConstructionEquipmentMaintenanceController::class,
+                            'cancel'
+                        ]
+                    )
+                    ->whereNumber('maintenance')
+                    ->name('cancel');
+
+
+                    Route::delete(
+                        '/{maintenance}',
+                        [
+                            ConstructionEquipmentMaintenanceController::class,
+                            'destroy'
+                        ]
+                    )
+                    ->whereNumber('maintenance')
+                    ->name('destroy');
+                });
+
+                Route::prefix('projects/{project}/construction/manpower')
+                ->name('projects.construction.manpower.')
+                ->group(function () {
+
+                    /*
+                    |--------------------------------------------------------------------------
+                    | Manpower Master
+                    |--------------------------------------------------------------------------
+                    */
+
+                    Route::get('/', [
+                        ConstructionManpowerController::class,
+                        'index'
+                    ])->name('index');
+
+                    Route::get('/create', [
+                        ConstructionManpowerController::class,
+                        'create'
+                    ])->name('create');
+
+                    Route::post('/', [
+                        ConstructionManpowerController::class,
+                        'store'
+                    ])->name('store');
+
+
+                    /*
+                    |--------------------------------------------------------------------------
+                    | Assignments
+                    |--------------------------------------------------------------------------
+                    */
+
+                    Route::get('/assignments', [
+                        ConstructionManpowerAssignmentController::class,
+                        'index'
+                    ])->name('assignments.index');
+
+                    Route::get('/assignments/create', [
+                        ConstructionManpowerAssignmentController::class,
+                        'create'
+                    ])->name('assignments.create');
+
+                    Route::post('/assignments', [
+                        ConstructionManpowerAssignmentController::class,
+                        'store'
+                    ])->name('assignments.store');
+
+                    Route::get('/assignments/{assignment}', [
+                        ConstructionManpowerAssignmentController::class,
+                        'show'
+                    ])
+                    ->whereNumber('assignment')
+                    ->name('assignments.show');
+
+                    Route::get('/assignments/{assignment}/edit', [
+                        ConstructionManpowerAssignmentController::class,
+                        'edit'
+                    ])
+                    ->whereNumber('assignment')
+                    ->name('assignments.edit');
+
+                    Route::put('/assignments/{assignment}', [
+                        ConstructionManpowerAssignmentController::class,
+                        'update'
+                    ])
+                    ->whereNumber('assignment')
+                    ->name('assignments.update');
+
+                    Route::post('/assignments/{assignment}/activate', [
+                        ConstructionManpowerAssignmentController::class,
+                        'activate'
+                    ])
+                    ->whereNumber('assignment')
+                    ->name('assignments.activate');
+
+                    Route::post('/assignments/{assignment}/release', [
+                        ConstructionManpowerAssignmentController::class,
+                        'release'
+                    ])
+                    ->whereNumber('assignment')
+                    ->name('assignments.release');
+
+                    Route::post('/assignments/{assignment}/cancel', [
+                        ConstructionManpowerAssignmentController::class,
+                        'cancel'
+                    ])
+                    ->whereNumber('assignment')
+                    ->name('assignments.cancel');
+
+                    Route::delete('/assignments/{assignment}', [
+                        ConstructionManpowerAssignmentController::class,
+                        'destroy'
+                    ])
+                    ->whereNumber('assignment')
+                    ->name('assignments.destroy');
+
+
+                    /*
+                    |--------------------------------------------------------------------------
+                    | Manpower Dynamic Routes
+                    |--------------------------------------------------------------------------
+                    | Keep these AFTER assignments.
+                    |--------------------------------------------------------------------------
+                    */
+
+                    Route::get('/{manpower}/edit', [
+                        ConstructionManpowerController::class,
+                        'edit'
+                    ])
+                    ->whereNumber('manpower')
+                    ->name('edit');
+
+                    Route::get('/{manpower}', [
+                        ConstructionManpowerController::class,
+                        'show'
+                    ])
+                    ->whereNumber('manpower')
+                    ->name('show');
+
+                    Route::put('/{manpower}', [
+                        ConstructionManpowerController::class,
+                        'update'
+                    ])
+                    ->whereNumber('manpower')
+                    ->name('update');
+
+                    Route::delete('/{manpower}', [
+                        ConstructionManpowerController::class,
+                        'destroy'
+                    ])
+                    ->whereNumber('manpower')
+                    ->name('destroy');
+                });
+
+                /*
+                |--------------------------------------------------------------------------
+                | Daily Manpower Entries
+                |--------------------------------------------------------------------------
+                */
+
+                Route::prefix('projects/{project}/construction/manpower/entries')
+                    ->name('projects.construction.manpower.entries.')
+                    ->group(function () {
+
+                        Route::get('/', [
+                            ConstructionManpowerEntryController::class,
+                            'index'
+                        ])->name('index');
+
+                        Route::get('/create', [
+                            ConstructionManpowerEntryController::class,
+                            'create'
+                        ])->name('create');
+
+                        Route::post('/', [
+                            ConstructionManpowerEntryController::class,
+                            'store'
+                        ])->name('store');
+
+                        Route::get('/{entry}', [
+                            ConstructionManpowerEntryController::class,
+                            'show'
+                        ])
+                        ->whereNumber('entry')
+                        ->name('show');
+
+                        Route::get('/{entry}/edit', [
+                            ConstructionManpowerEntryController::class,
+                            'edit'
+                        ])
+                        ->whereNumber('entry')
+                        ->name('edit');
+
+                        Route::put('/{entry}', [
+                            ConstructionManpowerEntryController::class,
+                            'update'
+                        ])
+                        ->whereNumber('entry')
+                        ->name('update');
+
+                        Route::delete('/{entry}', [
+                            ConstructionManpowerEntryController::class,
+                            'destroy'
+                        ])
+                        ->whereNumber('entry')
+                        ->name('destroy');
+
+                });
+
+                Route::prefix('projects/{project}/construction/payment-certificates')
+                ->name('projects.construction.payment-certificates.')
+                ->group(function () {
+
+                    Route::get(
+                        '/',
+                        [ConstructionPaymentCertificateController::class, 'index']
+                    )->name('index');
+
+                    Route::get(
+                        '/create',
+                        [ConstructionPaymentCertificateController::class, 'create']
+                    )->name('create');
+
+                    Route::post(
+                        '/',
+                        [ConstructionPaymentCertificateController::class, 'store']
+                    )->name('store');
+
+                    Route::get(
+                        '/{payment_certificate}',
+                        [ConstructionPaymentCertificateController::class, 'show']
+                    )
+                        ->whereNumber('payment_certificate')
+                        ->name('show');
+
+                    Route::get(
+                        '/{payment_certificate}/edit',
+                        [ConstructionPaymentCertificateController::class, 'edit']
+                    )
+                        ->whereNumber('payment_certificate')
+                        ->name('edit');
+
+                    Route::put(
+                        '/{payment_certificate}',
+                        [ConstructionPaymentCertificateController::class, 'update']
+                    )
+                        ->whereNumber('payment_certificate')
+                        ->name('update');
+
+                    Route::post(
+                        '/{payment_certificate}/submit',
+                        [ConstructionPaymentCertificateController::class, 'submit']
+                    )
+                        ->whereNumber('payment_certificate')
+                        ->name('submit');
+
+                    Route::post(
+                        '/{payment_certificate}/review',
+                        [ConstructionPaymentCertificateController::class, 'review']
+                    )
+                        ->whereNumber('payment_certificate')
+                        ->name('review');
+
+                    Route::post(
+                        '/{payment_certificate}/approve',
+                        [ConstructionPaymentCertificateController::class, 'approve']
+                    )
+                        ->whereNumber('payment_certificate')
+                        ->name('approve');
+
+                    Route::post(
+                        '/{payment_certificate}/reject',
+                        [ConstructionPaymentCertificateController::class, 'reject']
+                    )
+                        ->whereNumber('payment_certificate')
+                        ->name('reject');
+
+                    Route::post(
+                        '/{payment_certificate}/paid',
+                        [ConstructionPaymentCertificateController::class, 'markPaid']
+                    )
+                        ->whereNumber('payment_certificate')
+                        ->name('paid');
+
+                    Route::delete(
+                        '/{payment_certificate}',
+                        [ConstructionPaymentCertificateController::class, 'destroy']
+                    )
+                        ->whereNumber('payment_certificate')
+                        ->name('destroy');
+                });
+
+
+                Route::get(
+                    'design-management',
+                    [DesignManagementController::class, 'index']
+                )->name('design-management.index');
+
+                Route::prefix('projects/{project}/design-management')
+                    ->name('projects.design-management.')
+                    ->group(function () {
+
+                    Route::get('/', [DesignDashboardController::class, 'index'])
+                        ->name('dashboard');
+
+                    Route::get('briefs', [DesignProjectBriefController::class, 'index'])
+                        ->name('briefs.index');
+                    Route::get('briefs/create', [DesignProjectBriefController::class, 'create'])
+                        ->name('briefs.create');
+                    Route::post('briefs', [DesignProjectBriefController::class, 'store'])
+                        ->name('briefs.store');
+                    Route::get('briefs/{brief}', [DesignProjectBriefController::class, 'show'])
+                        ->name('briefs.show');
+                    Route::get('briefs/{brief}/edit', [DesignProjectBriefController::class, 'edit'])
+                        ->name('briefs.edit');
+                    Route::put('briefs/{brief}', [DesignProjectBriefController::class, 'update'])
+                        ->name('briefs.update');
+                    Route::delete('briefs/{brief}', [DesignProjectBriefController::class, 'destroy'])
+                        ->name('briefs.destroy');
+                    Route::post('briefs/{brief}/submit', [DesignProjectBriefController::class, 'submit'])
+                        ->name('briefs.submit');
+                    Route::post('briefs/{brief}/approve', [DesignProjectBriefController::class, 'approve'])
+                        ->name('briefs.approve');
+                    Route::post('briefs/{brief}/reject', [DesignProjectBriefController::class, 'reject'])
+                        ->name('briefs.reject');
+                    Route::post('briefs/{brief}/revision', [DesignProjectBriefController::class, 'revision'])
+                        ->name('briefs.revision');
+
+                    Route::resource('consultants', DesignConsultantController::class);
+
+                    Route::get('packages', [DesignPackageController::class, 'index'])
+                        ->name('packages.index');
+                    Route::get('packages/create', [DesignPackageController::class, 'create'])
+                        ->name('packages.create');
+                    Route::post('packages', [DesignPackageController::class, 'store'])
+                        ->name('packages.store');
+                    Route::get('packages/{package}', [DesignPackageController::class, 'show'])
+                        ->name('packages.show');
+                    Route::get('packages/{package}/edit', [DesignPackageController::class, 'edit'])
+                        ->name('packages.edit');
+                    Route::put('packages/{package}', [DesignPackageController::class, 'update'])
+                        ->name('packages.update');
+                    Route::delete('packages/{package}', [DesignPackageController::class, 'destroy'])
+                        ->name('packages.destroy');
+                    Route::post('packages/{package}/submit', [DesignPackageController::class, 'submit'])
+                        ->name('packages.submit');
+                    Route::post('packages/{package}/approve', [DesignPackageController::class, 'approve'])
+                        ->name('packages.approve');
+                    Route::post('packages/{package}/reject', [DesignPackageController::class, 'reject'])
+                        ->name('packages.reject');
+                    Route::post('packages/{package}/revision', [DesignPackageController::class, 'revision'])
+                        ->name('packages.revision');
+
+                    Route::get('drawings', [DesignDrawingController::class, 'index'])
+                        ->name('drawings.index');
+                    Route::get('drawings/create', [DesignDrawingController::class, 'create'])
+                        ->name('drawings.create');
+                    Route::post('drawings', [DesignDrawingController::class, 'store'])
+                        ->name('drawings.store');
+                    Route::get('drawings/{drawing}', [DesignDrawingController::class, 'show'])
+                        ->name('drawings.show');
+                    Route::get('drawings/{drawing}/edit', [DesignDrawingController::class, 'edit'])
+                        ->name('drawings.edit');
+                    Route::put('drawings/{drawing}', [DesignDrawingController::class, 'update'])
+                        ->name('drawings.update');
+                    Route::delete('drawings/{drawing}', [DesignDrawingController::class, 'destroy'])
+                        ->name('drawings.destroy');
+                    Route::post('drawings/{drawing}/submit', [DesignDrawingController::class, 'submit'])
+                        ->name('drawings.submit');
+                    Route::post('drawings/{drawing}/approve', [DesignDrawingController::class, 'approve'])
+                        ->name('drawings.approve');
+                    Route::post('drawings/{drawing}/reject', [DesignDrawingController::class, 'reject'])
+                        ->name('drawings.reject');
+                    Route::post('drawings/{drawing}/revision', [DesignDrawingController::class, 'revision'])
+                        ->name('drawings.revision');
+
+                    Route::get('submittals', [DesignSubmittalController::class, 'index'])
+                        ->name('submittals.index');
+                    Route::get('submittals/create', [DesignSubmittalController::class, 'create'])
+                        ->name('submittals.create');
+                    Route::post('submittals', [DesignSubmittalController::class, 'store'])
+                        ->name('submittals.store');
+                    Route::get('submittals/{submittal}', [DesignSubmittalController::class, 'show'])
+                        ->name('submittals.show');
+                    Route::get('submittals/{submittal}/edit', [DesignSubmittalController::class, 'edit'])
+                        ->name('submittals.edit');
+                    Route::put('submittals/{submittal}', [DesignSubmittalController::class, 'update'])
+                        ->name('submittals.update');
+                    Route::delete('submittals/{submittal}', [DesignSubmittalController::class, 'destroy'])
+                        ->name('submittals.destroy');
+                    Route::post('submittals/{submittal}/submit', [DesignSubmittalController::class, 'submit'])
+                        ->name('submittals.submit');
+                    Route::post('submittals/{submittal}/approve', [DesignSubmittalController::class, 'approve'])
+                        ->name('submittals.approve');
+                    Route::post('submittals/{submittal}/reject', [DesignSubmittalController::class, 'reject'])
+                        ->name('submittals.reject');
+                    Route::post('submittals/{submittal}/revision', [DesignSubmittalController::class, 'revision'])
+                        ->name('submittals.revision');
+
+                    Route::get('reviews', [DesignReviewController::class, 'index'])
+                        ->name('reviews.index');
+                    Route::get('reviews/create', [DesignReviewController::class, 'create'])
+                        ->name('reviews.create');
+                    Route::post('reviews', [DesignReviewController::class, 'store'])
+                        ->name('reviews.store');
+                    Route::get('reviews/{review}', [DesignReviewController::class, 'show'])
+                        ->name('reviews.show');
+                    Route::get('reviews/{review}/edit', [DesignReviewController::class, 'edit'])
+                        ->name('reviews.edit');
+                    Route::put('reviews/{review}', [DesignReviewController::class, 'update'])
+                        ->name('reviews.update');
+                    Route::delete('reviews/{review}', [DesignReviewController::class, 'destroy'])
+                        ->name('reviews.destroy');
+                    Route::post('reviews/{review}/submit', [DesignReviewController::class, 'submit'])
+                        ->name('reviews.submit');
+                    Route::post('reviews/{review}/approve', [DesignReviewController::class, 'approve'])
+                        ->name('reviews.approve');
+                    Route::post('reviews/{review}/reject', [DesignReviewController::class, 'reject'])
+                        ->name('reviews.reject');
+
+                    Route::get('comments', [DesignCommentController::class, 'index'])
+                        ->name('comments.index');
+                    Route::get('comments/create', [DesignCommentController::class, 'create'])
+                        ->name('comments.create');
+                    Route::post('comments', [DesignCommentController::class, 'store'])
+                        ->name('comments.store');
+                    Route::get('comments/{comment}', [DesignCommentController::class, 'show'])
+                        ->name('comments.show');
+                    Route::get('comments/{comment}/edit', [DesignCommentController::class, 'edit'])
+                        ->name('comments.edit');
+                    Route::put('comments/{comment}', [DesignCommentController::class, 'update'])
+                        ->name('comments.update');
+                    Route::delete('comments/{comment}', [DesignCommentController::class, 'destroy'])
+                        ->name('comments.destroy');
+                    Route::post('comments/{comment}/submit', [DesignCommentController::class, 'submit'])
+                        ->name('comments.submit');
+                    Route::post('comments/{comment}/approve', [DesignCommentController::class, 'approve'])
+                        ->name('comments.approve');
+                    Route::post('comments/{comment}/reject', [DesignCommentController::class, 'reject'])
+                        ->name('comments.reject');
+
+                    Route::get('rfis', [DesignRfiController::class, 'index'])
+                        ->name('rfis.index');
+                    Route::get('rfis/create', [DesignRfiController::class, 'create'])
+                        ->name('rfis.create');
+                    Route::post('rfis', [DesignRfiController::class, 'store'])
+                        ->name('rfis.store');
+                    Route::get('rfis/{rfi}', [DesignRfiController::class, 'show'])
+                        ->name('rfis.show');
+                    Route::get('rfis/{rfi}/edit', [DesignRfiController::class, 'edit'])
+                        ->name('rfis.edit');
+                    Route::put('rfis/{rfi}', [DesignRfiController::class, 'update'])
+                        ->name('rfis.update');
+                    Route::delete('rfis/{rfi}', [DesignRfiController::class, 'destroy'])
+                        ->name('rfis.destroy');
+                    Route::post('rfis/{rfi}/submit', [DesignRfiController::class, 'submit'])
+                        ->name('rfis.submit');
+                    Route::post('rfis/{rfi}/approve', [DesignRfiController::class, 'approve'])
+                        ->name('rfis.approve');
+                    Route::post('rfis/{rfi}/reject', [DesignRfiController::class, 'reject'])
+                        ->name('rfis.reject');
+
+                    Route::get('changes', [DesignChangeController::class, 'index'])
+                        ->name('changes.index');
+                    Route::get('changes/create', [DesignChangeController::class, 'create'])
+                        ->name('changes.create');
+                    Route::post('changes', [DesignChangeController::class, 'store'])
+                        ->name('changes.store');
+                    Route::get('changes/{change}', [DesignChangeController::class, 'show'])
+                        ->name('changes.show');
+                    Route::get('changes/{change}/edit', [DesignChangeController::class, 'edit'])
+                        ->name('changes.edit');
+                    Route::put('changes/{change}', [DesignChangeController::class, 'update'])
+                        ->name('changes.update');
+                    Route::delete('changes/{change}', [DesignChangeController::class, 'destroy'])
+                        ->name('changes.destroy');
+                    Route::post('changes/{change}/submit', [DesignChangeController::class, 'submit'])
+                        ->name('changes.submit');
+                    Route::post('changes/{change}/approve', [DesignChangeController::class, 'approve'])
+                        ->name('changes.approve');
+                    Route::post('changes/{change}/reject', [DesignChangeController::class, 'reject'])
+                        ->name('changes.reject');
+                    Route::post('changes/{change}/revision', [DesignChangeController::class, 'revision'])
+                        ->name('changes.revision');
+                    Route::post('changes/{change}/cost-impacts', [DesignChangeController::class, 'storeCostImpact'])
+                        ->name('changes.cost-impacts.store');
+                    Route::delete('changes/{change}/cost-impacts/{costImpact}', [DesignChangeController::class, 'destroyCostImpact'])
+                        ->name('changes.cost-impacts.destroy');
+
+                    Route::get('approvals', [DesignApprovalController::class, 'index'])
+                        ->name('approvals.index');
                 });
 
 

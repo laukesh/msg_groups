@@ -271,7 +271,7 @@
             class="form-control"
             value="{{ old(
                 'currency',
-                'INR'
+                'USD'
             ) }}"
         >
 

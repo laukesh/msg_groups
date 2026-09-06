@@ -185,7 +185,7 @@
 
                     <div class="fw-semibold mt-1">
 
-                        {{ $consultant->currency ?? 'INR' }}
+                        {{ $consultant->currency ?? 'USD' }}
                         {{ number_format((float) $consultant->contract_value, 2) }}
 
                     </div>
@@ -566,7 +566,7 @@
 
                     <div class="fw-semibold">
 
-                        {{ $consultant->currency ?? 'INR' }}
+                        {{ $consultant->currency ?? 'USD' }}
 
                     </div>
 
@@ -678,7 +678,7 @@
 
                 <strong>Contract Value:</strong>
 
-                {{ $consultant->currency ?? 'INR' }}
+                {{ $consultant->currency ?? 'USD' }}
                 {{ number_format((float) $consultant->contract_value, 2) }}
 
                 <div class="small mt-1">

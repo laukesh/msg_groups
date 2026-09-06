@@ -123,7 +123,7 @@
 
                     <div class="fw-semibold fs-5">
 
-                        {{ $contract->currency ?? 'INR' }}
+                        {{ $contract->currency ?? 'USD' }}
 
                         {{ number_format(
                             $contractValue,
@@ -598,7 +598,7 @@
 
                         <div class="fs-5 fw-semibold">
 
-                            {{ $contract->currency ?? 'INR' }}
+                            {{ $contract->currency ?? 'USD' }}
 
                             {{ number_format(
                                 $contractValue,
@@ -622,7 +622,7 @@
 
                         <div class="fs-5 fw-semibold">
 
-                            {{ $contract->currency ?? 'INR' }}
+                            {{ $contract->currency ?? 'USD' }}
 
                             {{ number_format(
                                 $variationAmount,
@@ -646,7 +646,7 @@
 
                         <div class="fs-5 fw-semibold">
 
-                            {{ $contract->currency ?? 'INR' }}
+                            {{ $contract->currency ?? 'USD' }}
 
                             {{ number_format(
                                 $revisedContractValue,
@@ -670,7 +670,7 @@
 
                         <div class="fs-5 fw-semibold">
 
-                            {{ $contract->currency ?? 'INR' }}
+                            {{ $contract->currency ?? 'USD' }}
 
                             {{ number_format(
                                 $paidAmount,
@@ -701,7 +701,7 @@
 
                     <div class="fw-semibold">
 
-                        {{ $contract->currency ?? 'INR' }}
+                        {{ $contract->currency ?? 'USD' }}
 
                         {{ number_format(
                             $invoiceAmount,
@@ -721,7 +721,7 @@
 
                     <div class="fw-semibold">
 
-                        {{ $contract->currency ?? 'INR' }}
+                        {{ $contract->currency ?? 'USD' }}
 
                         {{ number_format(
                             $outstandingAmount,
@@ -778,7 +778,7 @@
 
                         @if($contract->performance_security_required)
 
-                            {{ $contract->currency ?? 'INR' }}
+                            {{ $contract->currency ?? 'USD' }}
 
                             {{ number_format(
                                 $contract->performance_security_amount,
@@ -1997,7 +1997,7 @@
 
                                     <td class="text-end">
 
-                                        {{ $variation->currency ?? 'INR' }}
+                                        {{ $variation->currency ?? 'USD' }}
 
                                         {{ number_format(
                                             (float)

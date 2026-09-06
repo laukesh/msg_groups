@@ -366,7 +366,7 @@
                         <div class="input-group">
 
                             <span class="input-group-text">
-                                ₹
+                                $
                             </span>
 
                             <input type="number"
@@ -391,7 +391,7 @@
                         <div class="input-group">
 
                             <span class="input-group-text">
-                                ₹
+                                $
                             </span>
 
                             <input type="number"
@@ -416,7 +416,7 @@
                         <div class="input-group">
 
                             <span class="input-group-text">
-                                ₹
+                                $
                             </span>
 
                             <input type="number"
@@ -441,7 +441,7 @@
                         <div class="input-group">
 
                             <span class="input-group-text">
-                                ₹
+                                $
                             </span>
 
                             <input type="number"
@@ -466,7 +466,7 @@
                         <div class="input-group">
 
                             <span class="input-group-text">
-                                ₹
+                                $
                             </span>
 
                             <input type="number"
@@ -495,7 +495,7 @@
                         <div class="input-group">
 
                             <span class="input-group-text">
-                                ₹
+                                $
                             </span>
 
                             <input type="text"
@@ -808,7 +808,7 @@ document.addEventListener(
 
                 summary.innerHTML =
                     '<strong class="text-danger">' +
-                    '₹' +
+                    '$' +
                     settlement.toFixed(2) +
                     '</strong> payable by tenant.';
 
@@ -816,14 +816,14 @@ document.addEventListener(
 
                 summary.innerHTML =
                     '<strong class="text-success">' +
-                    '₹' +
+                    '$' +
                     Math.abs(settlement).toFixed(2) +
                     '</strong> refundable to tenant.';
 
             } else {
 
                 summary.innerHTML =
-                    '<strong>₹0.00</strong> — settlement is balanced.';
+                    '<strong>$0.00</strong> — settlement is balanced.';
 
             }
 

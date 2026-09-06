@@ -434,6 +434,34 @@
 
                 @endif
 
+                @if(
+                    in_array(
+                        $materialDelivery->status,
+                        ['Delivered', 'Received']
+                    )
+                    &&
+                    !$materialDelivery
+                        ->receipts()
+                        ->whereNotIn('status', ['Cancelled', 'Rejected'])
+                        ->exists()
+                )
+
+                    <a href="{{ route(
+                        'admin.projects.construction.materials.receipts.create',
+                        [
+                            'project' => $project->id,
+                            'materialDelivery' =>
+                                $materialDelivery->id,
+                        ]
+                    ) }}"
+                       class="btn btn-primary">
+
+                        + Create Material Receipt
+
+                    </a>
+
+                @endif
+
             </div>
 
         </div>

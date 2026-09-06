@@ -278,7 +278,7 @@
                             <div class="input-group">
 
                                 <span class="input-group-text">
-                                    ₹
+                                    $
                                 </span>
 
                                 <input type="number"
@@ -362,7 +362,7 @@
                                 <div class="text-muted">
 
                                     Received amount will initially be
-                                    <strong>₹0.00</strong>.
+                                    <strong>$0.00</strong>.
 
                                 </div>
 
@@ -585,7 +585,7 @@
 
                                                 <span class="fw-semibold">
 
-                                                    ₹{{
+                                                    ${{
                                                         number_format(
                                                             $deposit
                                                                 ->deposit_amount,
@@ -602,7 +602,7 @@
 
                                             <td>
 
-                                                ₹{{
+                                                ${{
                                                     number_format(
                                                         $deposit
                                                             ->received_amount,
@@ -624,7 +624,7 @@
                                                     <span class="text-danger
                                                                  fw-semibold">
 
-                                                        ₹{{
+                                                        ${{
                                                             number_format(
                                                                 $deposit
                                                                     ->balance_amount,
@@ -639,7 +639,7 @@
                                                     <span class="text-success
                                                                  fw-semibold">
 
-                                                        ₹0.00
+                                                        $0.00
 
                                                     </span>
 
@@ -694,7 +694,7 @@
 
                                             <td>
 
-                                                ₹{{
+                                                ${{
                                                     number_format(
                                                         $deposit
                                                             ->refundable_amount,

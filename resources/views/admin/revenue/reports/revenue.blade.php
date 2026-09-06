@@ -43,7 +43,7 @@
 
                     <h4 class="mb-0">
 
-                        ₹{{ number_format(
+                        ${{ number_format(
                             (float) $totalInvoiced,
                             2
                         ) }}
@@ -69,7 +69,7 @@
 
                     <h4 class="mb-0 text-success">
 
-                        ₹{{ number_format(
+                        ${{ number_format(
                             (float) $totalCollected,
                             2
                         ) }}
@@ -95,7 +95,7 @@
 
                     <h4 class="mb-0 text-danger">
 
-                        ₹{{ number_format(
+                        ${{ number_format(
                             (float) $totalOutstanding,
                             2
                         ) }}
@@ -444,7 +444,7 @@
 
                                 <td class="text-end">
 
-                                    ₹{{ number_format(
+                                    ${{ number_format(
                                         (float) $invoice->total_amount,
                                         2
                                     ) }}
@@ -456,7 +456,7 @@
 
                                 <td class="text-end text-success">
 
-                                    ₹{{ number_format(
+                                    ${{ number_format(
                                         (float) $invoice->paid_amount,
                                         2
                                     ) }}
@@ -468,7 +468,7 @@
 
                                 <td class="text-end text-danger">
 
-                                    ₹{{ number_format(
+                                    ${{ number_format(
                                         (float) $invoice->balance_amount,
                                         2
                                     ) }}

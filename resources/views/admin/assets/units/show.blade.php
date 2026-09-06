@@ -359,7 +359,7 @@
 
                         @if($unit->monthly_rent !== null)
 
-                            ₹ {{ number_format((float) $unit->monthly_rent, 2) }}
+                            $ {{ number_format((float) $unit->monthly_rent, 2) }}
 
                         @else
 
@@ -383,7 +383,7 @@
 
                         @if($unit->security_deposit !== null)
 
-                            ₹ {{ number_format((float) $unit->security_deposit, 2) }}
+                            $ {{ number_format((float) $unit->security_deposit, 2) }}
 
                         @else
 

@@ -743,7 +743,7 @@
                                     class="input-group-text"
                                     id="currencyLabel"
                                 >
-                                    INR
+                                    USD
                                 </span>
 
                             </div>
@@ -1214,7 +1214,7 @@ document.addEventListener(
 
 
             currencyLabel.textContent =
-                'INR';
+                'USD';
 
 
             amountHelp.textContent =
@@ -1267,7 +1267,7 @@ document.addEventListener(
 
             const currency =
                 option.dataset.currency ||
-                'INR';
+                'USD';
 
 
             const milestone =

@@ -156,7 +156,7 @@
             required
             value="{{ old(
                 'currency',
-                $cost?->currency ?? 'INR'
+                $cost?->currency ?? 'USD'
             ) }}"
         >
 

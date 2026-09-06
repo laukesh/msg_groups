@@ -505,7 +505,7 @@ document.addEventListener(
 
 
             currency.textContent =
-                option.dataset.currency || 'INR';
+                option.dataset.currency || 'USD';
         }
 
 

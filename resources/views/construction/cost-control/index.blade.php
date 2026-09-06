@@ -159,7 +159,7 @@
 
                     <div class="small text-muted">
 
-                        {{ $budget?->currency ?? 'INR' }}
+                        {{ $budget?->currency ?? 'USD' }}
 
                         @if($budget)
                             · Version {{ $budget->version_number }}
@@ -2424,7 +2424,7 @@
                             )
                         }}
 
-                        {{ $budget?->currency ?? 'INR' }}.
+                        {{ $budget?->currency ?? 'USD' }}.
 
                     </div>
 

@@ -238,7 +238,7 @@
                                     @selected(
                                         old(
                                             'currency',
-                                            $item->currency ?? 'INR'
+                                            $item->currency ?? 'USD'
                                         ) === $currency
                                     )
                                 >

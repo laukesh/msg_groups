@@ -404,7 +404,7 @@
         <div class="input-group">
 
             <span class="input-group-text">
-                ₹
+                $
             </span>
 
             <input
@@ -439,7 +439,7 @@
         <div class="input-group">
 
             <span class="input-group-text">
-                ₹
+                $
             </span>
 
             <input

@@ -244,7 +244,7 @@
 
                             <div class="fw-semibold">
 
-                                ₹ {{ number_format(
+                                $ {{ number_format(
                                     (float) ($approval->fitoutRequest->estimated_cost ?? 0),
                                     2
                                 ) }}

@@ -138,7 +138,7 @@
 
                             <td>
 
-                                ₹{{ number_format(
+                                ${{ number_format(
                                     $termination->final_settlement_amount ?? 0,
                                     2
                                 ) }}

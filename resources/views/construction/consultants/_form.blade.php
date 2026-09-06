@@ -385,7 +385,7 @@
             class="form-control"
             value="{{ old(
                 'currency',
-                $consultant->currency ?? 'INR'
+                $consultant->currency ?? 'USD'
             ) }}"
         >
 

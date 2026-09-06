@@ -199,7 +199,7 @@
                         </small>
 
                         <div>
-                            ₹{{ number_format(
+                            ${{ number_format(
                                 $schedule->leaseAgreement->monthly_rent,
                                 2
                             ) }}
@@ -212,7 +212,7 @@
                         </small>
 
                         <div>
-                            ₹{{ number_format(
+                            ${{ number_format(
                                 $schedule->leaseAgreement->cam_amount,
                                 2
                             ) }}
@@ -255,7 +255,7 @@
                         <tr>
                             <td>Base Rent</td>
                             <td class="text-end">
-                                ₹{{ number_format(
+                                ${{ number_format(
                                     $schedule->base_rent,
                                     2
                                 ) }}
@@ -265,7 +265,7 @@
                         <tr>
                             <td>Escalation</td>
                             <td class="text-end">
-                                ₹{{ number_format(
+                                ${{ number_format(
                                     $schedule->escalation_amount,
                                     2
                                 ) }}
@@ -275,7 +275,7 @@
                         <tr>
                             <td>CAM</td>
                             <td class="text-end">
-                                ₹{{ number_format(
+                                ${{ number_format(
                                     $schedule->cam_amount,
                                     2
                                 ) }}
@@ -285,7 +285,7 @@
                         <tr>
                             <td>Utility</td>
                             <td class="text-end">
-                                ₹{{ number_format(
+                                ${{ number_format(
                                     $schedule->utility_estimate,
                                     2
                                 ) }}
@@ -295,7 +295,7 @@
                         <tr>
                             <td>Discount</td>
                             <td class="text-end">
-                                ₹{{ number_format(
+                                ${{ number_format(
                                     $schedule->discount_amount,
                                     2
                                 ) }}
@@ -305,7 +305,7 @@
                         <tr class="fw-semibold">
                             <td>Taxable Amount</td>
                             <td class="text-end">
-                                ₹{{ number_format(
+                                ${{ number_format(
                                     $schedule->taxable_amount,
                                     2
                                 ) }}
@@ -315,7 +315,7 @@
                         <tr>
                             <td>Tax</td>
                             <td class="text-end">
-                                ₹{{ number_format(
+                                ${{ number_format(
                                     $schedule->tax_amount,
                                     2
                                 ) }}
@@ -325,7 +325,7 @@
                         <tr class="table-primary fw-bold">
                             <td>Total Amount</td>
                             <td class="text-end">
-                                ₹{{ number_format(
+                                ${{ number_format(
                                     $schedule->total_amount,
                                     2
                                 ) }}

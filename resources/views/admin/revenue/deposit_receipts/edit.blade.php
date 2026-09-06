@@ -246,7 +246,7 @@
                         <div class="input-group">
 
                             <span class="input-group-text">
-                                ₹
+                                $
                             </span>
 
                             <input type="number"
@@ -537,7 +537,7 @@
 
                             <div class="fw-bold fs-5">
 
-                                ₹{{
+                                ${{
                                     number_format(
                                         $receipt
                                             ->deposit
@@ -559,7 +559,7 @@
 
                             <div class="fw-bold text-success fs-5">
 
-                                ₹{{
+                                ${{
                                     number_format(
                                         $receipt
                                             ->deposit
@@ -581,7 +581,7 @@
 
                             <div class="fw-bold text-danger fs-5">
 
-                                ₹{{
+                                ${{
                                     number_format(
                                         $receipt
                                             ->deposit

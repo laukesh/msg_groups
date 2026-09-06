@@ -3690,7 +3690,7 @@
                                 $analysis->total_investment !== null
                             )
 
-                                ₹{{
+                                ${{
                                     number_format(
                                         $analysis->total_investment,
                                         2
@@ -4213,7 +4213,7 @@
                                 !== null
                             )
 
-                                ₹{{
+                                ${{
                                     number_format(
                                         $decision
                                             ->approved_investment,
@@ -4227,7 +4227,7 @@
                                 !== null
                             )
 
-                                ₹{{
+                                ${{
                                     number_format(
                                         $decision
                                             ->recommended_investment,

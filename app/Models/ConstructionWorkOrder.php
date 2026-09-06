@@ -199,4 +199,12 @@ class ConstructionWorkOrder extends Model
             'construction_work_order_id'
         );
     }
+
+    public function materialRequirements(): HasMany
+    {
+        return $this->hasMany(
+            ConstructionMaterialRequirement::class,
+            'construction_work_order_id'
+        );
+    }
 }

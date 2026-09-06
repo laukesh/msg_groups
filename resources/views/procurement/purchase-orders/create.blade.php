@@ -305,7 +305,7 @@
                             name="currency"
                             id="currency"
                             class="form-control"
-                            value="{{ old('currency', 'INR') }}"
+                            value="{{ old('currency', 'USD') }}"
                             maxlength="10"
                             required
                         >
@@ -346,7 +346,7 @@
                                 class="input-group-text"
                                 id="award_currency"
                             >
-                                INR
+                                USD
                             </span>
 
                             <input
@@ -650,7 +650,7 @@
 
                             <strong>
                                 <span id="summaryCurrency">
-                                    INR
+                                    USD
                                 </span>
 
                                 <span id="subtotalDisplay">
@@ -703,7 +703,7 @@
                             <strong class="fs-5">
 
                                 <span id="totalCurrency">
-                                    INR
+                                    USD
                                 </span>
 
                                 <span id="totalDisplay">
@@ -897,7 +897,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 option.dataset.amount || '0';
 
             const currency =
-                option.dataset.currency || 'INR';
+                option.dataset.currency || 'USD';
 
 
             if (!supplierInput.value) {

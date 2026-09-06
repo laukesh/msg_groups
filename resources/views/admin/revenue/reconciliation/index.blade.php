@@ -41,7 +41,7 @@
 
                     <h4 class="text-warning mb-1">
 
-                        ₹{{ number_format(
+                        ${{ number_format(
                             (float) $pendingAmount,
                             2
                         ) }}
@@ -76,7 +76,7 @@
 
                     <h4 class="text-success mb-1">
 
-                        ₹{{ number_format(
+                        ${{ number_format(
                             (float) $reconciledAmount,
                             2
                         ) }}
@@ -365,7 +365,7 @@
 
                                 <td class="text-end fw-semibold">
 
-                                    ₹{{ number_format(
+                                    ${{ number_format(
                                         (float) $payment->payment_amount,
                                         2
                                     ) }}

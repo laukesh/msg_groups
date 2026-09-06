@@ -153,7 +153,7 @@
 
                     <div class="fs-5 fw-semibold">
 
-                        {{ $contract->currency ?? 'INR' }}
+                        {{ $contract->currency ?? 'USD' }}
 
                     </div>
 

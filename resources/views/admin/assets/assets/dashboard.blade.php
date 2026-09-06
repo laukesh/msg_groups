@@ -90,7 +90,7 @@
 
                     <h4 class="mb-0 mt-2">
 
-                        ₹{{ number_format(
+                        ${{ number_format(
                             $summary['income'],
                             2
                         ) }}
@@ -116,7 +116,7 @@
 
                     <h4 class="mb-0 mt-2">
 
-                        ₹{{ number_format(
+                        ${{ number_format(
                             $summary['operating_expenses'],
                             2
                         ) }}
@@ -142,7 +142,7 @@
 
                     <h4 class="mb-0 mt-2">
 
-                        ₹{{ number_format(
+                        ${{ number_format(
                             $summary['noi'],
                             2
                         ) }}
@@ -256,7 +256,7 @@
 
                     <div>
 
-                        ₹{{ number_format(
+                        ${{ number_format(
                             $asset->purchase_cost,
                             2
                         ) }}
@@ -272,7 +272,7 @@
 
                     <div>
 
-                        ₹{{ number_format(
+                        ${{ number_format(
                             $asset->current_value,
                             2
                         ) }}

@@ -96,7 +96,7 @@
 
                             <small class="text-muted">
                                 Value:
-                                ₹{{ number_format($packageValue, 2) }}
+                                ${{ number_format($packageValue, 2) }}
                             </small>
 
                         </div>
@@ -209,7 +209,7 @@
                     </div>
 
                     <h4 class="mt-2">
-                        ₹{{ number_format($contractValue, 2) }}
+                        ${{ number_format($contractValue, 2) }}
                     </h4>
 
                 </div>
@@ -231,7 +231,7 @@
                     </div>
 
                     <h4 class="mt-2">
-                        ₹{{ number_format($purchaseOrderValue, 2) }}
+                        ${{ number_format($purchaseOrderValue, 2) }}
                     </h4>
 
                 </div>
@@ -253,7 +253,7 @@
                     </div>
 
                     <h4 class="mt-2">
-                        ₹{{ number_format($invoicedAmount, 2) }}
+                        ${{ number_format($invoicedAmount, 2) }}
                     </h4>
 
                     <small class="text-muted">
@@ -279,12 +279,12 @@
                     </div>
 
                     <h4 class="mt-2">
-                        ₹{{ number_format($paidAmount, 2) }}
+                        ${{ number_format($paidAmount, 2) }}
                     </h4>
 
                     <small class="text-muted">
                         Outstanding:
-                        ₹{{ number_format($outstandingAmount, 2) }}
+                        ${{ number_format($outstandingAmount, 2) }}
                     </small>
 
                 </div>
@@ -455,9 +455,9 @@
                     </div>
 
                     <small class="text-muted">
-                        ₹{{ number_format($paidAmount, 2) }}
+                        ${{ number_format($paidAmount, 2) }}
                         paid /
-                        ₹{{ number_format($invoicedAmount, 2) }}
+                        ${{ number_format($invoicedAmount, 2) }}
                         invoiced
                     </small>
 
@@ -746,7 +746,7 @@
                                 </td>
 
                                 <td>
-                                    ₹{{ number_format($contract->contract_amount, 2) }}
+                                    ${{ number_format($contract->contract_amount, 2) }}
                                 </td>
 
                                 <td>
@@ -855,7 +855,7 @@
                                 </td>
 
                                 <td>
-                                    ₹{{ number_format($po->total_amount, 2) }}
+                                    ${{ number_format($po->total_amount, 2) }}
                                 </td>
 
                                 <td>

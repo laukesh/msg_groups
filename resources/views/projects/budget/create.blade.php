@@ -490,7 +490,7 @@
                                 class="input-group-text"
                                 id="currency_direct"
                             >
-                                INR
+                                USD
                             </span>
 
                             <input
@@ -534,7 +534,7 @@
                                 class="input-group-text"
                                 id="currency_indirect"
                             >
-                                INR
+                                USD
                             </span>
 
                             <input
@@ -578,7 +578,7 @@
                                 class="input-group-text"
                                 id="currency_contingency"
                             >
-                                INR
+                                USD
                             </span>
 
                             <input
@@ -625,7 +625,7 @@
                                 class="fs-4 fw-semibold"
                                 id="total_budget_preview"
                             >
-                                INR 0.00
+                                USD 0.00
                             </div>
 
                             <div class="text-muted small mt-1">

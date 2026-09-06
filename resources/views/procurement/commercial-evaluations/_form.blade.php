@@ -133,7 +133,7 @@
                 'currency',
                 $selectedSubmission?->currency
                     ?? $evaluation?->currency
-                    ?? 'INR'
+                    ?? 'USD'
             ) }}"
             readonly
         >

@@ -270,7 +270,7 @@
             required
             value="{{ old(
                 'currency',
-                $variation?->currency ?? 'INR'
+                $variation?->currency ?? 'USD'
             ) }}"
         >
 

@@ -385,7 +385,7 @@
 
                                             <td>
 
-                                                ₹{{ number_format(
+                                                ${{ number_format(
                                                     $proposalUnit->proposed_rent ?? 0,
                                                     2
                                                 ) }}
@@ -394,7 +394,7 @@
 
                                             <td>
 
-                                                ₹{{ number_format(
+                                                ${{ number_format(
                                                     $proposalUnit->proposed_security_deposit ?? 0,
                                                     2
                                                 ) }}
@@ -471,7 +471,7 @@
                         </span>
 
                         <strong>
-                            ₹{{ number_format(
+                            ${{ number_format(
                                 $proposal->monthly_rent ?? 0,
                                 2
                             ) }}
@@ -487,7 +487,7 @@
                         </span>
 
                         <strong>
-                            ₹{{ number_format(
+                            ${{ number_format(
                                 $proposal->cam_amount ?? 0,
                                 2
                             ) }}
@@ -503,7 +503,7 @@
                         </span>
 
                         <strong>
-                            ₹{{ number_format(
+                            ${{ number_format(
                                 $proposal->security_deposit ?? 0,
                                 2
                             ) }}
@@ -523,7 +523,7 @@
 
                         <strong class="text-primary">
 
-                            ₹{{ number_format(
+                            ${{ number_format(
                                 ($proposal->monthly_rent ?? 0) +
                                 ($proposal->cam_amount ?? 0),
                                 2

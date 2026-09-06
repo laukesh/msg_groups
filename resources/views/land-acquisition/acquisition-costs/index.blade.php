@@ -86,7 +86,7 @@
 
                     <h3 class="mb-0">
 
-                        ₹ {{ number_format(
+                        $ {{ number_format(
                             $totalAmount,
                             2
                         ) }}
@@ -114,7 +114,7 @@
 
                     <h3 class="mb-0">
 
-                        ₹ {{ number_format(
+                        $ {{ number_format(
                             $paidAmount,
                             2
                         ) }}
@@ -142,7 +142,7 @@
 
                     <h3 class="mb-0">
 
-                        ₹ {{ number_format(
+                        $ {{ number_format(
                             $pendingAmount,
                             2
                         ) }}

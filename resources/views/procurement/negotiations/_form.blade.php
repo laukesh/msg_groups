@@ -558,7 +558,7 @@ document.addEventListener(
 
             const selectedCurrency =
                 option.dataset.currency
-                || 'INR';
+                || 'USD';
 
 
             bidder.textContent =

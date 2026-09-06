@@ -108,7 +108,7 @@
 
                     <div class="fs-5 fw-semibold">
 
-                        {{ $contract->currency ?? 'INR' }}
+                        {{ $contract->currency ?? 'USD' }}
 
                         {{ number_format(
                             $contract->contract_value,
@@ -155,7 +155,7 @@
 
                     <div class="fs-5 fw-semibold text-primary">
 
-                        {{ $contract->currency ?? 'INR' }}
+                        {{ $contract->currency ?? 'USD' }}
 
                         {{ number_format(
                             $contract->performance_security_amount,

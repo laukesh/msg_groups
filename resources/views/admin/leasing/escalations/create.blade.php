@@ -96,7 +96,7 @@
                                     {{ $agreement->tenant?->company_name ?? 'Tenant' }}
 
                                     -
-                                    ₹{{ number_format(
+                                    ${{ number_format(
                                         $agreement->monthly_rent ?? 0,
                                         2
                                     ) }}

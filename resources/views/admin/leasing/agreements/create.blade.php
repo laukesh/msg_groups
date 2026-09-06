@@ -542,7 +542,7 @@
                         <div class="input-group">
 
                             <span class="input-group-text">
-                                ₹
+                                $
                             </span>
 
                             <input type="number"
@@ -568,7 +568,7 @@
                         <div class="input-group">
 
                             <span class="input-group-text">
-                                ₹
+                                $
                             </span>
 
                             <input type="number"
@@ -594,7 +594,7 @@
                         <div class="input-group">
 
                             <span class="input-group-text">
-                                ₹
+                                $
                             </span>
 
                             <input type="number"
@@ -620,7 +620,7 @@
                         <div class="input-group">
 
                             <span class="input-group-text">
-                                ₹
+                                $
                             </span>
 
                             <input type="number"
@@ -734,7 +734,7 @@
                                 </span>
 
                                 <strong>
-                                    ₹<span id="display_rent">0.00</span>
+                                    $<span id="display_rent">0.00</span>
                                 </strong>
 
                             </div>
@@ -747,7 +747,7 @@
                                 </span>
 
                                 <strong>
-                                    ₹<span id="display_cam">0.00</span>
+                                    $<span id="display_cam">0.00</span>
                                 </strong>
 
                             </div>
@@ -764,7 +764,7 @@
 
                                 <strong class="text-primary fs-5">
 
-                                    ₹<span id="monthly_total">0.00</span>
+                                    $<span id="monthly_total">0.00</span>
 
                                 </strong>
 

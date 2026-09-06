@@ -156,7 +156,7 @@
 
                     <div class="fs-4 fw-semibold">
 
-                        {{ $contract->currency ?? 'INR' }}
+                        {{ $contract->currency ?? 'USD' }}
 
                         {{ number_format(
                             $summary['required_amount'],
@@ -178,7 +178,7 @@
 
                     <div class="fs-4 fw-semibold text-success">
 
-                        {{ $contract->currency ?? 'INR' }}
+                        {{ $contract->currency ?? 'USD' }}
 
                         {{ number_format(
                             $summary['active_amount'],
@@ -204,7 +204,7 @@
                             : 'text-success'
                         }}">
 
-                        {{ $contract->currency ?? 'INR' }}
+                        {{ $contract->currency ?? 'USD' }}
 
                         {{ number_format(
                             $summary['shortfall'],

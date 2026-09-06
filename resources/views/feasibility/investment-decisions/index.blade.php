@@ -241,7 +241,7 @@
                                 )
 
                                     <span class="text-success fw-bold">
-                                        ₹{{
+                                        ${{
                                             number_format(
                                                 $decision
                                                     ->approved_investment,
@@ -255,7 +255,7 @@
                                     !== null
                                 )
 
-                                    ₹{{
+                                    ${{
                                         number_format(
                                             $decision
                                                 ->recommended_investment,

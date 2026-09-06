@@ -723,7 +723,7 @@ document.addEventListener(
 
             currency.textContent =
                 option.dataset.currency
-                || 'INR';
+                || 'USD';
 
 
             loa.textContent =

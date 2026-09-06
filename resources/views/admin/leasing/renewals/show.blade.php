@@ -419,7 +419,7 @@
 
                             <td>
 
-                                ₹{{ number_format(
+                                ${{ number_format(
                                     $renewal->current_rent ?? 0,
                                     2
                                 ) }}
@@ -428,7 +428,7 @@
 
                             <td class="fw-semibold">
 
-                                ₹{{ number_format(
+                                ${{ number_format(
                                     $renewal->proposed_rent ?? 0,
                                     2
                                 ) }}
@@ -446,7 +446,7 @@
 
                             <td>
 
-                                ₹{{ number_format(
+                                ${{ number_format(
                                     $renewal->agreement
                                         ?->security_deposit ?? 0,
                                     2
@@ -456,7 +456,7 @@
 
                             <td>
 
-                                ₹{{ number_format(
+                                ${{ number_format(
                                     $renewal
                                         ->proposed_security_deposit ?? 0,
                                     2

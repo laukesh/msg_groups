@@ -390,7 +390,7 @@
 
                             <span class="input-group-text">
 
-                                {{ $contract->currency ?? 'INR' }}
+                                {{ $contract->currency ?? 'USD' }}
 
                             </span>
 
@@ -430,7 +430,7 @@
 
                             <span class="input-group-text">
 
-                                {{ $contract->currency ?? 'INR' }}
+                                {{ $contract->currency ?? 'USD' }}
 
                             </span>
 
@@ -473,7 +473,7 @@
                                    ??
                                    $contract->currency
                                    ??
-                                   'INR'
+                                   'USD'
                                ) }}"
                                class="form-control @error('currency') is-invalid @enderror"
                                maxlength="10">

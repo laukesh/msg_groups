@@ -407,7 +407,7 @@
 
                     <h4 class="mt-1">
 
-                        ₹ {{ number_format(
+                        $ {{ number_format(
                             $totalAcquisitionCost,
                             2
                         ) }}

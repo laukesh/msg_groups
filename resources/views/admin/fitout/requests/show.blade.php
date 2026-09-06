@@ -1063,7 +1063,7 @@
 
                         <div class="info-value">
 
-                            ₹ {{ number_format(
+                            $ {{ number_format(
                                 (float) $fitoutRequest->estimated_cost,
                                 2
                             ) }}

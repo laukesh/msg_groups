@@ -761,7 +761,7 @@ document.addEventListener('DOMContentLoaded', function () {
     {
         suffix.textContent =
             type.value === 'Fixed'
-                ? '₹'
+                ? '$'
                 : '%';
     }
 

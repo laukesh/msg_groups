@@ -387,7 +387,7 @@
                                 !== null
                             )
 
-                                ₹{{
+                                ${{
                                     number_format(
                                         $investmentAnalysis
                                             ->total_investment,
@@ -423,7 +423,7 @@
                                 !== null
                             )
 
-                                ₹{{
+                                ${{
                                     number_format(
                                         $investmentAnalysis
                                             ->expected_revenue,
@@ -459,7 +459,7 @@
                                 !== null
                             )
 
-                                ₹{{
+                                ${{
                                     number_format(
                                         $investmentAnalysis
                                             ->expected_profit,
@@ -496,7 +496,7 @@
                                 !== null
                             )
 
-                                ₹{{
+                                ${{
                                     number_format(
                                         $investmentAnalysis
                                             ->expected_cash_flow,
@@ -599,7 +599,7 @@
                                 $investmentAnalysis->npv !== null
                             )
 
-                                ₹{{
+                                ${{
                                     number_format(
                                         $investmentAnalysis->npv,
                                         2
@@ -794,7 +794,7 @@
                                 !== null
                             )
 
-                                ₹{{
+                                ${{
                                     number_format(
                                         $investmentAnalysis
                                             ->{$field},
@@ -878,7 +878,7 @@
                                 !== null
                             )
 
-                                ₹{{
+                                ${{
                                     number_format(
                                         $investmentAnalysis
                                             ->{$field},
@@ -1238,7 +1238,7 @@
                                 !== null
                             )
 
-                                ₹{{
+                                ${{
                                     number_format(
                                         $investmentAnalysis
                                             ->{$field},

@@ -157,7 +157,7 @@
 
                     <div class="fs-5 fw-semibold">
 
-                        {{ $contract->currency ?? 'INR' }}
+                        {{ $contract->currency ?? 'USD' }}
 
                         {{ number_format(
                             $summary['total_retained'],
@@ -194,7 +194,7 @@
 
                     <div class="fs-4 fw-semibold">
 
-                        {{ $contract->currency ?? 'INR' }}
+                        {{ $contract->currency ?? 'USD' }}
 
                         {{ number_format(
                             $summary['total_certified'],
@@ -222,7 +222,7 @@
 
                     <div class="fs-4 fw-semibold text-warning">
 
-                        {{ $contract->currency ?? 'INR' }}
+                        {{ $contract->currency ?? 'USD' }}
 
                         {{ number_format(
                             $summary['total_retained'],
@@ -250,7 +250,7 @@
 
                     <div class="fs-4 fw-semibold text-success">
 
-                        {{ $contract->currency ?? 'INR' }}
+                        {{ $contract->currency ?? 'USD' }}
 
                         {{ number_format(
                             $summary['total_released'],
@@ -278,7 +278,7 @@
 
                     <div class="fs-4 fw-semibold text-primary">
 
-                        {{ $contract->currency ?? 'INR' }}
+                        {{ $contract->currency ?? 'USD' }}
 
                         {{ number_format(
                             $summary['total_balance'],

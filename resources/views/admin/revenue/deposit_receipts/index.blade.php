@@ -196,7 +196,7 @@
 
                                         -
 
-                                        ₹{{
+                                        ${{
                                             number_format(
                                                 $deposit->balance_amount,
                                                 2
@@ -239,7 +239,7 @@
                                 <strong id="remainingBalance"
                                         class="text-danger">
 
-                                    ₹0.00
+                                    $0.00
 
                                 </strong>
 
@@ -289,7 +289,7 @@
                             <div class="input-group">
 
                                 <span class="input-group-text">
-                                    ₹
+                                    $
                                 </span>
 
                                 <input type="number"
@@ -699,7 +699,7 @@
 
                                                 <strong class="text-success">
 
-                                                    ₹{{
+                                                    ${{
                                                         number_format(
                                                             $receipt
                                                                 ->payment_amount,
@@ -1001,7 +1001,7 @@ document.addEventListener(
 
 
             remainingBalance.textContent =
-                '₹' +
+                '$' +
                 balance.toLocaleString(
                     'en-IN',
                     {
@@ -1018,7 +1018,7 @@ document.addEventListener(
 
 
             amountHelp.textContent =
-                'Maximum payment allowed: ₹' +
+                'Maximum payment allowed: $' +
                 balance.toLocaleString(
                     'en-IN',
                     {
@@ -1220,7 +1220,7 @@ document.addEventListener(
 
                 document.getElementById(
                     'reverseReceiptAmount'
-                ).value = '₹' + amount;
+                ).value = '$' + amount;
 
 
                 document.getElementById(

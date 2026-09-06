@@ -882,7 +882,7 @@
                                name="currency"
                                value="{{ old(
                                    'currency',
-                                   $consultant->currency ?? 'INR'
+                                   $consultant->currency ?? 'USD'
                                ) }}"
                                class="form-control"
                                maxlength="10">

@@ -14,6 +14,7 @@ class ConstructionMaterialRequestItem extends Model
 
     protected $fillable = [
         'material_request_id',
+        'material_requirement_id',
         'material_id',
         'requested_quantity',
         'unit',
@@ -46,6 +47,14 @@ class ConstructionMaterialRequestItem extends Model
         );
     }
 
+    public function materialRequest(): BelongsTo
+    {
+        return $this->belongsTo(
+            ConstructionMaterialRequest::class,
+            'material_request_id'
+        );
+    }
+
     public function deliveries(): HasMany
 	{
 	    return $this->hasMany(
@@ -53,4 +62,12 @@ class ConstructionMaterialRequestItem extends Model
 	        'material_request_id'
 	    );
 	}
+
+    public function materialRequirement(): BelongsTo
+    {
+        return $this->belongsTo(
+            ConstructionMaterialRequirement::class,
+            'material_requirement_id'
+        );
+    }
 }

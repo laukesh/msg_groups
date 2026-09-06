@@ -733,7 +733,7 @@
 
                         <input type="text"
                                name="currency"
-                               value="{{ old('currency', 'INR') }}"
+                               value="{{ old('currency', 'USD') }}"
                                class="form-control"
                                maxlength="10">
 

@@ -1264,7 +1264,7 @@
 
                                             <div class="fw-semibold">
 
-                                                ₹{{ number_format(
+                                                ${{ number_format(
                                                     $decision->financial_impact,
                                                     2
                                                 ) }}
