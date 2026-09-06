@@ -798,7 +798,7 @@ Route::middleware('auth')->group(function () {
         */
 
         Route::prefix('leasing')
-            ->name('leasing.')
+            ->name('leasing.')->middleware('permission:leasing.view')
             ->group(function () {
 
                 /*

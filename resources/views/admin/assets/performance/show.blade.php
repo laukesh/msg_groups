@@ -66,7 +66,7 @@
 
                     <h3 class="fw-bold text-success mt-2">
 
-                        ₹{{ number_format(
+                        ${{ number_format(
                             $income,
                             2
                         ) }}
@@ -92,7 +92,7 @@
 
                     <h3 class="fw-bold text-danger mt-2">
 
-                        ₹{{ number_format(
+                        ${{ number_format(
                             $expense,
                             2
                         ) }}
@@ -118,7 +118,7 @@
 
                     <h3 class="fw-bold text-primary mt-2">
 
-                        ₹{{ number_format(
+                        ${{ number_format(
                             $noi,
                             2
                         ) }}
@@ -178,7 +178,7 @@
 
                     <h4 class="fw-bold">
 
-                        ₹{{ number_format(
+                        ${{ number_format(
                             $investment,
                             2
                         ) }}

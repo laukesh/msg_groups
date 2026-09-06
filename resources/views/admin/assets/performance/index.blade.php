@@ -351,7 +351,7 @@
                         </div>
 
                         <div class="metric-value">
-                            ₹{{ number_format($totalIncome, 2) }}
+                            ${{ number_format($totalIncome, 2) }}
                         </div>
 
                     </div>
@@ -385,7 +385,7 @@
                         </div>
 
                         <div class="metric-value">
-                            ₹{{ number_format($totalExpense, 2) }}
+                            ${{ number_format($totalExpense, 2) }}
                         </div>
 
                     </div>
@@ -419,7 +419,7 @@
                         </div>
 
                         <div class="metric-value">
-                            ₹{{ number_format($noi, 2) }}
+                            ${{ number_format($noi, 2) }}
                         </div>
 
                     </div>
@@ -488,7 +488,7 @@
                 </div>
 
                 <div class="metric-value">
-                    ₹{{ number_format($investment, 2) }}
+                    ${{ number_format($investment, 2) }}
                 </div>
 
             </div>
@@ -718,7 +718,7 @@
 
                                 <td>
 
-                                    ₹{{ number_format(
+                                    ${{ number_format(
                                         $row->investment,
                                         0
                                     ) }}
@@ -727,7 +727,7 @@
 
                                 <td class="text-success">
 
-                                    ₹{{ number_format(
+                                    ${{ number_format(
                                         $row->income,
                                         0
                                     ) }}
@@ -736,7 +736,7 @@
 
                                 <td class="text-danger">
 
-                                    ₹{{ number_format(
+                                    ${{ number_format(
                                         $row->expense,
                                         0
                                     ) }}
@@ -745,7 +745,7 @@
 
                                 <td class="fw-bold">
 
-                                    ₹{{ number_format(
+                                    ${{ number_format(
                                         $row->noi,
                                         0
                                     ) }}
@@ -962,7 +962,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
                         callback: function(value) {
 
-                            return '₹' +
+                            return '$' +
                                 Number(value)
                                     .toLocaleString('en-IN');
 
