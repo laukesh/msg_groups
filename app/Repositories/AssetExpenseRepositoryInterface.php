@@ -4,11 +4,9 @@ namespace App\Repositories;
 
 interface AssetExpenseRepositoryInterface
 {
-    public function paginateByAsset(
-        int $assetId,
-        array $filters = [],
-        int $perPage = 15
-    );
+    public function all(array $filters = []);
+
+    public function paginate(array $filters = [], int $perPage = 15);
 
     public function find(int $id);
 
@@ -16,5 +14,7 @@ interface AssetExpenseRepositoryInterface
 
     public function update(int $id, array $data);
 
-    public function delete(int $id);
+    public function delete(int $id): bool;
+
+    public function getByAsset(int $assetId, array $filters = [], int $perPage = 15);
 }

@@ -83,11 +83,11 @@
                 <div class="col-md-4 mb-3">
                     <label class="fw-bold"><i class="fas fa-toggle-on me-1"></i> Status</label>
                     <div>
-                        @if($mall->status === 'active')
+                        @if($mall->status === 1)
                             <span class="badge bg-success">
                                 Active
                             </span>
-                        @elseif($mall->status === 'inactive')
+                        @elseif($mall->status === 0)
                             <span class="badge bg-secondary">
                                 Inactive
                             </span>

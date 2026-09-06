@@ -34,7 +34,7 @@
         @if($asset)
 
             <a href="{{ route(
-                'admin.assets.show',
+                'admin.assets.assets.show',
                 $asset->id
             ) }}"
                class="btn btn-secondary">

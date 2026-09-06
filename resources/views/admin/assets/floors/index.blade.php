@@ -150,7 +150,7 @@
 
                                 <td>
 
-                                    @if($floor->status === '1')
+                                    @if($floor->status === 1)
 
                                         <span class="badge bg-success">
                                             <i class="fas fa-check me-1"></i> Active

@@ -33,9 +33,29 @@ class AssetIncome extends Model
 
     public function asset(): BelongsTo
     {
+        return $this->belongsTo(Asset::class, 'asset_id');
+    }
+
+    public function tenant(): BelongsTo
+    {
+        return $this->belongsTo(Tenant::class, 'tenant_id');
+    }
+
+    public function leaseAgreement(): BelongsTo
+    {
         return $this->belongsTo(
-            Asset::class,
-            'asset_id'
+            LeaseAgreement::class,
+            'lease_agreement_id'
         );
+    }
+
+    public function creator(): BelongsTo
+    {
+        return $this->belongsTo(User::class, 'created_by');
+    }
+
+    public function updater(): BelongsTo
+    {
+        return $this->belongsTo(User::class, 'updated_by');
     }
 }

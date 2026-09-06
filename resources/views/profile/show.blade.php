@@ -104,15 +104,15 @@
 
                     <div class="mt-4">
 
-                        <!--a href="{{ route('profile.edit') }}"
+                        <a href="{{ route('profile.edit') }}"
                            class="btn btn-primary">
 
                             <i class="bi bi-pencil me-1"></i>
                             Edit Profile
 
-                        </a-->
+                        </a>
 
-                        <a href="{{ route('profile.change-password') }}"
+                        <a href="{{ route('password.edit') }}"
                            class="btn btn-outline-secondary">
 
                             <i class="bi bi-key me-1"></i>
