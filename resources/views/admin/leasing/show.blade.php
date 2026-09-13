@@ -2478,14 +2478,10 @@
                                         </div>
 
 
-                                        @if($item->description)
-
+                                        @if(!empty($item->description ?? null))
                                             <div class="text-muted mt-2">
-
                                                 {{ $item->description }}
-
                                             </div>
-
                                         @endif
 
 
