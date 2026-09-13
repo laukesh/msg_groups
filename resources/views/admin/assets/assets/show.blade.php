@@ -46,6 +46,10 @@
         Expense History
 
     </a>
+         </div>
+              </div>
+          <div class="d-flex justify-content-end gap-2 mt-3">
+          
     <a href="{{ route(
         'admin.assets.incomes.index',
       ['asset' => $asset->id]
@@ -81,8 +85,8 @@
 
         </div>
 
-    </div>
 
+ </div>
 {{-- Economic Summary --}}
 
     <div class="row g-3 mb-4">

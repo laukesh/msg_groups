@@ -970,7 +970,7 @@
          {{-- =================================================
      LEASING
 ================================================== --}}
- @can('performance.view')
+ @can('leasing.view')
 <details
     class="sidebar-group"
     {{ $isLeasingGroupActive ? 'open' : '' }}

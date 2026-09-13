@@ -89,7 +89,7 @@ class UserManagementController extends Controller
             'viewed',
             'users',
             'Viewed user: ' . $user->name,
-            $user
+            $user->id
         );
 
         return view('admin.users.show', compact(
