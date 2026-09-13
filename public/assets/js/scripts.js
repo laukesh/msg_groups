@@ -5,7 +5,7 @@ $(window).on('load', function () {
 });
 
 
-// Global
+// //Global
 $(function () {
   let sidebar_nicescroll_opts = {
     cursoropacitymin: 0,
